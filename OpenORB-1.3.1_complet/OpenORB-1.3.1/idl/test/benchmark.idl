@@ -1,0 +1,30 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_BENCHMARK_IDL_
+#define _TEST_BENCHMARK_IDL_
+
+#pragma prefix "openorb.org"
+
+module bench
+{
+    typedef sequence<CORBA::OctetSeq> OctetSeqSeq;
+
+    typedef sequence<CORBA::LongSeq> LongSeqSeq;
+
+    interface Benchmark :
+        test::iiop::primitive::Echo,
+        test::iiop::value::TestTC01
+    {
+        OctetSeqSeq echo_octet_s_s( in OctetSeqSeq arg );
+
+        LongSeqSeq echo_long_s_s( in LongSeqSeq arg );
+    };
+};
+
+#endif

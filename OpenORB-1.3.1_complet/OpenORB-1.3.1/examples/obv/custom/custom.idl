@@ -1,0 +1,29 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+module obv
+{
+    module _custom
+    {
+        custom valuetype valueExample
+        {
+            private long number_state;
+
+            public string name_state;
+
+            readonly attribute long number;
+
+            void print();
+        };
+
+        interface ValueExchange
+        {
+            void sendValueExample( in valueExample value );
+        };
+    };
+};

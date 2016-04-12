@@ -1,0 +1,88 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+// OpenORB_corbaloc.idl
+
+#ifndef _OPENORB_INIT_REF_IDL_
+#define _OPENORB_INIT_REF_IDL_
+
+#include <orb.idl>
+
+#pragma prefix "openorb.org"
+
+module corbaloc 
+{
+    
+    /**
+     * The initial references service. Used for registering
+     * references to be resolved as corbaloc addresses.
+     */
+
+    interface CorbalocService
+    {
+
+        #pragma version CorbalocService 1.1
+
+        /**
+         * Resolve using the given string. Used by JDK clients.
+         *
+         * @param initRef String name of initial reference. Should be
+         *         RFC2396 encoded.
+         * @return the target object.
+         * @exception org.omg.CORBA.BAD_PARAM if the initial reference
+         *     does not exist.
+         */
+        Object get( in string initRef );
+
+        /**
+         * Add a new initial reference. Redirect will be nonpermanent.
+         *
+         * @param initRef String name of initial reference. Should be
+         *         RFC2396 encoded.
+         * @param obj the target object.
+         * @exception org.omg.CORBA.BAD_PARAM if the initial reference
+         *     already exists.
+         */
+        void put( in string initRef, in Object obj );
+
+        /**
+         * Registers an object under the supplied path and returns the 
+         * corresponding corbaloc URL in the form of a string.
+         *
+         * @param  path String name of initial reference. Should be
+         * RFC2396 encoded.
+         * @param  object the object to register
+         * @return String the corbaloc URL
+         * @throws org.omg.CORBA.BAD_PARAM if the supplied object is null.
+         */
+        string put_object( in Object object, in string path );
+
+        /**
+         * Resolve using given byte array.
+         *
+         * @param key Initial reference key.
+         * @return the target object.
+         * @exception org.omg.CORBA.BAD_PARAM if the initial reference
+         *     does not exist.
+         */
+        Object resolve( in CORBA::OctetSeq key );
+
+
+        /**
+         * Add a new initial reference.
+         *
+         * @param initRef String name of initial reference. Should be
+         *         RFC2396 encoded.
+         * @param obj the target object. Null to unbind.
+         */
+        void register( in CORBA::OctetSeq key, in Object obj );
+
+    };
+};
+
+#endif //_OPENORB_INIT_REF_IDL_

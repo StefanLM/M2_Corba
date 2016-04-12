@@ -1,0 +1,602 @@
+<!-- ================================================================== -->
+<!-- =                        OpenORB XML profile                     = -->
+<!-- ================================================================== -->
+
+<!--
+<!DOCTYPE OpenORB
+    PUBLIC "-//openorb.sf.net//OpenORB Config//EN"
+    "http://openorb.sf.net/config/OpenORB.dtd">
+-->
+
+<OpenORB profile="default"
+  xmlns="http://openorb.sf.net/config"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <description>
+  This config file contains all the modules available to users of
+  OpenORB.  Users may import modules from this file into their
+  configuration and modify the properties.
+  </description>
+
+  <!-- ********************************************************** -->
+  <!--                           default modules                  -->
+  <!-- ********************************************************** -->
+
+  <!-- ********************************* -->
+  <!--       openorb.server module        -->
+  <!-- ********************************* -->
+  <module name="openorb.server">
+    <description>
+    Properties affecting the orb server side. This module has no
+    initializer and does not have to be imported.
+    </description>
+
+    <property name="enable" value="true">
+      <description>
+      Enable the ORB server side. The server side may be disabled for
+      a client only orb.
+      </description>
+    </property>
+
+    <property name="alias" value="">
+      <description>
+      The server alias. This is used in persistent references.  All
+      servers listening on the same port, on the same host, with the
+      same server alias can accept requests to persistent targets
+      created previous incarnations of the same server.<p/>
+
+      The command line alias -ORBSrvName=name can be used rather than
+      -ORBopenorb.server.name=name, regardless of if this module is
+      imported.
+      </description>
+    </property>
+    <propalias name="alias" alias="SrvName" />
+
+    <property name="maxQueueSize" value="0x7FFFFFFF" >
+      <description>
+      Maximum number of incomming requests to queue before replying
+      with TRANSIENT exceptions.
+      </description>
+    </property>
+    <property name="maxManagerHeldRequests" value="0x7FFFFFFF" >
+      <description>
+      Maximum number of requests that an adapter with a manager in the
+      HOLDING state can hold before incomming requests are replied to
+      with TRANSIENT exceptions
+      </description>
+    </property>
+
+    <property name="minThreadPoolSize" value="2">
+      <description>
+       Minimum number of active threads in the request thread pool.
+       The thread pool will never shrink beyond this size.
+      </description>
+    </property>
+    <property name="maxThreadPoolSize" value="10">
+      <description>
+      Maximum number of pool threads. The thread pool will never grow
+      beyond this size.
+      </description>
+    </property>
+
+    <property name="reapCloseDelay" value="600000">
+      <description>
+      Reaper close time in ms. If a channel is unused for at least
+      this time it will be closed to conserve resources.  The thread
+      pool also has a chance to shrink each time this event occours.
+      </description>
+    </property>
+
+    <!-- properties not usualy modified by users -->
+    <property name="serverManagerClass" value="org.openorb.net.ServerManagerImpl">
+      <description>
+      Server manager class. There is no alternative at present.
+      </description>
+    </property>
+
+  </module>
+
+
+  <!-- ************************* -->
+  <!--   openorb.client module   -->
+  <!-- ************************* -->
+
+  <module name="openorb.client">
+    <description>
+    Properties affecting the orb client side. This module has no
+    initializer and does not have to be imported.
+    </description>
+
+    <property name="reapPauseDelay" value="120000">
+      <description>
+      Reaper pause time in ms. If a channel is unused for at least
+      this time it will be closed to conserve resources.
+      </description>
+    </property>
+
+    <property name="enable" value="true">
+      <description>
+      Enable the client side. Server only orbs are possible however
+      certain POA functionality will be unavailable.
+      </description>
+    </property>
+
+    <!-- properties not usualy modified by users -->
+    <property name="clientManagerClass" value="org.openorb.net.ClientManagerImpl">
+      <description>
+      Client manager class. There is no alternative at present.
+      </description>
+    </property>
+
+    <property name="bindings.discard_old" value="no">  
+      <description>
+      When a client recieves a LOCATION_FORWARD reply the spec. demands
+      that the old endpoints should be preserved so that they can be
+      reused in future requests. When this property is set to true old
+      endpoints will be deleted.
+      This feature can be used to achieve some kind of load balancing. in this
+      case the IOR always has two endpoints, the first addresses the actual
+      object whereas the second one addresses a load balancing service.
+      Each time the first enpoint fails the second one is used to connect
+      to the load balancing service. The load balancer sends a
+      LOCATION_FORWARD reply with two endpoints again. The first one
+      addresses the new object and the second one points to the load balancer
+      again (This is an example on how this feature is currently used).
+      </description>
+    </property>
+
+  </module>
+
+
+  <!-- ************************* -->
+  <!--   openorb.pi module       -->
+  <!-- ************************* -->
+
+  <module name="openorb.pi">
+    <description>
+    Properties affecting the portable interceptors. There are
+    currently no alternatives to the defaults for these
+    properties. This module has no initializer and does not have to be
+    imported.
+    </description>
+
+    <!-- properties not usualy modified by users -->
+
+    <property name="ORBInitInfoClass" value="org.openorb.PI.OpenORBInitInfo" />
+    <property name="ServerManagerClass" value="org.openorb.PI.SimpleServerManager" />
+    <property name="ClientManagerClass" value="org.openorb.PI.SimpleClientManager" />
+    <property name="IORManagerClass" value="org.openorb.PI.SimpleIORManager" />
+  </module>
+
+
+  <!-- *********************** -->
+  <!--     openorb module      -->
+  <!-- *********************** -->
+
+  <module name="openorb">
+    <description>
+    Misc other properties. This module has no initializer and does not
+    have to be imported.
+    </description>
+
+    <property name="dynany.enable" value="true">
+      <description>
+      Enable the use of the DynamicAnyFactory.
+      </description>
+    </property>
+
+    <property name="kernel.ORBConnectorClass" value="org.openorb.CORBA.kernel.OpenORBConnector">
+      <description>
+      Define the orb connector class. There is currently no
+      alternative.
+      </description>
+    </property>
+
+
+    <property name="defaultInitRef" value="">
+      <description>
+      The default initial reference. This is used by
+      resolve_initial_references when no other specific reference is
+      available. The default behaviour is to have no default
+      reference.<p/>
+
+      The command line alias -ORBDefaultInitRef=str can be used rather
+      than -ORBopenorb.defaultInitRef=str, regardless of if this
+      module is imported.
+      </description>
+    </property>
+    <propalias name="defaultInitRef" alias="DefaultInitRef" />
+
+
+    <!-- debuging properties -->
+    <property name="debug.trace" value="0">
+      <description>
+      Set the orb trace level<p/>
+
+      The trace level specifies the trace level of the logger.
+      The values 0-4 correspond to the following levels: 
+      FATAL|ERROR|WARN|INFO|DEBUG
+      </description>
+    </property>
+    <property name="debug.level" value="0">
+      <description>
+      Set the orb debug level<p/>
+
+      The Jakarta LogKit provides only one debug level. To
+      allow different debug levels we introduced the following
+      debug level: OFF|LOW|MEDIUM|HIGH (0-3)
+      </description>
+    </property>
+
+
+    <property name="useStaticThreadGroup" value="false">
+      <description>
+      Use static ThreadGroups for the orb threads. Can be useful to
+      set to true when debugging the use of multiple orbs used in one
+      app as it avoids large numbers of thread groups being created.
+      </description>
+    </property>
+  </module>
+
+  <!-- ************************** -->
+  <!--      InitRef module        -->
+  <!-- ************************** -->
+
+  <module name="InitRef">
+    <description>
+    Module containing default initial references.  To add more initial
+    services import and define properties with unique identifiers.
+    Example import:<p/>
+
+    <![CDATA[<import xlink:href="${openorb.home}config/default.xml#InitRef">]]>
+    <![CDATA[  <property name="NameService" value="corbaloc::1.2@localhost/NameService" />]]>
+    <![CDATA[</import>]]><p/>
+
+    Also see the defaultInitRef property, defined in the openorb
+    module.
+    </description>
+
+    <propertyset/>
+  </module>
+
+  <!-- ********************** -->
+  <!--    compiler module     -->
+  <!-- ********************** -->
+
+  <module name="compiler" >
+    <propertyset prefix="idl" >
+      <description>
+      The compiler module defines a single property set which allows
+      additional include directories for the openorb compiler.  Each
+      extra idl include directory property starts with idl and must
+      have a unique extension. Example of import statement, adding an
+      include: <p/>
+
+      <![CDATA[<import xlink:href="${openorb.home}config/default.xml#compiler">]]>
+      <![CDATA[  <property name="idl.xxx" value="URL" />]]>
+      <![CDATA[</import>]]>
+      <p/>
+
+      The include dir "${openorb.home}idl" is always present in the
+      compiler include path, it always appears last in the include
+      list.
+      </description>
+    </propertyset>
+  </module>
+
+
+  <!-- *********************** -->
+  <!--    BOA module           -->
+  <!-- *********************** -->
+
+  <module name="BOA" initializer="org.openorb.adapter.boa.BOAInitializer" >
+    <description>
+    The BOA module. Import this module to use the BOA.
+    </description>
+  </module>
+
+
+  <!-- ************************ -->
+  <!--   POA module             -->
+  <!-- ************************ -->
+
+  <module name="POA" initializer="org.openorb.adapter.poa.POAInitializer">
+    <description>
+    The POA module. Import this module to use the POA.
+    </description>
+  </module>
+
+  <!-- ************************ -->
+  <!--   Messaging module       -->
+  <!-- ************************ -->
+
+  <module name="Messaging" initializer="org.openorb.messaging.MessagingInitializer">
+    <description>
+    The Messaging module. Import this module to use CORBA Messaging features.
+    </description>
+  </module>
+
+  <!-- ************************* -->
+  <!--   Forward Adapter module  -->
+  <!-- ************************* -->
+
+  <module name="CorbalocService" initializer="org.openorb.adapter.fwd.ForwardInitializer" >
+    <description>
+    The corbaloc adapter module. When loaded it is possible to
+    resolve corbaloc style addresses if they are registered.
+    </description>
+  </module>
+
+  <module name="ForwardAdapter" >
+    <description>
+    The ForwardAdapter module has been renamed CorbalocService.
+    </description>
+
+    <import module="CorbalocService" />
+  </module>
+
+  <!-- *********************************** -->
+  <!--   Default Corbaloc service          -->
+  <!-- *********************************** -->
+
+  <profile name="DefaultCorbalocService">
+    <description>
+    This profile loads the CorbalocService module, and sets the port
+    number in iiop to 683, the default port.
+    </description>
+
+    <import module="CorbalocService" />
+    <import module="iiop" >
+      <property name="port" value="683" />
+    </import>
+  </profile>
+
+  <profile name="InitialReferencesService">
+    <description>
+    Initial references service has been renamed CorbalocService.
+    </description>
+
+    <import module="DefaultCorbalocService" />
+  </profile>
+
+  <!-- **************************** -->
+  <!--      BasicRefs profile       -->
+  <!-- **************************** -->
+
+  <profile name="BasicRefs">
+    <description>
+    Basic initial references. Just set the default initial reference.
+    </description>
+
+    <import module="openorb" >
+      <property name="defaultInitRef" value="corbaname:rir:#InitialReferences" />
+    </import>
+  </profile>
+
+
+  <!-- *********************** -->
+  <!--    iiop module          -->
+  <!-- *********************** -->
+
+  <module name="iiop" initializer="org.openorb.iiop.IIOPProtocolInitializer">
+    <description>
+    The IIOP protocol is the basic interoperability protocol between
+    all orbs. It should be included in all profiles.
+    </description>
+    
+    <!-- Properties controlling TCP/IP socket settings for transports -->
+    
+    <property name="boostReceivePriority" value="false">
+      <description>
+      Boosts the priority of receive worker threads, to avoid the BAD MAGIC
+      problem under NT4.0 : true or false. 
+      Default false.
+      </description>
+    </property>
+
+    <property name="sendBufferSize" value="0">
+      <description>
+      Sets the SO_SNDBUF socket property. 
+      A value of 0 indicates that the system default should be used.
+      Default 0.
+      </description>
+    </property>
+
+    <property name="recieveBufferSize" value="0">
+      <description>
+      Sets the SO_RCVBUF socket property. 
+      A value of 0 indicates that the system default should be used.
+      Note that values above 64K cannot be set.
+      Default 0.
+      </description>
+    </property>
+
+    <property name="bufferedOutputStreamSize" value="0">
+      <description>
+      Sets the size of a BufferedOutputStream used to wrap a socket's  OutputStream.
+      A value of 0 indicates that no buffer should be used.
+      By using this type of buffer it is possible to reduce the number of 
+      problems encountered by writing to Microsoft peers.
+      Default 0.
+      </description>
+    </property>
+
+    <property name="serverNoDelay" value="true">
+      <description>
+      Setting for server sockets: true or false. Default true.
+      </description>
+    </property>
+    
+    <property name="clientNoDelay" value="true">
+      <description>
+      Setting for server sockets: true or false. Default true.
+      </description>
+    </property>
+
+    <property name="serverBacklogQueueLength" value="50">
+      <description>
+      Sets the backlog queue length used when listening to server sockets.
+      Default 50.
+      </description>
+    </property>
+
+    <property name="serverMaxSocketAcceptTimeout" value="250">
+      <description>
+      Sets the maximum socket accept timeout.
+      If a timeout greater than this value is used by the listen method then
+      the value specified by serverOverrideSocketTimeout is used.
+      Default 250.
+      </description>
+    </property>
+        
+    <property name="serverMinSocketAcceptTimeout" value="0">
+      <description>
+      Sets the minimum socket accept timeout.
+      If a timeout less than or equal tothis value is used by the listen 
+      method then the value specified by serverOverrideSocketTimeout is used.
+      Note that setting this value to -1 will cause the protocol runner to 
+      block forever on accept.
+      Default 0.
+      </description>
+    </property>
+
+    <property name="serverOverrideSocketTimeout" value="250">
+      <description>
+      Sets the override timeout to be used in place when a requested timeout 
+      is out of range.
+      Default 250.
+      </description>
+    </property>
+    
+
+    <!-- Properties controlling what endpoints are published in IORs. -->
+    <property name="hostname" value="">
+      <description>
+      Hostname to publish in IORs. If empty string or unspecified the
+      published hostname will be determined by the publishIP setting.
+      </description>
+    </property>
+    <property name="publishIP" value="auto">
+      <description>
+      Publish IP address in IORs instead of hostname. The default
+      setting of 'auto' will publish the IP address if the hostname is
+      not a fqdn (does not contain a . ).  If true the IP address is
+      always used.  For all other values the hostname is used.  If the
+      hostname property is set this overrides this setting.
+      </description>
+    </property>
+    <propertyset prefix="alternateAddr">
+      <description>
+      This property set defines alternate IIOP endpoints which are
+      published in IORs. These are generaly servers on different targets.
+      Each defined alternative should have a unique prefix.
+      E.g. two alternative endpoints can be specified like this:
+        <property name="endpoint1" value="localhost:6661" />
+        <property name="endpoint2" value="localhost:6662" />
+      The same can be specified via properties like this:
+        iiop.alternateAddr.endpoint1 localhost:6661
+        iiop.alternateAddr.endpoint2 localhost:6662
+      </description>
+    </propertyset>
+
+    <!-- properties controlling the incomming server side. -->
+    <property name="listenAddress" value="0.0.0.0">
+      <description>
+      Address to listen on on multi-homed host. Defaults to 0.0.0.0,
+      all local addresses.
+      </description>
+    </property>
+    <property name="port" value="0">
+      <description>
+      Port for the iiop transport to listen on. Defaults to 0, any
+      available port.<p/>
+      Command line alias Port is available.
+      </description>
+    </property>
+    <propalias name="port" alias="Port" />
+
+    <!-- properties controlling bidirectional iiop -->
+    <property name="allowBidir" value="true">
+      <description>
+      Allow bidirectional IIOP. For BiDirectional IIOP to be available
+      at all this property must be set to true. It is set to true by
+      default, since activating BiDirectional IIOP requires setting
+      server and client side policies.
+      </description>
+    </property>
+    <property name="biDirOnlyServer" value="false">
+      <description>
+      When both allowBiDir and biDirOnlyServer are true, the server side
+      orb will not listen for incomming requests. All incomming requests
+      must be recieved over a bidirectional channel.
+      </description>
+    </property>
+
+    <!-- Properties not usualy modified by users -->
+    <property name="CDRInputStreamClass" value="org.openorb.iiop.CDRInputStream">
+      <description>
+      CDRInputStream class. This is modified by the RMIoverIIOP
+      module.
+      </description>
+    </property>
+    <property name="CDROutputStreamClass" value="org.openorb.iiop.CDROutputStream">
+      <description>
+      CDRInputStream class. This is modified by the RMIoverIIOP
+      module.
+      </description>
+    </property>
+    <property name="TransportServerInitializerClass" value="org.openorb.iiop.IIOPTransportServerInitializer">
+      <description>
+      Server transport. This is modified by security services.
+      </description>
+    </property>
+    <property name="TransportClientInitializerClass" value="org.openorb.iiop.IIOPTransportClientInitializer">
+      <description>
+      Client transport. This is modified by security services.
+      </description>
+    </property>
+  </module>
+
+
+
+  <!-- ********************************************************** -->
+  <!--                       Default profiles                     -->
+  <!-- ********************************************************** -->
+
+  <profile name="default" >
+    <description>
+    The default profile load the POA, iiop and some basic initial
+    references.
+    </description>
+
+    <import module="POA" />
+    <import module="iiop" />    
+    <import profile="BasicRefs" />
+  </profile>
+
+
+  <profile name="boa-only" >
+    <description>
+    This profile uses the BOA instead of the POA.
+    </description>
+
+    <import module="BOA" />
+    <import module="iiop" />
+    <import module="BasicRefs" />
+  </profile>
+
+  <profile name="client-only">
+    <description>
+    This profile enables only the client side orb.
+    </description>
+
+    <import module="openorb.server">
+      <property name="enable" value="false"/>
+    </import>
+
+    <import module="iiop" />
+    <import module="BasicRefs" />
+  </profile>
+
+</OpenORB>
+

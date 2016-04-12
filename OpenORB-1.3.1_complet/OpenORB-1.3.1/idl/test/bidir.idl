@@ -1,0 +1,30 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_BIDIR_IDL_
+#define _TEST_BIDIR_IDL_
+
+#pragma prefix "openorb.org"
+
+module test
+{
+    module iiop
+    {
+        module bidir
+        {
+            interface Callback
+            {
+                void call( in Callback call, in unsigned long remain );
+
+                void call_large( in Callback call, in unsigned long remain, in CORBA::OctetSeq buffer );
+            };
+        };
+    };
+};
+
+#endif

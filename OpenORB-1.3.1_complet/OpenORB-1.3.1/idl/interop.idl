@@ -1,0 +1,19 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+// This file groups together all the idl which contain definitions for
+// data structures relivant to interoperability between orbs
+
+#include "BiDirPolicy.idl"
+
+#include "CONV_FRAME.idl"
+
+// GIOP.idl includes IIOP.idl includes IOP.idl includes IOP_DCE.idl
+#include "GIOP.idl"
+
+#include "SendingContext.idl"

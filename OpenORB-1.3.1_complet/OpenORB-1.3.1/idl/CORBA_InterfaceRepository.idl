@@ -1,0 +1,1735 @@
+// File: CORBA_InterfaceRepository.idl
+// CORBA 2.3, Chapter 10
+
+#ifndef _CORBA_INTERFACE_REPOSITORY_IDL_
+#define _CORBA_INTERFACE_REPOSITORY_IDL_
+
+#include <orb.idl>
+
+#pragma prefix "omg.org"
+
+module CORBA 
+{
+ 
+    /**
+     * Identifiers are the simple names that identify modules,
+     * interfaces, value types, value members, value boxes, constants,
+     * typedefs, exceptions, attributes, operations and native
+     * types. They correspond exactly to OMG IDL identifiers. An
+     * Identifier is not necessarily unique within an entire Interface
+     * Repository; it is unique only within a particular Repository,
+     * ModuleDef, InterfaceDef, ValueDef or OperationDef.
+     */
+    typedef string Identifier;
+
+    /**
+     * A ScopedName is a name made up of one or more Identifiers
+     * separated by the characters "::". They correspond to OMG IDL
+     * scoped names.  An absolute ScopedName is one that begins with
+     * "::" and unambiguously identifies a definition in a
+     * Repository. An absolute ScopedName in a Repository corresponds to
+     * a global name in an OMG IDL file. A relative ScopedName does not
+     * begin with "::" and must be resolved relative to some context.
+     */
+    typedef string ScopedName;
+
+    /**
+     * A RepositoryId is an identifier used to uniquely and globally
+     * identify a module, interface, value type, value member, value
+     * box, native type, constant, typedef, exception, attribute or
+     * operation. As RepositoryIds are defined as strings, they can be
+     * manipulated (e.g., copied and compared) using a language
+     * binding’s string manipulation routines.
+     */
+    typedef string RepositoryId;
+
+    /**
+     * A DefinitionKind identifies the type of an IR object.
+     */
+    enum DefinitionKind
+    {
+        dk_none, dk_all,
+        dk_Attribute, 
+        dk_Constant, 
+        dk_Exception, 
+        dk_Interface,
+        dk_Module, 
+        dk_Operation, 
+        dk_Typedef,
+        dk_Alias, 
+        dk_Struct, 
+        dk_Union, 
+        dk_Enum,
+        dk_Primitive, 
+        dk_String, 
+        dk_Sequence, 
+        dk_Array,
+        dk_Repository,
+        dk_Wstring, 
+        dk_Fixed,
+        dk_Value, 
+        dk_ValueBox, 
+        dk_ValueMember,
+        dk_Native, 
+        dk_AbstractInterface,
+        dk_LocalInterface
+    };
+
+    /**
+     * The base interface IRObject represents the most generic interface
+     * from which all other Interface Repository interfaces are derived,
+     * even the Repository itself.
+     */
+    interface IRObject
+    {
+        /**
+         * The def_kind type_name attribute identifies the type of the definition.
+         */
+        readonly attribute DefinitionKind def_kind;
+
+        /**
+         * The destroy operation causes the object to cease to exist. If
+         * the object is a Container, destroy is applied to all its
+         * contents. If the object contains an IDLType attribute for an
+         * anonymous type, that IDLType is destroyed. If the object is
+         * currently contained in some other object, it is removed. If
+         * destroy is invoked on a Repository or on a PrimitiveDef then
+         * the BAD_INV_ORDER exception is raised with minor value 2.
+         * Implementations may vary in their handling of references to an
+         * object that is being destroyed, but the Repository should not
+         * be left in an incoherent state. Attempt to destroy an object
+         * that would leave the repository in an incoherent state shall
+         * cause BAD_INV_ORDER exception to be raised with the minor code
+         * 1.
+         */
+        void destroy();
+    };
+
+    typedef string VersionSpec;
+
+    /**
+     * The base interface Contained is inherited by all Interface
+     * Repository interfaces that are contained by other IR objects. All
+     * objects within the Interface Repository, except the root object
+     * (Repository) and definitions of anonymous (ArrayDef, StringDef,
+     * WstringDef, FixedDef and SequenceDef), and primitive types are
+     * contained by other objects.
+     */
+    interface Contained : 
+        IRObject
+    {
+        // read/write interface
+        /**
+         * An object that is contained by another object has an id
+         * attribute that identifies it globally.
+         */
+        attribute RepositoryId id;
+
+        /**
+         * An object that is contained by another object has a name
+         * attribute that identifies it uniquely within the enclosing
+         * Container object.
+         */
+        attribute Identifier name;
+
+        /**
+         * An object that is contained by another object has a version
+         * attribute that distinguishes it from other versioned objects
+         * with the same name.
+         */
+        attribute VersionSpec version;
+
+        // read interface
+        /**
+         * Contained objects also have a defined_in attribute that
+         * identifies the Container within which they are defined. Objects
+         * can be contained either because they are defined within the
+         * containing object (for example, an interface is defined within
+         * a module) or because they are inherited by the containing
+         * object (for example, an operation may be contained by an
+         * interface because the interface inherits the operation from
+         * another interface). If an object is contained through
+         * inheritance, the defined_in attribute identifies the
+         * InterfaceDef or ValueDef from which the object is inherited.
+         */
+        readonly attribute Container defined_in;
+
+        /**
+         * The absolute_name attribute is an absolute ScopedName that
+         * identifies a Contained object uniquely within its enclosing
+         * Repository. If this object’s defined_in attribute references
+         * a Repository, the absolute_name is formed by concatenating the
+         * string "::" and this object’s name attribute. Otherwise, the
+         * absolute_name is formed by concatenating the absolute_name
+         * attribute of the object referenced by this object’s
+         * defined_in attribute, the string "::", and this object’s
+         * name attribute.
+         */
+        readonly attribute ScopedName absolute_name;
+
+        /**
+         * The containing_repository attribute identifies the Repository
+         * that is eventually reached by recursively following the
+         * object’s defined_in attribute.
+         */
+        readonly attribute Repository containing_repository;
+
+        /**
+         * The description structure associated with each interface is
+         * provided below with the interface’s definition. The kind of
+         * definition described by name of the structure returned is
+         * provided with the returned structure. The kind field of the
+         * returned Description struct shall give the DefinitionKind for
+         * the most derived type of the object.
+         */
+        struct Description
+        {
+            DefinitionKind kind;
+            any value;
+        };
+
+        /**
+         * The describe operation returns a structure containing
+         * information about the interface.  This operation is overloaded
+         * in each sub interface. For example, if the describe operation
+         * is invoked on an attribute object, the kind field contains
+         * dk_Attribute name field contains "AttributeDescription" and the
+         * value field contains an any, which contains the
+         * AttributeDescription structure. The kind field in this must
+         * contain dk_attribute and not the kind of any IRObject from
+         * which the attribute object is derived. For example returning
+         * dk_all would be an error.
+         */
+        Description describe ();
+
+        // write interface
+        /**
+         * The move operation atomically removes this object from its
+         * current Container, and adds it to the Container specified by
+         * new_container must satisfy the following conditions: It must be
+         * in the same Repository. If it is not, then BAD_PARAM exception
+         * is raised with minor code 4.  It must be capable of containing
+         * this object’s type. If it is not, then BAD_PARAM exception
+         * is raised with minor code 4.  It must not already contain an
+         * object with this object’s name (unless multiple versions are
+         * supported by the IR). If this condition is not satisfied, then
+         * BAD_PARAM exception is raised with minor code 3.
+         */
+        void move ( in Container new_container, in Identifier new_name, in VersionSpec new_version );
+    };
+
+    /**
+     * Define a list of InterfaceDef.
+     */
+    typedef sequence <InterfaceDef> InterfaceDefSeq;
+
+    /**
+     * Define a list of ValueDef.
+     */
+    typedef sequence <ValueDef> ValueDefSeq;
+
+    /**
+     * Define a list of Contained.
+     */
+    typedef sequence <Contained> ContainedSeq;
+
+    /**
+     * Define a list of AbstractInterfaceDef
+     */
+    typedef sequence <AbstractInterfaceDef> AbstractInterfaceDefSeq;
+
+    /**
+     * Define a list of LocalInterfaceDef
+     */
+    typedef sequence <LocalInterfaceDef> LocalInterfaceDefSeq;
+
+    /**
+     * This structure describes a struct member.
+     */
+    struct StructMember
+    {
+        Identifier name;
+        TypeCode type;
+        IDLType type_def;
+    };
+
+    /**
+     * This typedef provides a list a struct member.
+     */
+    typedef sequence<StructMember> StructMemberSeq;
+
+    /**
+     * This structure describes a factory for a valuetype.
+     */
+    struct Initializer
+    {
+        StructMemberSeq members;
+        Identifier name;
+    };
+
+    /**
+     * Define a list of Initializer
+     */
+    typedef sequence<Initializer> InitializerSeq;
+
+    /**
+     * This structure describes an union member.
+     */
+    struct UnionMember
+    {
+        Identifier name;
+        any label;
+        TypeCode type;
+        IDLType type_def;
+    };
+
+    typedef sequence <UnionMember> UnionMemberSeq;
+    typedef sequence <Identifier> EnumMemberSeq;
+
+    /**
+     * The base interface Container is used to form a containment
+     * hierarchy in the Interface Repository. A Container can contain
+     * any number of objects derived from the Contained interface. All
+     * Containers, except for Repository, are also derived from
+     * Contained.
+     */
+    interface Container : 
+        IRObject
+    {
+        // read interface
+
+        /**
+         * The lookup operation locates a definition relative to this
+         * container given a scoped name using OMG IDL’s name scoping
+         * rules. An absolute scoped name (beginning with "::") locates
+         * the definition relative to the enclosing Repository. If no
+         * object is found, a nil object reference is returned.
+         */
+        Contained lookup ( in ScopedName search_name );
+
+        /**
+         * The contents operation returns the list of objects directly
+         * contained by or inherited into the object. The operation is
+         * used to navigate through the hierarchy of objects.  Starting
+         * with the Repository object, a client uses this operation to
+         * list all of the objects contained by the Repository, all of the
+         * objects contained by the modules within the Repository, and
+         * then all of the interfaces and value types within a specific
+         * module, and so on.
+         *
+         * @param limit_type If limit_type is set to dk_all "all", objects
+         *                      of all interface types are returned. For example, if
+         *                      this is an InterfaceDef, the attribute, operation,
+         *                      and exception objects are all returned. If
+         *                      limit_type is set to a specific interface, only
+         *                      objects of that interface type are returned. For
+         *                      example, only attribute objects are returned if
+         *                      limit_type is set to dk_Attribute "AttributeDef".
+         *
+         * @param exclude_inherited If set to TRUE, inherited objects (if
+         *                          there are any) are not returned. If set to FALSE,
+         *                          all contained objects,whether contained due to
+         *                          inheritance or because they were defined within
+         *                          the object,are returned.
+         */
+        ContainedSeq contents (
+            in DefinitionKind limit_type,
+            in boolean exclude_inherited
+        );
+
+        /**
+         * The lookup_name operation is used to locate an object by name
+         * within a particular object or within the objects contained by
+         * that object. Use of values of levels_to_search of 0 or of
+         * negative numbers other than -1 is undefined.
+         *
+         * @param search_name   Specified which name is to be searched for.
+         *
+         * @param levels_to_search Controls whether the lookup is
+         *                          constrained to the object the operation is invoked
+         *                          on or whether it should search through objects
+         *                          contained by the object as well.
+         *
+         * @param limit_type If limit_type is set to dk_all "all", objects
+         *                      of all interface types are returned. For example, if
+         *                      this is an InterfaceDef, the attribute, operation,
+         *                      and exception objects are all returned. If
+         *                      limit_type is set to a specific interface, only
+         *                      objects of that interface type are returned. For
+         *                      example, only attribute objects are returned if
+         *                      limit_type is set to dk_Attribute "AttributeDef".
+         *
+         * @param exclude_inherited If set to TRUE, inherited objects (if
+         *                          there are any) are not returned. If set to FALSE,
+         *                          all contained objects,whether contained due to
+         *                          inheritance or because they were defined within
+         *                          the object,are returned.
+         */
+        ContainedSeq lookup_name (
+            in Identifier search_name,
+            in long levels_to_search,
+            in DefinitionKind limit_type,
+            in boolean exclude_inherited
+        );
+
+        struct Description
+        {
+            Contained contained_object;
+            DefinitionKind kind;
+            any value;
+        };
+
+        typedef sequence<Description> DescriptionSeq;
+
+        /**
+         * The describe_contents operation combines the contents operation
+         * and the describe operation. For each object returned by the
+         * contents operation, the description of the object is returned
+         * (i.e., the object’s describe operation is invoked and the
+         * results returned).
+         *
+         * @param limit_type If limit_type is set to dk_all "all", objects
+         *                      of all interface types are returned. For example, if
+         *                      this is an InterfaceDef, the attribute, operation,
+         *                      and exception objects are all returned. If
+         *                      limit_type is set to a specific interface, only
+         *                      objects of that interface type are returned. For
+         *                      example, only attribute objects are returned if
+         *                      limit_type is set to dk_Attribute "AttributeDef".
+         *
+         * @param exclude_inherited If set to TRUE, inherited objects (if
+         *                          there are any) are not returned. If set to FALSE,
+         *                          all contained objects,whether contained due to
+         *                          inheritance or because they were defined within
+         *                          the object,are returned.
+         *
+         * @param max_returned_objs max_returned_objs Limits the number of
+         *                          objects that can be returned in an invocation of
+         *                          the call to the number provided.  Setting the
+         *                          parameter to -1 means return all contained
+         *                          objects.
+         */
+        DescriptionSeq describe_contents (
+            in DefinitionKind limit_type,
+            in boolean exclude_inherited,
+            in long max_returned_objs
+        );
+
+        // write interface
+
+        /**
+         * The create_module operation returns a new empty
+         * ModuleDef. Definitions can be added using
+         * Container::create_<type> operations on the new module, or by
+         * using the Contained::move operation.
+         */
+        ModuleDef create_module (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version
+        );
+
+        /**
+         * The create_constant operation returns a new ConstantDef with
+         * the specified type and value.
+         */
+        ConstantDef create_constant (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType type,
+            in any value
+        );
+
+        /**
+         * The create_struct operation returns a new StructDef with the
+         * specified members.  The type member of the StructMember
+         * structures is ignored, and should be set to TC_void.
+         */
+        StructDef create_struct (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in StructMemberSeq members
+        );
+        /**
+         * The create_union operation returns a new UnionDef with the specified
+         * discriminator_type and members. The type member of the UnionMember
+         * structures is ignored, and should be set to TC_void.
+         */
+        UnionDef create_union (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType discriminator_type,
+            in UnionMemberSeq members
+        );
+        /**
+         * The create_enum operation returns a new EnumDef with the
+         * specified members.
+         */
+        EnumDef create_enum (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in EnumMemberSeq members
+        );
+        /**
+         * The create_alias operation returns a new AliasDef with the
+         * specified original_type.
+         */
+        AliasDef create_alias (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType original_type
+        );
+        /**
+         * The create_interface operation returns a new empty InterfaceDef
+         * with the specified base_interfaces. Type, exception, and
+         * constant definitions can be added using
+         * Container::create_<type> operations on the new
+         * InterfaceDef. OperationDefs can be added using
+         * InterfaceDef::create_operation and AttributeDefs can be added
+         * using Interface::create_attribute. Definitions can also be
+         * added using the Contained::move operation.
+         */
+        InterfaceDef create_interface (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in InterfaceDefSeq base_interfaces
+        );
+
+        /**
+         * The create_value operation returns a new empty ValueDef with
+         * the specified base interfaces and values (base_value,
+         * supported_interfaces, and abstract_base_values) as well as the
+         * other information describing the new values characteristics
+         * (is_custom, is_abstract, is_truncatable, and
+         * initializers). Type, exception, and constant definitions can be
+         * added using Container::create_<type> operations on the new
+         * ValueDef. OperationDefs can be added using
+         * ValueDef::create_operation and AttributeDefs can be added using
+         * Value::create_attribute. Definitions can also be added using
+         * the Contained::move operation.
+         */
+        ValueDef create_value (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in boolean is_custom,
+            in boolean is_abstract,
+            in ValueDef base_value,
+            in boolean is_truncatable,
+            in ValueDefSeq abstract_base_value,
+            in InterfaceDefSeq supported_interfaces,
+            in InitializerSeq initializers
+        );
+
+        /**
+         * The create_value_box operation returns a new ValueBoxDef with
+         * the specified original_type_def.
+         */
+        ValueBoxDef create_value_box (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType original_type_def
+        );
+        /**
+         * The create_exception operation returns a new ExceptionDef with
+         * the specified members. The type member of the StructMember
+         * structures should be set to TC_void.
+         */
+        ExceptionDef create_exception (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in StructMemberSeq members
+        );
+
+        /**
+         * The create_native operation returns a new NativeDef with the
+         * specified name.
+         */
+        NativeDef create_native (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version
+        );
+
+
+        /**
+         * The create_abstract_interface operation returns a new AbstractInterfaceDef with the
+         * specified name and base interfaces.
+         */
+        AbstractInterfaceDef create_abstract_interface (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in AbstractInterfaceDefSeq base_interfaces
+        );
+
+        /**
+         * The create_local_interface operation returns a new LocalInterfaceDef with the
+         * specified name and base interfaces.
+         */
+        LocalInterfaceDef create_local_interface (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in LocalInterfaceDefSeq base_interfaces
+        );
+    };
+
+    /**
+     * The base interface IDLType is inherited by all IR objects that
+     * represent OMG IDL types. It provides access to the TypeCode
+     * describing the type, and is used in defining other interfaces
+     * wherever definitions of IDL types must be referenced.
+     */
+    interface IDLType : 
+        IRObject
+    {
+
+        /**
+         * The type attribute describes the type defined by an object
+         * derived from IDLType.
+         */
+        readonly attribute TypeCode type;
+    };
+
+    /**
+     * In CORBA, there are primitive types as for example : long,
+     * double, float, and so on.  This enumeration provides an
+     * identifier for each primitive type.
+     */
+    enum PrimitiveKind
+    {
+        pk_null, 
+        pk_void, 
+        pk_short, 
+        pk_long, 
+        pk_ushort, 
+        pk_ulong,
+        pk_float, 
+        pk_double, 
+        pk_boolean, 
+        pk_char, 
+        pk_octet,
+        pk_any, 
+        pk_TypeCode, 
+        pk_Principal, 
+        pk_string, 
+        pk_objref,
+        pk_longlong, 
+        pk_ulonglong, 
+        pk_longdouble,
+        pk_wchar, 
+        pk_wstring, 
+        pk_value_base
+    };
+
+    /**
+     * Repository is an interface that provides global access to the
+     * Interface Repository. The Repository object can contain
+     * constants, typedefs, exceptions, interfaces, value types, value
+     * boxes, native types and modules.
+     */
+    interface Repository : 
+        Container
+    {
+        // read interface
+
+        /**
+         * The lookup_id operation is used to lookup an object in a
+         * Repository given its RepositoryId. If the Repository does not
+         * contain a definition for search_id, a nil object reference is
+         * returned.
+         */
+        Contained lookup_id( in RepositoryId search_id );
+
+        /**
+         * The get_canonical_typecode operation looks up the TypeCode in
+         * the Interface Repository and returns an equivalent TypeCode
+         * that includes all repository ids, names, and member_names. If
+         * the top level TypeCode does not contain a RepositoryId, such as
+         * array and sequence TypeCodes, or TypeCodes from older ORBs,
+         * or if it contains a RepositoryId that is not found in the
+         * target Repository, then a new TypeCode is constructed by
+         * recursively calling get_canonical_typecode on each member
+         * TypeCode of the original TypeCode.
+         */
+        TypeCode get_canonical_typecode( in TypeCode tc );
+
+        /**
+         * The get_primitive operation returns a PrimitiveDef reference
+         * that describes a primitive type.
+         */
+        PrimitiveDef get_primitive( in PrimitiveKind kind );
+
+        // write interface
+        /**
+         * The create_string operation returns a new StringDef with the
+         * specified bound, which must be non-zero. The get_primitive
+         * operation is used for unbounded strings.
+         */
+        StringDef create_string ( in unsigned long bound );
+
+        /**
+         * The create_wstring operation returns a new WstringDef with the
+         * specified bound, which must be non-zero. The get_primitive
+         * operation is used for unbounded strings.
+         */
+        WstringDef create_wstring ( in unsigned long bound );
+
+        /**
+         * The create_sequence operation returns a new SequenceDef with
+         * the specified bound and element_type.
+         */
+        SequenceDef create_sequence (
+            in unsigned long bound,
+            in IDLType element_type
+        );
+
+        /**
+         * The create_array operation returns a new ArrayDef with the
+         * specified length and element_type.
+         */
+        ArrayDef create_array (
+            in unsigned long bound,
+            in IDLType element_type
+        );
+
+        /**
+         * The create_fixed operation returns a new FixedDef with the
+         * specified number of digits and scale. The number of digits must
+         * be from 1 to 31, inclusive.
+         */
+        FixedDef create_fixed (
+            in unsigned short digits,
+            in short scale
+        );
+    };
+
+    /**
+     * A ModuleDef can contain constants, typedefs, exceptions,
+     * interfaces, value types, value boxes, native types and other
+     * module objects.
+     */
+    interface ModuleDef : 
+        Container, Contained
+    {};
+
+    /**
+     * This structure provides all data that describe a module. This
+     * structure is used by the describe operation when it is applied to
+     * a module.
+     */
+    struct ModuleDescription
+    {
+        RepositoryId id;
+        Identifier name;
+        RepositoryId defined_in;
+        VersionSpec version;
+    };
+
+    /**
+     * A ConstantDef object defines a named constant.
+     */
+    interface ConstantDef : 
+        Contained
+    {
+        /**
+         * The type attribute specifies the TypeCode describing the type
+         * of the constant. The type of a constant must be one of the
+         * primitive types allowed in constant declarations.
+         */
+        readonly attribute TypeCode type;
+
+        /**
+         * The type_def attribute identifies the definition of the type of
+         * the constant.
+         */
+        attribute IDLType type_def;
+
+        /**
+         * The value attribute contains the value of the constant.
+         */
+        attribute any value;
+    };
+
+    /**
+     * This structure provides all data that describe a constant. This
+     * structure is used by the describe operation when it is applied to
+     * a constant.
+     */
+    struct ConstantDescription
+    {
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode type;
+        any value;
+    };
+
+
+    /**
+     * The base interface TypedefDef is inherited by all named
+     * non-object.types (structures, unions, enumerations, and
+     * aliases). The TypedefDef interface is not inherited by the
+     * definition objects for primitive or anonymous types.
+     */
+    interface TypedefDef : 
+        Contained, IDLType
+    {};
+
+
+    /**
+     * This structure provides all data that describe a typedef. This
+     * structure is used by the describe operation when it is applied to
+     * a typedef.
+     */
+    struct TypeDescription
+    {
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode type;
+    };
+
+    /**
+     * A StructDef represents an OMG IDL structure definition.
+     */
+    interface StructDef : 
+        TypedefDef, Container
+    {
+        /**
+         * The members attribute contains a description of each structure member.
+         */
+        attribute StructMemberSeq members;
+    };
+
+    /**
+     * A UnionDef represents an OMG IDL union definition.
+     */
+    interface UnionDef : 
+        TypedefDef, Container
+    {
+        /**
+         * The discriminator_type attribute describe the union’s
+         * discriminator type.
+         */
+        readonly attribute TypeCode discriminator_type;
+
+        /**
+         * The discriminator_type_def attribute identify the union’s
+         * discriminator type.
+         */
+        attribute IDLType discriminator_type_def;
+
+        /**
+         * The members attribute contains a description of each union
+         * member. The label of each UnionMemberDescription is a distinct
+         * value of the discriminator_type.  Adjacent members can have the
+         * same name. Members with the same name must also have the same
+         * type. A label with type octet and value 0 indicates the default
+         * union member.
+         */
+        attribute UnionMemberSeq members;
+    };
+
+    /**
+     * An EnumDef represents an OMG IDL enumeration definition.
+     */
+    interface EnumDef : 
+        TypedefDef
+    {
+        /**
+         * The members attribute contains a distinct name for each
+         * possible value of the enumeration.
+         */
+        attribute EnumMemberSeq members;
+    };
+
+    /**
+     * An AliasDef represents an OMG IDL typedef that aliases another
+     * definition.
+     */
+    interface AliasDef : 
+        TypedefDef
+    {
+        /**
+         * The original_type_def attribute identifies the type being
+         * aliased.
+         */
+        attribute IDLType original_type_def;
+    };
+
+    /**
+     * A NativeDef object represents a native definition.
+     */
+    interface NativeDef : 
+        TypedefDef
+    {};
+
+    /**
+     * A PrimitiveDef represents one of the OMG IDL primitive types. As
+     * primitive types are unnamed, this interface is not derived from
+     * TypedefDef or Contained.
+     */
+    interface PrimitiveDef : 
+        IDLType
+    {
+        /**
+         * The kind attribute indicates which primitive type the
+         * PrimitiveDef represents. There are no PrimitiveDefs with kind
+         * pk_null. A PrimitiveDef with kind pk_string represents an
+         * unbounded string. A PrimitiveDef with kind pk_objref represents
+         * the IDL type Object. A PrimitiveDef with kind pk_value_base
+         * represents the IDL type ValueBase.
+         */
+        readonly attribute PrimitiveKind kind;
+    };
+
+    /**
+     * A StringDef represents an IDL bounded string type. The unbounded
+     * string type is represented as a PrimitiveDef. As string types are
+     * anonymous, this interface is not derived from TypedefDef or
+     * Contained.
+     */
+    interface StringDef : 
+        IDLType
+    {
+        /**
+         * The bound attribute specifies the maximum number of characters
+         * in the string and must not be zero.
+         */
+        attribute unsigned long bound;
+    };
+
+    /**
+     * A WstringDef represents an IDL wide string. The unbounded wide
+     * string type is represented as a PrimitiveDef. As wide string
+     * types are anonymous, this interface is not derived from
+     * TypedefDef or Contained.
+     */
+    interface WstringDef : 
+        IDLType
+    {
+        /**
+         * The bound attribute specifies the maximum number of wide
+         * characters in a wide string, and must not be zero.
+         */
+        attribute unsigned long bound;
+    };
+
+    /**
+     * A FixedDef represents an IDL fixed point type.
+     */
+    interface FixedDef : 
+        IDLType
+    {
+        /**
+         * The digits attribute specifies the total number of decimal
+         * digits in the number, and must be from 1 to 31, inclusive.
+         */
+        attribute unsigned short digits;
+
+        /**
+         * The scale attribute specifies the position of the decimal
+         * point.
+         */
+        attribute short scale;
+    };
+
+    /**
+     * A SequenceDef represents an IDL sequence type. As sequence types
+     * are anonymous, this interface is not derived from TypedefDef or
+     * Contained.
+     */
+    interface SequenceDef : 
+        IDLType
+    {
+        /**
+         * The lengthattribute specifies the maximum number of elements in
+         * the sequence. A bound of zero indicates an unbounded sequence.
+         */
+        attribute unsigned long bound;
+
+        /**
+         * The type of the elements is described by element_type and
+         * identified by element_type_def.
+         */
+        readonly attribute TypeCode element_type;
+
+        /**
+         * The inherited type attribute is a tk_sequence TypeCode
+         * describing the sequence.
+         */
+        attribute IDLType element_type_def;
+    };
+
+    /**
+     * An ArrayDef represents an IDL array type. As array types are
+     * anonymous, this interface is not derived from TypedefDef or
+     * Contained.
+     */
+    interface ArrayDef : 
+        IDLType
+    {
+        /**
+         * The length attribute specifies the number of elements in the array.
+         */
+        attribute unsigned long length;
+
+        /**
+         * The type of the elements is described by element_type. Since an
+         * ArrayDef only represents a single dimension of an array,
+         * multi-dimensional IDL arrays are represented by multiple
+         * ArrayDef objects, one per array dimension.
+         */
+        readonly attribute TypeCode element_type;
+
+        /**
+         * The type of the elements is identified by element_type_def. The
+         * element_type_def attribute of the ArrayDef representing the
+         * leftmost index of the array, as defined in IDL, will refer to
+         * the ArrayDef representing the next index to the right, and so
+         * on. The innermost ArrayDef represents the rightmost index and
+         * the element type of the multi-dimensional OMG IDL array.
+         */
+        attribute IDLType element_type_def;
+    };
+
+    /**
+     * An ExceptionDef represents an exception definition.
+     */
+    interface ExceptionDef : 
+        Contained, Container
+    {
+        /**
+         * The type attribute is a tk_except TypeCode describing the
+         * exception.
+         */
+        readonly attribute TypeCode type;
+
+        /**
+         * The members attribute describes any exception members.
+         */
+        attribute StructMemberSeq members;
+    };
+
+    /**
+     * This structure describes all exception attributes.
+     */
+    struct ExceptionDescription
+    {
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode type;
+    };
+
+    /**
+     * This enumeration describes an attribute mode which can be
+     * "normal" or "readonly".
+     */
+    enum AttributeMode { ATTR_NORMAL, ATTR_READONLY };
+
+    /**
+     * An AttributeDef represents the information that defines an
+     * attribute of an interface.
+     */
+    interface AttributeDef : 
+        Contained
+    {
+        /**
+         * The type attribute provides the TypeCode describing the type of
+         * this attribute.
+         */
+        readonly attribute TypeCode type;
+
+        /**
+         * The type_def attribute identifies the object defining the type
+         * of this attribute.
+         */
+        attribute IDLType type_def;
+
+        /**
+         * The mode attribute specifies read only or read/write access for
+         * this attribute.
+         */
+        attribute AttributeMode mode;
+    };
+
+    /**
+     * This structure provides all data that describe an attribute. This
+     * structure is used by the describe operation when it is applied to
+     * an attribute.
+     */
+    struct AttributeDescription
+    {
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode type;
+        AttributeMode mode;
+    };
+
+    /**
+     * This enumeration describes an operation mode which can be
+     * "normal" or "oneway".
+     */
+    enum OperationMode {OP_NORMAL, OP_ONEWAY};
+
+    /**
+     * This enumeration describes a parameter mode which can be "in",
+     * "out" or "inout".
+     */
+    enum ParameterMode {PARAM_IN, PARAM_OUT, PARAM_INOUT};
+
+    /**
+     * This structure provides all data that describe a parameter. This
+     * structure is used by the describe operation when it is applied to
+     * a parameter.
+     */
+    struct ParameterDescription
+    {
+        Identifier name;
+        TypeCode type;
+        IDLType type_def;
+        ParameterMode mode;
+    };
+
+    typedef sequence<ParameterDescription> ParDescriptionSeq;
+
+    typedef Identifier ContextIdentifier;
+    typedef sequence<ContextIdentifier> ContextIdSeq;
+
+    typedef sequence<ExceptionDef> ExceptionDefSeq;
+    typedef sequence<ExceptionDescription> ExcDescriptionSeq;
+
+    /**
+     * An OperationDef represents the information needed to define an
+     * operation of an interface.
+     */
+    interface OperationDef : 
+        Contained
+    {
+        /**
+         * The result attribute is a TypeCode describing the type of the
+         * value returned by the operation.
+         */
+        readonly attribute TypeCode result;
+
+
+        /**
+         * The result_def attribute identifies the definition of the
+         * returned type.
+         */
+        attribute IDLType result_def;
+
+        /**
+         * The params attribute describes the parameters of the
+         * operation. It is a sequence of ParameterDescription
+         * structures. The order of the ParameterDescriptions in the
+         * sequence is significant.
+         */
+        attribute ParDescriptionSeq params;
+
+        /**
+         * The mode attribute of accessor operations is OP_NORMAL.
+         */
+        attribute OperationMode mode;
+
+        /**
+         * The contexts attribute specifies the list of context
+         * identifiers that apply to the operation.
+         */
+        attribute ContextIdSeq contexts;
+
+        /**
+         * The exceptions attribute specifies the list of exception types
+         * that can be raised by the operation.
+         */
+        attribute ExceptionDefSeq exceptions;
+    };
+
+    /**
+     * This structure provides all data that describe an operation. This
+     * structure is used by the describe operation when it is applied to
+     * an operation.
+     */
+
+    struct OperationDescription
+    {
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode result;
+        OperationMode mode;
+        ContextIdSeq contexts;
+        ParDescriptionSeq parameters;
+        ExcDescriptionSeq exceptions;
+    };
+
+    typedef sequence<RepositoryId> RepositoryIdSeq;
+    typedef sequence<OperationDescription> OpDescriptionSeq;
+    typedef sequence<AttributeDescription> AttrDescriptionSeq;
+
+    /**
+     * An InterfaceDef object represents an interface definition. It can
+     * contain constants, typedefs, exceptions, operations, and
+     * attributes.
+     */
+    interface InterfaceDef : 
+        Container, Contained, IDLType
+    {
+        // read/write interface
+        /**
+         * The base_interfaces attribute lists all the interfaces from
+         * which this interface inherits.
+         */
+        attribute InterfaceDefSeq base_interfaces;
+
+        // read interface
+        /**
+         * The is_a operation returns TRUE if the interface on which it is
+         * invoked either is identical to or inherits, directly or
+         * indirectly, from the interface identified by its interface_id
+         * parameter. Otherwise it returns FALSE.
+         */
+        boolean is_a ( in RepositoryId interface_id );
+
+        /**
+         * This structure provides a full description for an interface
+         */
+        struct FullInterfaceDescription
+        {
+
+            Identifier name;
+            RepositoryId id;
+            RepositoryId defined_in;
+            VersionSpec version;
+            OpDescriptionSeq operations;
+            AttrDescriptionSeq attributes;
+            RepositoryIdSeq base_interfaces;
+            // RepositoryIdSeq derived_interfaces;
+            TypeCode type;
+        };
+
+        /**
+         * The describe_interface operation returns a
+         * FullInterfaceDescription describing the interface, including
+         * its operations and attributes.
+         */
+        FullInterfaceDescription describe_interface();
+        // write interface
+
+        /**
+         * The create_attribute operation returns a new AttributeDef
+         * contained in the InterfaceDef on which it is invoked.
+         */
+        AttributeDef create_attribute (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType type,
+            in AttributeMode mode
+        );
+
+        /**
+         * The create_operation operation returns a new OperationDef
+         * contained in the InterfaceDef on which it is invoked.
+         */
+        OperationDef create_operation (
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType result,
+            in OperationMode mode,
+            in ParDescriptionSeq params,
+            in ExceptionDefSeq exceptions,
+            in ContextIdSeq contexts
+        );
+
+    };
+
+    /**
+     * This structure describes an interface. It provides less
+     * information than FullInterfaceDescription.
+     */
+    struct InterfaceDescription
+    {
+
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        RepositoryIdSeq base_interfaces;
+    };
+
+    /**
+     * This typedef provides a new type to define a visibility of a
+     * valuetype member.
+     */
+    typedef short Visibility;
+
+    /**
+     * Define a visibility for a valuetype member, here PRIVATE
+     */
+    const Visibility PRIVATE_MEMBER = 0;
+
+    /**
+     * Define a visibility for a valuetype member, here PUBLIC
+     */
+    const Visibility PUBLIC_MEMBER = 1;
+
+    /**
+     * This structure provides all information to define a value member.
+     */
+    struct ValueMember
+    {
+
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode type;
+        IDLType type_def;
+        Visibility access;
+    };
+
+    /**
+     * This typedef defines a sequence of ValueMember. This type is used
+     * to describe at the same time a set of value member.
+     */
+    typedef sequence<ValueMember> ValueMemberSeq;
+
+    /**
+     * This interface provides a way to get information about a
+     * valuetype member.
+     */
+    interface ValueMemberDef : 
+        Contained
+    {
+        /**
+         * Return the typecode that descrive the value member
+         */
+        readonly attribute TypeCode type;
+
+        /**
+         * This attribute identifies a value member.
+         */
+        attribute IDLType type_def;
+
+        /**
+         * Return the access visibility for a value member.
+         */
+        attribute Visibility access;
+    };
+
+    /**
+     * A ValueDef object represents a value definition.
+     */
+    interface ValueDef : 
+        Container, Contained, IDLType
+    {
+        /**
+         * The supported_interfaces attribute lists the interfaces which
+         * this value type supports.
+         */
+        attribute InterfaceDefSeq supported_interfaces;
+
+        /**
+         * The initializers attribute lists the initializers this value
+         * type supports.
+         */
+        attribute InitializerSeq initializers;
+
+        /**
+         * The base_value attribute describes the value type from which
+         * this value inherits.
+         */
+        attribute ValueDef base_value;
+
+        /**
+         * The abstract_base_values attribute lists the abstract value
+         * types from which this value inherits.
+         */
+        attribute ValueDefSeq abstract_base_values;
+
+        /**
+         * The is_abstract attribute is TRUE if the value is an abstract
+         * value type.
+         */
+        attribute boolean is_abstract;
+
+        /**
+         * The is_custom attribute is TRUE if the value uses custom marshaling.
+         */
+        attribute boolean is_custom;
+
+        /**
+         * The is_truncatable attribute is TRUE if the value inherits
+         * "safely" (i.e., supports truncation) from another value.
+         */
+        attribute boolean is_truncatable;
+
+        /**
+         * The is_a operation returns TRUE if the value on which it is
+         * invoked either is identical to or inherits, directly or
+         * indirectly, from the interface or value identified by its id
+         * parameter. Otherwise it returns FALSE.
+         */
+        boolean is_a( in RepositoryId id );
+
+        /**
+         * This structure provides a full description for an value type.
+         */
+        struct FullValueDescription
+        {
+            Identifier name;
+            RepositoryId id;
+            boolean is_abstract;
+            boolean is_custom;
+            RepositoryId defined_in;
+            VersionSpec version;
+            OpDescriptionSeq operations;
+            AttrDescriptionSeq attributes;
+            ValueMemberSeq members;
+            InitializerSeq initializers;
+            RepositoryIdSeq supported_interfaces;
+            RepositoryIdSeq abstract_base_values;
+            boolean is_truncatable;
+            RepositoryId base_value;
+            TypeCode type;
+        };
+
+        /**
+         * The describe_value operation returns a FullValueDescription
+         * describing the value, including its operations and attributes.
+         */
+        FullValueDescription describe_value();
+
+        /**
+         * The create_value_member operation returns a new ValueMemberDef
+         * contained in the ValueDef on which it is invoked.
+         */
+        ValueMemberDef create_value_member(
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType type,
+            in Visibility access
+        );
+
+        /**
+         * The create_attribute operation returns a new AttributeDef
+         * contained in the ValueDef on which it is invoked.
+         */
+        AttributeDef create_attribute(
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType type,
+            in AttributeMode mode
+        );
+
+        /**
+         * The create_operation operation returns a new OperationDef
+         * contained in the ValueDef on which it is invoked.
+         */
+        OperationDef create_operation(
+            in RepositoryId id,
+            in Identifier name,
+            in VersionSpec version,
+            in IDLType result,
+            in OperationMode mode,
+            in ParDescriptionSeq params,
+            in ExceptionDefSeq exceptions,
+            in ContextIdSeq contexts
+        );
+    };
+
+    /**
+     * This structure provides a valuetype description.
+     */
+    struct ValueDescription
+    {
+        Identifier name;
+        RepositoryId id;
+        boolean is_abstract;
+        boolean is_custom;
+        RepositoryId defined_in;
+        VersionSpec version;
+        RepositoryIdSeq supported_interfaces;
+        RepositoryIdSeq abstract_base_values;
+        boolean is_truncatable;
+        RepositoryId base_value;
+    };
+
+    /**
+     * A ValueBoxDef object represents a value box definition. It merely
+     * identifies the IDL type_def that is being "boxed".
+     */
+    interface ValueBoxDef : 
+        TypedefDef
+    {
+        /**
+         * The original_type_def attribute identifies the type being
+         * boxed.
+         */
+        attribute IDLType original_type_def;
+    };
+
+    /**
+     * An AbstractInterfaceDef object represents an abstract interface definition.
+     */
+    interface AbstractInterfaceDef : 
+        InterfaceDef
+    {};
+
+    /**
+        * A LocalInterfaceDef object represents a local interface definition.
+        */
+
+    interface LocalInterfaceDef : 
+        InterfaceDef
+    {};
+
+    enum TCKind 
+    {                               // PIDL
+#       pragma version TCKind 2.3
+        tk_null, 
+        tk_void,
+        tk_short, 
+        tk_long, tk_ushort, tk_ulong,
+        tk_float, tk_double, tk_boolean, tk_char,
+        tk_octet, tk_any, tk_TypeCode, tk_Principal, tk_objref,
+        tk_struct, tk_union, tk_enum, tk_string,
+        tk_sequence, tk_array, tk_alias, tk_except,
+        tk_longlong, tk_ulonglong, tk_longdouble,
+        tk_wchar, tk_wstring, tk_fixed,
+        tk_value, tk_value_box,
+        tk_native, tk_abstract_interface,
+        tk_local_interface
+    };
+
+    typedef short ValueModifier;                        // PIDL
+    const ValueModifier VM_NONE = 0;
+    const ValueModifier VM_CUSTOM = 1;
+    const ValueModifier VM_ABSTRACT = 2;
+    const ValueModifier VM_TRUNCATABLE = 3;
+
+#ifdef EXPAND_PSEUDO_NEVER
+
+    // TypeCode is defined in advance and doesn't need to be redefined here.
+
+    interface TypeCode
+    {                            // PIDL
+#       pragma version TypeCode 2.3
+        exception Bounds 
+        {};
+        
+        exception BadKind 
+        {};
+        
+        // for all TypeCode kinds
+        boolean equal ( in TypeCode tc );
+        
+        boolean equivalent ( in TypeCode tc );
+        
+        TypeCode get_compact_typecode();
+        
+        TCKind kind ();
+        
+        // for tk_objref, tk_struct,    tk_union,  tk_enum, tk_alias,
+        //     tk_value,  tk_value_box, tk_native, tk_abstract_interface
+        // and tk_except
+        RepositoryId id () 
+            raises ( BadKind );
+
+        // for tk_objref, tk_struct,    tk_union,  tk_enum, tk_alias,
+        //     tk_value,  tk_value_box, tk_native, tk_abstract_interface
+        // and tk_except
+        Identifier name () 
+            raises ( BadKind );
+
+        // for tk_struct, tk_union, tk_enum, tk_value,
+        // and tk_except
+        unsigned long member_count () 
+            raises ( BadKind );
+        
+        Identifier member_name ( in unsigned long index )
+            raises ( BadKind, Bounds );
+            
+        // for tk_struct, tk_union, tk_value, and tk_except
+        TypeCode member_type ( in unsigned long index )
+            raises ( BadKind, Bounds );
+            
+        // for tk_union
+        any member_label ( in unsigned long index )
+            raises ( BadKind, Bounds );
+            
+        TypeCode discriminator_type () 
+            raises ( BadKind );
+            
+        long default_index () 
+            raises ( BadKind );
+            
+        // for tk_string, tk_sequence, and tk_array
+        unsigned long length () 
+            raises ( BadKind );
+            
+        // for tk_sequence, tk_array, tk_value_box, and tk_alias
+        TypeCode content_type () 
+            raises ( BadKind );
+            
+        // for tk_fixed
+        unsigned short fixed_digits() 
+            raises ( BadKind );
+            
+        short fixed_scale() 
+            raises ( BadKind );
+            
+        // for tk_value
+        Visibility member_visibility( in unsigned long index )
+            raises( BadKind, Bounds );
+            
+        ValueModifier type_modifier() 
+            raises( BadKind );
+        
+        TypeCode concrete_base_type() 
+            raises( BadKind );
+    };
+
+#endif // EXPAND_PSEUDO_NEVER_
+
+    /**
+     * TypeCodeFactory, creates typecodes.
+     *
+     * @since CORBA 3.0
+     */
+    interface TypeCodeFactory
+    {
+        TypeCode create_struct_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in StructMemberSeq members
+        );
+
+        TypeCode create_union_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in TypeCode discriminator_type,
+            in UnionMemberSeq members
+        );
+
+        TypeCode create_enum_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in EnumMemberSeq members
+        );
+
+        TypeCode create_alias_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in TypeCode original_type
+        );
+
+        TypeCode create_exception_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in StructMemberSeq members
+        );
+
+        TypeCode create_interface_tc (
+            in RepositoryId id,
+            in Identifier name
+        );
+
+        TypeCode create_string_tc (
+            in unsigned long bound
+        );
+
+        TypeCode create_wstring_tc (
+            in unsigned long bound
+        );
+
+        TypeCode create_fixed_tc (
+            in unsigned short digits,
+            in unsigned short scale
+        );
+
+        TypeCode create_sequence_tc (
+            in unsigned long bound,
+            in TypeCode element_type
+        );
+
+        /**
+         * @deprecated
+         */
+        TypeCode create_recursive_sequence_tc (
+            in unsigned long bound,
+            in unsigned long offset
+        );
+
+        TypeCode create_array_tc (
+            in unsigned long length,
+            in TypeCode element_type
+        );
+
+        TypeCode create_value_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in ValueModifier type_modifier,
+            in TypeCode concrete_base,
+            in ValueMemberSeq members
+        );
+
+        TypeCode create_value_box_tc (
+            in RepositoryId id,
+            in Identifier name,
+            in TypeCode boxed_type
+        );
+
+        TypeCode create_native_tc (
+            in RepositoryId id,
+            in Identifier name
+        );
+
+        TypeCode create_recursive_tc(
+            in RepositoryId id
+        );
+
+        TypeCode create_abstract_interface_tc(
+            in RepositoryId id,
+            in Identifier name
+        );
+
+        TypeCode create_local_interface_tc (
+            in RepositoryId id,
+            in Identifier name
+        );
+
+        TypeCode create_component_tc (
+            in RepositoryId id,
+            in Identifier name
+        );
+
+        TypeCode create_home_tc (
+            in RepositoryId id,
+            in Identifier name
+        );
+    };
+};
+
+#endif // _CORBA_InterfaceRepository_IDL_

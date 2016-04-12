@@ -1,0 +1,29 @@
+// File: Dynamic.idl
+// PortableInterceptor submission.
+
+#ifndef _Dynamic_IDL_
+#define _Dynamic_IDL_
+
+#include <orb.idl>
+
+#pragma prefix "omg.org"
+
+module Dynamic 
+{
+
+    struct Parameter
+    {
+        any argument;
+        CORBA::ParameterMode mode;
+    };
+
+    typedef sequence<Parameter> ParameterList;
+
+    typedef CORBA::StringSeq ContextList;
+
+    typedef sequence<CORBA::TypeCode> ExceptionList;
+
+    typedef CORBA::StringSeq RequestContext;
+};
+
+#endif // _Dynamic_IDL_

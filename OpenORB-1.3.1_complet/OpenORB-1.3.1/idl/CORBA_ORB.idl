@@ -1,0 +1,48 @@
+// File: CORBA_ORB.idl
+// CORBA 2.3, Chapter 4
+// CORBA 2.3, Chapter 7
+
+#ifndef _CORBA_ORB_IDL_
+#define _CORBA_ORB_IDL_
+
+// This file contains extra things in the orb package which by convention
+// are pseudo idl, but map out exactly anyhow.
+
+// It also contains the deprecated, but neccicary WrongTransaction
+// exception, which was missing from 00-04-01
+
+#pragma prefix "omg.org"
+
+module CORBA 
+{
+
+    native AbstractBase;
+#pragma javaNativeMap AbstractBase "java.lang.Object"
+
+    typedef unsigned short ServiceType;
+    typedef unsigned long ServiceOption;
+    typedef unsigned long ServiceDetailType;
+
+    const ServiceType Security = 1;
+
+    typedef sequence<octet> OctetSeq;
+
+    struct ServiceDetail
+    {
+        ServiceDetailType service_detail_type;
+        OctetSeq service_detail;
+    };
+
+    typedef sequence<ServiceDetail> ServiceDetailSeq;
+
+    struct ServiceInformation
+    {
+        ServiceDetailSeq service_options;
+        ServiceDetailSeq service_details;
+    };
+
+    native ValueFactory;
+#pragma javaNativeMap ValueFactory "org.omg.CORBA.portable.ValueFactory"
+};
+
+#endif _CORBA_ORB_IDL_

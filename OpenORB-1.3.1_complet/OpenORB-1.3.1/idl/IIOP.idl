@@ -1,0 +1,55 @@
+// File: IIOP.idl
+// From CORBA 2.3: Chapter 15, General Inter-ORB Protocol
+
+#ifndef _IIOP_IDL_
+#define _IIOP_IDL_
+
+#include "IOP.idl"
+
+#pragma prefix "omg.org"
+
+module IIOP 
+{       // IDL extended for version 1.1 and 1.2
+
+    typedef sequence<octet> OctetSeq;
+
+    struct Version
+    {
+        octet major;
+        octet minor;
+    };
+
+    struct ProfileBody_1_0
+    { // renamed from ProfileBody
+        Version iiop_version;
+        string host;
+        unsigned short port;
+        OctetSeq object_key;
+    };
+
+    struct ProfileBody_1_1
+    { // also used for 1.2
+        Version iiop_version;
+        string host;
+        unsigned short port;
+        OctetSeq object_key;
+        // Added in 1.1 unchanged for 1.2
+        IOP::TaggedComponentSeq components;
+    };
+
+    struct ListenPoint
+    {
+        string host;
+        unsigned short port;
+    };
+
+    typedef sequence<ListenPoint> ListenPointList;
+
+    struct BiDirIIOPServiceContext
+    { // BI_DIR_IIOP Service Context
+        ListenPointList listen_points;
+    };
+};
+
+#endif // _IIOP_IDL_
+

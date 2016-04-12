@@ -1,0 +1,496 @@
+/**
+ * The INS ( Interoperable Naming Service ) is an extended version of
+ * the standard name service. It provides a new interface
+ * NamingContextEx that gives several methods to manage CORBA URL.
+ */
+
+#ifndef _INTEROPERABLE_NAMING_SERVICE_IDL_
+#define _INTEROPERABLE_NAMING_SERVICE_IDL_
+
+#pragma prefix "omg.org"
+
+//
+// Interoperable Naming Service IDL Description
+//
+// (c) 1999, Distributed Object Group
+// Developed by Jerome DANIEL
+//
+
+/**
+ * This module provides all types and interfaces needed to bind,
+ * rebind and resolve objects.
+ *
+ * @deprecated This file will be removed in the future. It is duplicated
+ * here but belongs to the NamingService.
+ */
+module CosNaming
+{
+    /**
+     * A simple string definition
+     */
+    typedef string Istring;
+
+    /**
+     * This struct provides a basic structure to named an element into
+     * the naming graph.  Each node and object have are identified with
+     * a NameComponent.
+     */
+    struct NameComponent
+    {
+        Istring id;
+        Istring kind;
+    };
+
+    /**
+     * To identify a specific node into the naming graph we use its name
+     * ( which is in fact a path to the element ). A name is just a
+     * sequence of NameComponent.
+     */
+    typedef sequence<NameComponent> Name;
+
+    /**
+     * The BindingType defines the possible node type. Indeed, it is
+     * possible to have two kinds of nodes into the naming graph. An
+     * object ( identify by nobject ) or a naming context ( identify by
+     * ncontext ).
+     */
+    enum BindingType {nobject, ncontext};
+
+    /**
+     * This structure defines a naming graph node. A node is the
+     * association of a name and a binding type.
+     */
+    struct Binding
+    {
+        Name binding_name;
+        BindingType binding_type;
+    };
+
+    /**
+     * This definition provides a sequence of bindind to symbolize the
+     * naming graph path.
+     */
+    typedef sequence<Binding> BindingList;
+
+    /**
+     * A forward declaration for the binding iterator interface.
+     */
+    interface BindingIterator;
+
+    /**
+     * This interface provides all functions to bind, rebind and resolve
+     * an object into the naming graph.
+     */
+    interface NamingContext
+    {
+        /**
+         * This enum defines several constants to speficy an exception
+         * reason for the NotFound exception. Its values are :
+         *
+         * - missing_node which implies that in the asked path a node is
+         * invalid.
+         *
+         * - not_context which implies that the asked naming context is
+         * not a naming context ( so, it is an object ).
+         *
+         * - not_object which implies that the asked object is not an
+         * object ( but a naming context ).
+         */
+        enum NotFoundReason
+        {
+            missing_node,
+            not_context,
+            not_object
+        };
+
+        /**
+         * This exception is raises when an object or a naming context is
+         * not found. It provides additionnal information which are the
+         * reason of this exception and the part of the name that the name
+         * server was not able to use.
+         */
+        exception NotFound
+        {
+            NotFoundReason why;
+            Name rest_of_name;
+        };
+
+        /**
+         * This exception is raised when an operation was not possible on
+         * a specific naming context. In this case, this exception
+         * provides several additionnal information : the naming context
+         * where the operation was not possible and the part of the name
+         * that the name server was not able to use.
+         */
+        exception CannotProceed
+        {
+            NamingContext cxt;
+            Name rest_of_name;
+        };
+
+
+        /**
+         * This exception is raised if an invalid name is provide to a
+         * name server operation.
+         */
+        exception InvalidName 
+        {};
+
+        /**
+         * This exception is raised when you try to bind a naming context
+         * or an object and if it is already bound. In this case, if you
+         * want to update this node information you have to use a rebind
+         * operation.
+         */
+        exception AlreadyBound 
+        {};
+
+        /**
+         * This exception is raised if you try to destroy a naming context
+         * and if this naming context is simply not empty.
+         */
+        exception NotEmpty 
+        {};
+
+        /**
+         * Creates a binding of a name and an object in the naming
+         * context. Naming contexts that are bound using bind do not
+         * participate in name resolution when compound names are passed
+         * to be resolved.
+         *
+         * @param   n   The compound name for the object to bind
+         * @param   obj The object to bind
+         *
+         * @exception   NotFound        Indicates the name does not identify a binding.
+         *
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception Indicates the name is invalid. (A name of length 0
+         *                              is invalid; implementations may place other
+         *                              restrictions on names.)
+         * @exception AlreadyBound Indicates an object is already bound to
+         *                              the specified name. Only one object can be bound
+         *                              to a particular name in a context. The bind and
+         *                              the bind_context operations raise the
+         *                              AlreadyBound exception if the name is bound in
+         *                              the context; the rebind and rebind_context
+         *                              operations unbind the name and rebind the name
+         *                              to the object passed as an argument.
+         */
+        void bind( in Name n, in Object obj )
+            raises( NotFound, CannotProceed, InvalidName, AlreadyBound );
+
+        /**
+         * Creates a binding of a name and an object in the naming context
+         * even if the name is already bound in the context. Naming
+         * contexts that are bound using rebind do not participate in name
+         * resolution when compound names are passed to be resolved.
+         *
+         * @param   n   The compound name for the object to rebind
+         * @param   obj The object to rebind
+         *
+         * @exception   NotFound        Indicates the name does not identify a binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         * @exception AlreadyBound Indicates an object is already bound to
+         *                              the specified name. Only one object can be bound
+         *                              to a particular name in a context. The bind and
+         *                              the bind_context operations raise the
+         *                              AlreadyBound exception if the name is bound in
+         *                              the context; the rebind and rebind_context
+         *                              operations unbind the name and rebind the name
+         *                              to the object passed as an argument.
+         */
+        void rebind( in Name n, in Object obj )
+            raises( NotFound, CannotProceed, InvalidName );
+
+        /**
+         * Names an object that is a naming context. Naming contexts that
+         * are bound using bind_context() participate in name resolution
+         * when compound names are passed to be resolved.
+         *
+         * @param   n   The compound name for the naming context to bind
+         * @param   obj The naming context to bind
+         *
+         * @exception   NotFound        Indicates the name does not identify a binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         * @exception AlreadyBound Indicates an object is already bound to
+         *                              the specified name. Only one object can be bound
+         *                              to a particular name in a context. The bind and
+         *                              the bind_context operations raise the
+         *                              AlreadyBound exception if the name is bound in
+         *                              the context; the rebind and rebind_context
+         *                              operations unbind the name and rebind the name
+         *                              to the object passed as an argument.
+         */
+        void bind_context( in Name n, in NamingContext nc )
+            raises( NotFound, CannotProceed, InvalidName, AlreadyBound );
+
+        /**
+         * Creates a binding of a name and a naming context in the naming
+         * context even if the name is already bound in the
+         * context. Naming contexts that are bound using rebind_context()
+         * participate in name resolution when compound names are passed
+         * to be resolved.
+         *
+         * @param   n   The compound name for the naming context to rebind
+         * @param   obj The naming context to rebind
+         *
+         * @exception NotFound Indicates the name does not identify a
+         *                binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         * @exception AlreadyBound Indicates an object is already bound to
+         *                              the specified name. Only one object can be bound
+         *                              to a particular name in a context. The bind and
+         *                              the bind_context operations raise the
+         *                              AlreadyBound exception if the name is bound in
+         *                              the context; the rebind and rebind_context
+         *                              operations unbind the name and rebind the name
+         *                              to the object passed as an argument.
+         */
+        void rebind_context( in Name n, in NamingContext nc )
+            raises( NotFound, CannotProceed, InvalidName );
+
+        /**
+         * Names can have multiple components; therefore, name resolution
+         * can traverse multiple contexts.
+         *
+         * @param   n   The compound name for the object to resolve.
+         * @return  the resolved object.
+         *
+         * @exception   NotFound        Indicates the name does not identify a binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         */
+        Object resolve ( in Name n )
+            raises( NotFound, CannotProceed, InvalidName );
+
+        /**
+         * The unbind operation removes a name binding from a context.
+         *
+         * @param n The compound name for the node to unbind ( an object
+         * or a naming context )
+         *
+         * @exception   NotFound        Indicates the name does not identify a binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         */
+        void unbind( in Name n )
+            raises( NotFound, CannotProceed, InvalidName );
+
+        /**
+         * This operation returns a naming context implemented by the same
+         * naming server as the context on which the operation was
+         * invoked. The new context is not bound to any name.
+         *
+         * @return A new naming context ( this new naming context must be
+         * binded )
+         */
+        NamingContext new_context();
+
+        /**
+         * This operation creates a new context and binds it to the name
+         * supplied as an argument. The newly-created context is
+         * implemented by the same naming server as the context in which
+         * it was bound (that is, the naming server that implements the
+         * context denoted by the name argument excluding the last
+         * component).
+         *
+         * @param n The compound name for the naming context to create and
+         * to bind.
+         *
+         * @exception NotFound Indicates the name does not identify a
+         * binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                given up for some reason. The client, however,
+         *                may be able to continue the operation at the
+         *                returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         * @exception AlreadyBound Indicates an object is already bound to
+         *                              the specified name. Only one object can be bound
+         *                              to a particular name in a context.
+         */
+        NamingContext bind_new_context( in Name n )
+            raises( NotFound, AlreadyBound, CannotProceed, InvalidName );
+
+        /**
+         * The destroy operation deletes a naming context.
+         *
+         * @exception NotEmpty If the naming context contains bindings,
+         * the NotEmpty exception is raised.
+         */
+        void destroy( )
+            raises( NotEmpty );
+
+        /**
+         * The list operation allows a client to iterate through a set of
+         * bindings in a naming context.
+         *
+         * @param   how_many    Maximum number of elements into the binding list.
+         * @param bl This parameter returns a list that contains all node
+         * of the naming context
+         * @param bi This parameter returns a binding iterator to iterate
+         * in the list.
+         *
+         * @return The list operation returns at most the requested number
+         * of bindings in BindingList bl.
+         *              - If the naming context contains additional bindings,
+         *              the list operation returns a BindingIterator with the
+         *              additional bindings.
+         *              - If the naming context does not contain additional
+         *              bindings, the binding iterator is a nil object
+         *              reference.
+         */
+        void list( in unsigned long how_many, out BindingList bl, out BindingIterator bi );
+    };
+
+    /**
+     * This interface provides an iterator to navigate into a naming
+     * context.
+     */
+
+    interface BindingIterator
+    {
+        /**
+         * This operation returns the next binding.
+         *
+         * @return If there are no more bindings, false is returned.
+         */
+        boolean next_one( out Binding b );
+
+        /**
+         * This operation returns at most the requested number of bindings.
+         */
+        boolean next_n( in unsigned long how_many, out BindingList bl );
+
+        /**
+         * This operation destroys the iterator.
+         */
+        void destroy();
+    };
+
+    /**
+     * This interface has been introduced for the Interoperable Name
+     * Service. This interface extends NamingContext and provides
+     * several new methods to manage CORBA URL.
+     */
+
+    interface NamingContextExt : 
+        NamingContext
+    {
+        /**
+         * This typedef provides a data type for a stringified reference.
+         */
+        typedef string StringName;
+
+        /**
+         * This typedef defines a type to speficy an Address.
+         */
+        typedef string Address;
+
+        /**
+         * This typedef provides a data type for an URL string.
+         */
+        typedef string URLString;
+
+        /**
+         * This operation accepts Name and returns a stringified name.
+         *
+         * @param   n   the name to stringified.
+         * @exception InvalidName This exception is raised if the name is
+         * invalid.
+         */
+        StringName to_string( in Name n )
+            raises( InvalidName );
+
+        /**
+         * This operation accepts a stringified name and returns a Name.
+         *
+         * @param   sn  the stringified name to transform to a name.
+         * @exception InvalideName This exception is raised if the
+         *                              stringified name is syntactically malformed or
+         *                              violates an implementation limit.
+         */
+        Name to_name( in StringName sn )
+            raises( InvalidName );
+
+        /**
+         * This exception is raised if an Address is invalid.
+         */
+        exception InvalidAddress 
+        {};
+
+        /**
+         * This operation takes an URL address and performs any escapes
+         * necessary on the stringified name and returns a fully formed
+         * URL string.
+         *
+         * @param   addr    the address ( for example myhost.xyz.com )
+         * @param   sn      the stringified name to add to the URL
+         * @return  the URL string format.
+         *
+         * @exception InvalidAddress This exception is raises if a address
+         *                              is invalid ( it means that the address does not
+         *                              respect the address format ).
+         * @exception InvalidName This exception is raised if the
+         *                              stringified name is syntactically malformed or
+         *                              violates an implementation limit.
+         */
+        URLString to_url( in Address addr, in StringName sn )
+            raises( InvalidAddress, InvalidName );
+
+        /**
+         * This is a convenience operation that performs a resolve in the
+         * same manner as NamingContext::resolve.  It accepts a
+         * stringified name as an argument instead of a Name.
+         *
+         * @param n the stringified name of the object (or naming context)
+         * to resolve
+         * @return the resolved object.
+         *
+         * @exception   NotFound        Indicates the name does not identify a binding.
+         * @exception CannotProceed Indicates that the implementation has
+         *                              given up for some reason. The client, however,
+         *                              may be able to continue the operation at the
+         *                              returned naming context.
+         * @exception InvalidName Indicates the name is invalid. (A name
+         *                              of length 0 is invalid; implementations may
+         *                              place other restrictions on names.)
+         */
+        Object resolve_str( in StringName n )
+            raises( NotFound, CannotProceed, InvalidName );
+    };
+};
+
+#endif

@@ -1,0 +1,94 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_COMPLEX_IDL_
+#define _TEST_COMPLEX_IDL_
+
+#pragma prefix "openorb.org"
+
+module test
+{
+    module iiop
+    {
+        module complex
+        {
+            struct SimpleStruct
+            {
+                long n;
+            };
+
+            struct ComplexStruct
+            {
+                SimpleStruct memb;
+
+                string s;
+            };
+
+            struct RecursiveStruct;
+
+            typedef sequence<RecursiveStruct, 1> RSPtr;
+
+            struct RecursiveStruct
+            {
+                string name;
+
+                RSPtr left;
+
+                RSPtr right;
+            };
+
+            enum SimpleEnum { ONE, TWO, THREE };
+
+            union EnumUnion switch( SimpleEnum )
+            {
+                case ONE:
+                    string s1;
+                case TWO:
+                    long l2;
+                case THREE:
+                    SimpleStruct ss3;
+            };
+
+            union LongUnion switch( long )
+            {
+                case 0:
+                    string s0;
+                case 1:
+                    long l1;
+                case 2:
+                case 3:
+                    octet o23;
+                default:
+                    SimpleStruct ssd;
+            };
+
+            typedef fixed<5, 2> Fixed52;
+
+            interface EchoComplex
+            {
+                any echo_any( in any a );
+
+                SimpleStruct echo_simple_s( in SimpleStruct ss );
+
+                ComplexStruct echo_complex_s( in ComplexStruct ss );
+
+                RecursiveStruct echo_recursive_s( in RecursiveStruct rs );
+
+                SimpleEnum echo_simple_e( in SimpleEnum se );
+
+                EnumUnion echo_enum_u( in EnumUnion eu );
+
+                LongUnion echo_long_u( in LongUnion lu );
+
+                Fixed52 echo_fixed( in Fixed52 fi );
+            };
+        };
+    };
+};
+
+#endif

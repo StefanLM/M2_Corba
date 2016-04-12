@@ -1,0 +1,4 @@
+Second TEST file.
+-----------------
+For the second time, this file is read by the server then send to the client.
+

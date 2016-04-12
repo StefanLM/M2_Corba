@@ -1,0 +1,54 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_DII_IDL_
+#define _TEST_DII_IDL_
+
+#pragma prefix "openorb.org"
+
+module test
+{
+    module dynamic
+    {
+
+        typedef sequence<string> StringSeq;
+
+        struct Person
+        {
+            string firstname;
+
+            string surname;
+
+            long age;
+        };
+        typedef Person PersonTypeDef;
+
+        interface DIITarget
+        {
+            attribute string name;
+
+            void hello();
+
+            oneway void hello_oneway();
+
+            string message();
+            float add( in float nb1, in float nb2 );
+
+            exception DivideByZero {};
+
+            float divide( in float nb1, in float nb2 ) raises ( DivideByZero );
+            void clauseContext() context ( "Testing" );
+
+            StringSeq sequenceTest( in StringSeq seq );
+
+            Person structTest( in Person p );
+        };
+    };
+};
+
+#endif

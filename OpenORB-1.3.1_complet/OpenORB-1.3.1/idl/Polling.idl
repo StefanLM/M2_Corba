@@ -1,0 +1,45 @@
+// File: Polling.idl
+// CORBA 2.3, Chapter 7
+
+#ifndef _Polling_IDL_
+#define _Polling_IDL_
+
+#pragma prefix "omg.org"
+
+module CORBA 
+{
+    local interface PollableSet;
+
+    local interface Pollable
+    {
+        boolean is_ready( in unsigned long timeout );
+        
+        PollableSet create_pollable_set( );
+    };
+
+    local interface DIIPollable : 
+        Pollable
+    {};
+
+    local interface PollableSet
+    {
+
+        exception NoPossiblePollable { };
+
+        exception UnknownPollable { };
+
+        DIIPollable create_dii_pollable();
+
+        void add_pollable( in Pollable potential );
+
+        Pollable poll( in unsigned long timeout )
+            raises( NoPossiblePollable );
+
+        void remove( in Pollable potential )
+            raises( UnknownPollable );
+
+        unsigned short number_left( );
+    };
+};
+
+#endif // _Polling_IDL_

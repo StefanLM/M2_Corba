@@ -1,0 +1,19 @@
+// File: CORBA_Current.idl
+// CORBA 2.3, Chapter 4
+
+#ifndef _CORBA_Current_IDL_
+#define _CORBA_Current_IDL_
+
+#pragma prefix "omg.org"
+
+module CORBA 
+{
+
+    /**
+     * interface for the Current object
+     */
+    local interface Current
+    {};
+};
+
+#endif // _CORBA_Current_IDL_

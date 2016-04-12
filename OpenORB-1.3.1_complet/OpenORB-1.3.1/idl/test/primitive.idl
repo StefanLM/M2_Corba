@@ -1,0 +1,110 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_PRIMITIVE_IDL_
+#define _TEST_PRIMITIVE_IDL_
+
+#pragma prefix "openorb.org"
+
+module test
+{
+    module iiop
+    {
+        module constants
+        {
+            const long hex1 = 0xda;
+            const long hex2 = 0x00db;
+            const long hex3 = 0x00dc;
+            const long hex4 = 0x00d1;
+            const long hex5 = 0x00d2;
+            const long hex6 = 0x00d3;
+            const long hex7 = 0x00aa;
+
+            const short twelve_dec =  12;
+            const short twelve_oct = 014;
+            const short twelve_hex = 0XC;
+        };
+
+        module primitive
+        {
+            interface Echo
+            {
+                void ping();
+
+                void raise_exception();
+
+                boolean             echo_boolean( in boolean arg );
+
+                CORBA::BooleanSeq   echo_boolean_s( in CORBA::BooleanSeq arg );
+
+                octet               echo_octet( in octet arg );
+
+                CORBA::OctetSeq     echo_octet_s( in CORBA::OctetSeq arg );
+
+                short               echo_short( in short arg );
+
+                CORBA::ShortSeq     echo_short_s( in CORBA::ShortSeq arg );
+
+                unsigned short      echo_ushort( in unsigned short arg );
+
+                CORBA::UShortSeq    echo_ushort_s( in CORBA::UShortSeq arg );
+
+                long                echo_long( in long arg );
+
+                CORBA::LongSeq      echo_long_s( in CORBA::LongSeq arg );
+
+                unsigned long       echo_ulong( in unsigned long arg );
+
+                CORBA::ULongSeq     echo_ulong_s( in CORBA::ULongSeq arg );
+
+                long long           echo_longlong( in long long arg );
+
+                CORBA::LongLongSeq  echo_longlong_s( in CORBA::LongLongSeq arg );
+
+                unsigned long long  echo_ulonglong( in unsigned long long arg );
+
+                CORBA::ULongLongSeq echo_ulonglong_s( in CORBA::ULongLongSeq arg );
+
+                float               echo_float( in float arg );
+
+                CORBA::FloatSeq     echo_float_s( in CORBA::FloatSeq arg );
+
+                double              echo_double( in double arg );
+
+                CORBA::DoubleSeq    echo_double_s( in CORBA::DoubleSeq arg );
+
+                char                echo_char( in char arg );
+
+                CORBA::CharSeq      echo_char_s( in CORBA::CharSeq arg );
+
+                wchar               echo_wchar( in wchar arg );
+
+                CORBA::WCharSeq     echo_wchar_s( in CORBA::WCharSeq arg );
+
+                string              echo_string( in string arg );
+
+                CORBA::StringSeq    echo_string_s( in CORBA::StringSeq arg );
+
+                wstring             echo_wstring( in wstring arg );
+
+                CORBA::WStringSeq   echo_wstring_s( in CORBA::WStringSeq arg );
+
+                any                 echo_any( in any arg);
+
+                CORBA::AnySeq       echo_any_s( in CORBA::AnySeq arg );
+
+                CORBA::TypeCode     echo_TypeCode( in CORBA::TypeCode arg );
+
+                Object              echo_Object( in Object arg);
+            };
+#pragma version Echo 1.1
+        };
+    };
+};
+
+#endif

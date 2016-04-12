@@ -1,0 +1,34 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_STATE_IDL_
+#define _TEST_STATE_IDL_
+
+#pragma prefix "openorb.org"
+
+module test
+{
+    module iiop
+    {
+        module state
+        {
+            interface StateTarget
+            {
+                void ping();
+
+                boolean sleep( in unsigned long long time );
+
+                void call_ping( in StateTarget test );
+
+                boolean call_sleep( in StateTarget test, in unsigned long long time );
+            };
+        };
+    };
+};
+
+#endif

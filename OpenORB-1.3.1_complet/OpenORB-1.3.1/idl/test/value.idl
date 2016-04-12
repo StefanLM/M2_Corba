@@ -1,0 +1,142 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+#ifndef _TEST_VALUE_IDL_
+#define _TEST_VALUE_IDL_
+
+#pragma prefix "openorb.org"
+
+module test
+{
+    module iiop
+    {
+        module value
+        {
+            valuetype LongBox long;
+
+            valuetype LongSeqBox sequence<long>;
+
+            valuetype ValueA
+            {
+                public string str;
+
+                public long l;
+            };
+
+            valuetype ValueB
+            {
+                public string str;
+
+                private long l;
+
+                readonly attribute long ls;
+
+                factory init( in long l );
+            };
+
+            valuetype ValueC : ValueA
+            {
+                public long n;
+            };
+
+            valuetype ValueD : truncatable ValueA
+            {
+                public long n;
+            };
+
+            interface ValueERemote
+            {
+                void print();
+            };
+
+            valuetype ValueE supports ValueERemote
+            {
+              public string prefix;
+            };
+
+            custom valuetype ValueF
+            {
+                public long l;
+            };
+
+            valuetype ValueG
+            {
+                public ValueG left;
+
+                public string name;
+
+                public ValueG middle;
+
+                public ValueG right;
+
+                public long idx;
+
+                public ValueG parent;
+            };
+
+            abstract interface AbstractA
+            {
+                void print();
+            };
+
+            /**
+             * This will always be passed by reference. (type argument == 0)
+             */
+            interface AbstractA1 : AbstractA
+            {};
+
+            /**
+             * This will always be passed by copy. (type argument == 1)
+             */
+            valuetype AbstractA2 supports AbstractA
+            {};
+
+            /**
+             * This can be passed either as a reference (type argument == 2)
+             * or by copy (type argument == 3).
+             */
+            valuetype AbstractA3 supports AbstractA1
+            {};
+
+            interface TestTC01
+            {
+               any echo_any( in any val );
+
+               CORBA::TypeCode echo_TypeCode( in CORBA::TypeCode arg );
+
+               LongBox echo_longBox( in LongBox val );
+
+               LongSeqBox echo_longBoxSeq( in LongSeqBox val );
+
+               ValueBase get_value( in long type );
+
+               ValueA get_value_a( in long type );
+
+               ValueB get_value_b();
+
+               ValueC get_value_c();
+
+               ValueD get_value_d();
+
+               ValueERemote get_value_e_remote();
+
+               ValueE get_value_e();
+
+               ValueF get_value_f();
+
+               ValueG get_value_g();
+
+               CORBA::AbstractBase get_abstract( in long type );
+
+               AbstractA get_abstract_a( in long type );
+           };
+        };
+    };
+};
+
+#endif

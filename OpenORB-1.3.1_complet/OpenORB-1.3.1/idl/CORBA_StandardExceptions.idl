@@ -1,0 +1,380 @@
+// File: CORBA_StandardExceptions.idl
+// CORBA 2.3, Chapter 3
+
+#ifndef _CORBA_StandardExceptions_IDL_
+#define _CORBA_StandardExceptions_IDL_
+
+
+#pragma prefix "omg.org"
+
+module CORBA 
+{
+
+    const unsigned long OMGVMCID = 0x4f4d0000;
+
+#ifdef __IDL_TO_JAVA__
+#define ex_body {unsigned long minor; CompletionStatus completed;}
+
+    // the java language mapping renames completion_status as CompletionStatus
+    // still use the proper typecode for it tho.
+
+    enum CompletionStatus
+    {
+        COMPLETED_YES,
+        COMPLETED_NO,
+        COMPLETED_MAYBE
+    };
+    typeId CompletionStatus "IDL:omg.org/CORBA/completion_status:1.0";
+
+    enum ExceptionType
+    {
+        NO_EXCEPTION,
+        USER_EXCEPTION,
+        SYSTEM_EXCEPTION
+    };
+    typeId ExceptionType "IDL:omg.org/CORBA/exception_type:1.0";
+
+#else
+#define ex_body {unsigned long minor; completion_status completed;}
+#endif
+
+    enum completion_status 
+    {
+        COMPLETED_YES,
+        COMPLETED_NO,
+        COMPLETED_MAYBE
+    };
+
+    enum exception_type 
+    {
+        NO_EXCEPTION,
+        USER_EXCEPTION,
+        SYSTEM_EXCEPTION
+    };
+
+    /**
+     * This exception is raised if an operation implementation throws a
+     * non-CORBA exception (such as an exception specific to the
+     * implementation’s programming language), or if an operation
+     * raises a user exception that does not appear in the
+     * operation’s raises expression. UNKNOWN is also raised if the
+     * server returns a system exception that is unknown to the
+     * client. (This can happen if the server uses a later version of
+     * CORBA than the client and new system exceptions have been added
+     * to the later version.)
+     */
+    exception UNKNOWN ex_body;
+
+    /**
+     * A parameter passed to a call is out of range or otherwise
+     * considered illegal. An ORB may raise this exception if null
+     * values or null pointers are passed to an operation (for language
+     * mappings where the concept of a null pointers or null values
+     * applies).  BAD_PARAM can also be raised as a result of client
+     * generating requests with incorrect parameters using the DII.
+     */
+    exception BAD_PARAM ex_body;
+
+    /**
+     * The ORB run time has run out of memory.
+     */
+    exception NO_MEMORY ex_body;
+
+    /**
+     * This exception indicates that an implementation limit was
+     * exceeded in the ORB run time. For example, an ORB may reach the
+     * maximum number of references it can hold simultaneously in an
+     * address space, the size of a parameter may have exceeded the
+     * allowed maximum, or an ORB may impose a maximum on the number of
+     * clients or servers that can run simultaneously.
+     */
+    exception IMP_LIMIT ex_body;
+
+    /**
+     * This exception is raised if communication is lost while an
+     * operation is in progress, after the request was sent by the
+     * client, but before the reply from the server has been returned to
+     * the client.
+     */
+    exception COMM_FAILURE ex_body;
+
+    /**
+     * This exception indicates that an object reference is internally
+     * malformed. For example, the repository ID may have incorrect
+     * syntax or the addressing information may be invalid. This
+     * exception is raised by <b>ORB::string_to_object</b> if the passed
+     * string does not decode correctly.  An ORB may choose to detect
+     * calls via nil references (but is not obliged to do detect
+     * them). INV_OBJREF is used to indicate this.
+     */
+    exception INV_OBJREF ex_body;
+
+    /**
+     * An invocation failed because the caller has insufficient
+     * privileges.
+     */
+    exception NO_PERMISSION ex_body;
+
+    /**
+     * This exception indicates an internal failure in an ORB, for
+     * example, if an ORB has detected corruption of its internal data
+     * structures.
+     */
+    exception INTERNAL ex_body;
+
+    /**
+     * A request or reply from the network is structurally invalid. This
+     * error typically indicates a bug in either the client-side or
+     * server-side run time. For example, if a reply from the server
+     * indicates that the message contains 1000 bytes, but the actual
+     * message is shorter or longer than 1000 bytes, the ORB raises this
+     * exception. MARSHAL can also be caused by using the DII or DSI
+     * incorrectly, for example, if the type of the actual parameters
+     * sent does not agree with IDL signature of an operation.
+     */
+    exception MARSHAL ex_body;
+
+    /**
+     * An ORB has encountered a failure during its initialization, such
+     * as failure to acquire networking resources or detecting a
+     * configuration error.
+     */
+    exception INITIALIZE ex_body;
+
+    /**
+     * This exception indicates that even though the operation that was
+     * invoked exists (it has an IDL definition), no implementation for
+     * that operation exists. NO_IMPLEMENT can, for example, be raised
+     * by an ORB if a client asks for an object’s type definition
+     * from the interface repository, but no interface repository is
+     * provided by the ORB.
+     */
+    exception NO_IMPLEMENT ex_body;
+
+    /**
+     * The ORB has encountered a malformed type code (for example, a
+     * type code with an invalid <b>TCKind</b> value).
+     */
+    exception BAD_TYPECODE ex_body;
+
+    /**
+     * This indicates that an object reference denotes an existing
+     * object, but that the object does not support the operation that
+     * was invoked.
+     */
+    exception BAD_OPERATION ex_body;
+
+    /**
+     * The ORB has encountered some general resource limitation. For
+     * example, the run time may have reached the maximum permissible
+     * number of open connections.
+     */
+    exception NO_RESOURCES ex_body;
+
+    /**
+     * This exception is raised if a client attempts to retrieve the
+     * result of a deferred synchronous call, but the response for the
+     * request is not yet available.
+     */
+    exception NO_RESPONSE ex_body;
+
+    /**
+     * This exception indicates a persistent storage failure, for
+     * example, failure to establish a database connection or corruption
+     * of a database.
+     */
+    exception PERSIST_STORE ex_body;
+
+    /**
+     * This exception indicates that the caller has invoked operations
+     * in the wrong order. For example, it can be raised by an ORB if an
+     * application makes an ORB-related call without having correctly
+     * initialized the ORB first.
+     */
+    exception BAD_INV_ORDER ex_body;
+
+    /**
+     * TRANSIENT indicates that the ORB attempted to reach an object and
+     * failed. It is not an indication that an object does not
+     * exist. Instead, it simply means that no further determination of
+     * an object’s status was possible because it could not be
+     * reached. This exception is raised if an attempt to establish a
+     * connection fails, for example, because the server or the
+     * implementation repository is down.
+     */
+    exception TRANSIENT ex_body;
+
+    /**
+     * The ORB failed in an attempt to free dynamic memory, for example
+     * because of heap corruption or memory segments being locked.
+     */
+    exception FREE_MEM ex_body;
+
+    /**
+     * This exception indicates that an IDL identifier is syntactically
+     * invalid. It may be raised if, for example, an identifier passed
+     * to the interface repository does not conform to IDL identifier
+     * syntax, or if an illegal operation name is used with the DII.
+     */
+    exception INV_IDENT ex_body;
+
+    /**
+     * An invalid flag was passed to an operation (for example, when
+     * creating a DII request).
+     */
+    exception INV_FLAG ex_body;
+
+    /**
+     * An ORB raises this exception if it cannot reach the interface
+     * repository, or some other failure relating to the interface
+     * repository is detected.
+     */
+    exception INTF_REPOS ex_body;
+
+    /**
+     * An operation may raise this exception if a client invokes the
+     * operation but the passed context does not contain the context
+     * values required by the operation.
+     */
+    exception BAD_CONTEXT ex_body;
+
+    /**
+     * This exception typically indicates an administrative
+     * mismatch. For example, a server may have made an attempt to
+     * register itself with an implementation repository under a name
+     * that is already in use, or is unknown to the
+     * repository. OBJ_ADAPTER is also raised by the POA to indicate
+     * problems with application-supplied servant managers.
+     */
+    exception OBJ_ADAPTER ex_body;
+
+    /**
+     * This exception is raised if an ORB cannot convert the
+     * representation of data as marshaled into its native
+     * representation or vice-versa. For example, DATA_CONVERSION can be
+     * raised if wide character codeset conversion fails, or if an ORB
+     * cannot convert floating point values between different
+     * representations.
+     */
+    exception DATA_CONVERSION ex_body;
+
+    /**
+     * The OBJECT_NOT_EXIST exception is raised whenever an invocation
+     * on a deleted object was performed. It is an authoritative
+     * “hard” fault report. Anyone receiving it is allowed (even
+     * expected) to delete all copies of this object reference and to
+     * perform other appropriate “final recovery” style
+     * procedures.  Bridges forward this exception to clients, also
+     * destroying any records they may hold (for example, proxy objects
+     * used in reference translation). The clients could in turn purge
+     * any of their own data structures.
+     */
+    exception OBJECT_NOT_EXIST ex_body;
+
+    /**
+     * The TRANSACTION_REQUIRED exception indicates that the request
+     * carried a null transaction context, but an active transaction is
+     * required.
+     */
+    exception TRANSACTION_REQUIRED ex_body;
+
+    /**
+     * The TRANSACTION_ROLLEDBACK exception indicates that the
+     * transaction associated with the request has already been rolled
+     * back or marked to roll back. Thus, the requested operation either
+     * could not be performed or was not performed because further
+     * computation on behalf of the transaction would be fruitless.
+     */
+    exception TRANSACTION_ROLLEDBACK ex_body;
+
+    /**
+     * The INVALID_TRANSACTION indicates that the request carried an
+     * invalid transaction context. For example, this exception could be
+     * raised if an error occurred when trying to register a resource.
+     */
+    exception INVALID_TRANSACTION ex_body;
+
+    /**
+     * INV_POLICY is raised when an invocation cannot be made due to an
+     * incompatibility between Policy overrides that apply to the
+     * particular invocation.
+     *
+     * @since CORBA 2.3
+     */
+    exception INV_POLICY ex_body;
+
+    /**
+     * This exception is raised whenever meaningful communication is not
+     * possible between client and server native code sets.
+     *
+     * @since CORBA 2.3
+     */
+    exception CODESET_INCOMPATIBLE ex_body;
+
+    /**
+     * REBIND is raised when the current effective RebindPolicy has a
+     * value of NO_REBIND or NO_RECONNECT and an invocation on a bound
+     * object reference results in a LocateReply message with status
+     * OBJECT_FORWARD or a Reply message with status
+     * LOCATION_FORWARD. This exception is also raised if the current
+     * effective RebindPolicy has a value of NO_RECONNECT and a
+     * connection must be re-opened. The invocation can be retried once
+     * the effective RebindPolicy is changed to TRANSPARENT or binding
+     * is re-established through an invocation of
+     * CORBA::Object::validate_connection.
+     *
+     * @since CORBA 2.4
+     */
+    exception REBIND ex_body;
+
+    /**
+     * TIMEOUT is raised when no delivery has been made and the
+     * specified time-to-live period has been exceeded. It is a standard
+     * system exception because time-to-live QoS can be applied to any
+     * invocation.
+     *
+     * @since CORBA 2.4
+     */
+    exception TIMEOUT ex_body;
+
+    /**
+     * TRANSACTION_UNAVAILABLE exception is raised by the ORB when it
+     * cannot process a transaction service context because its
+     * connection to the Transaction Service has been abnormally
+     * terminated.
+     *
+     * @since CORBA 2.4
+     */
+    exception TRANSACTION_UNAVAILABLE ex_body;
+
+    /**
+     * TRANSACTION_MODE exception is raised by the ORB when it detects a
+     * mismatch between the TransactionPolicy in the IOR and the current
+     * transaction mode.
+     *
+     * @since CORBA 2.4
+     */
+    exception TRANSACTION_MODE ex_body;
+
+    /**
+     * The BAD_QOS exception is raised whenever an object cannot support
+     * the quality of service required by an invocation parameter that has
+     * a quality of service semantics associated with it.
+     *
+     * @since CORBA 2.4
+     */
+    exception BAD_QOS ex_body;
+};
+
+#endif // _CORBA_StandardExceptions_IDL_
+
+
+
+
+
+
+
+
+
+
+

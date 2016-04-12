@@ -1,0 +1,991 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>The Community OpenORB</title><meta content="DocBook XSL Stylesheets V1.48" name="generator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="book"><div class="titlepage"><div><h1 class="title"><a name="N10001"></a>The Community OpenORB</h1></div><div><h3 class="author">Chris Wood</h3><h3 class="author">Jerome Daniel</h3><h3 class="author">Michael Rumpf</h3></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><a href="#ch_intro">Introduction</a></dt><dt>1. <a href="#ch_overview">Overview</a></dt><dd><dl><dt><a href="#N10027">About OpenORB</a></dt><dt><a href="#N10065">OpenORB Architecture</a></dt><dt><a href="#N1007A">The OpenORB Kernel</a></dt></dl></dd><dt>2. <a href="#ch_compile">Compilation</a></dt><dt>3. <a href="#ch_install">Installation</a></dt><dt>4. <a href="#ch_config">Configuration</a></dt><dd><dl><dt><a href="#N1016D">Overview</a></dt><dt><a href="#N10195">OpenORB Configuration</a></dt><dt><a href="#N1023C">OpenORB Modules</a></dt><dt><a href="#N10277">Importing Dependencies</a></dt><dt><a href="#N102B1">OpenORB Profiles</a></dt><dt><a href="#N102DC">Bootstrapping OpenORB</a></dt><dt><a href="#N1036B">Java Properties</a></dt><dt><a href="#N103BC">The Command Line</a></dt><dt><a href="#N103E8">OpenORB Profiles</a></dt><dt><a href="#N1043D">Portable Interceptors</a></dt></dl></dd><dt>5. <a href="#N1045B">Deployment</a></dt><dd><dl><dt><a href="#N1045E">The OpenORB IDL Compiler</a></dt><dt><a href="#N1046C">IDL Reflection</a></dt><dt><a href="#N104C1">The OpenORB Naming Service</a></dt><dt><a href="#N10506">The Any Type</a></dt></dl></dd><dt>6. <a href="#N10517">Frequently Asked Questions</a></dt><dt>7. <a href="#N105E0">References</a></dt><dt>A. <a href="#N105EF">OpenORB Error Codes</a></dt></dl></div><div class="preface"><div class="titlepage"><div><h2 class="title"><a name="ch_intro"></a>Introduction</h2></div></div><p>
+		This document provides information required to use OpenORB.
+		It describes how to install, configure and use OpenORB.
+		It also explains how to use the IDL compiler and the Naming service.
+	</p><p>For any comments or questions about this documentation and
+        OpenORB, please send email to The Community OpenORB mailing list
+        <tt>&lt;<a href="mailto:openorb-devel@lists.sourceforge.net">openorb-devel@lists.sourceforge.net</a>&gt;</tt>.</p><p>This document is the first version of the OpenORB Programmers Guide.
+	It will be completed step by step.
+	Contributions would be greatly appreciated.</p></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="ch_overview"></a>Chapter 1. Overview</h2></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><a href="#N10027">About OpenORB</a></dt><dt><a href="#N10065">OpenORB Architecture</a></dt><dt><a href="#N1007A">The OpenORB Kernel</a></dt></dl></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N10027"></a>About OpenORB</h2></div></div><p>OpenORB is a CORBA Object Request Broker fully developed in
+        Java. It fully complies with the CORBA 2.4.2 specification and
+        provides many features, services and extensions.</p><p>OpenORB has been designed to provide a reliable foundation for
+        distributed applications. It combines all CORBA features with
+        implementation specific extensions, with the aim of being the
+        most powerful and complete CORBA implementation in Java.</p><p>OpenORB is the successor of JavaORB which is already widely used
+        all over the world: in Europe, America, China, Australia, and
+        other places. A large number of deployed applications, research
+	projects, and study projects are using JavaORB. Building on their experience
+	with JavaORB, the OpenORB team has defined a complete new architecture
+	to ensure that OpenORB is the best solution for applications needing high
+        scalability and high performance.</p><p>CORBA technology is becoming increasingly complex, and its feature
+	set is growing. Many users don't require all features
+        to be present in every ORB deployment. OpenORB is the most
+        complete CORBA implementation but not the biggest! Why?
+	Because OpenORB can be configured to fit only the user's requirements.
+	OpenORB is not monolithic middleware, it is a truly modular ORB.
+        </p><p>That means that users can define what mechanisms are needed by
+	their applications, so that OpenORB will be loaded with only those mechanisms.
+	OpenORB contains a kernel that has the ability to load only required parts during
+        bootstrap time.</p><p>Thus, OpenORB is the best way to have the best implementation,
+        the most complete solution and the most flexible platform!</p><p>The current implementation of OpenORB has the following
+        features:
+        <div class="itemizedlist"><ul type="features"><li style="list-style-type: features"><p>Fully compliant with CORBA 2.4.2</p></li><li style="list-style-type: features"><p>Fully developed in Java</p></li><li style="list-style-type: features"><p>Fully multithreaded ORB</p></li><li style="list-style-type: features"><p>Compliant with JDK 1.2 and 1.3</p></li><li style="list-style-type: features"><p>Truly modular ORB</p></li><li style="list-style-type: features"><p>XML Configuration file</p></li><li style="list-style-type: features"><p>Multiple Object Adapters: BOA and POA</p></li><li style="list-style-type: features"><p>IIOP 1.2, Bidirectional GIOP</p></li><li style="list-style-type: features"><p>Portable Interceptors</p></li><li style="list-style-type: features"><p>Interoperable Naming Service</p></li><li style="list-style-type: features"><p>DynAny, DII, DSI</p></li><li style="list-style-type: features"><p>Code set support</p></li><li style="list-style-type: features"><p>Reusable IDL compiler</p></li><li style="list-style-type: features"><p>Several tools: IDL to HTML, IDL to RTF</p></li></ul></div>
+        </p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N10065"></a>OpenORB Architecture</h2></div></div><p>To develop OpenORB, we user feedback into account.
+            From the user's point of view, CORBA is usually too complex to
+            configure, and the applications developed with CORBA are too complex
+            to deploy and to maintain. From the project manager's point of view,
+            CORBA provides too heavy a platform for the real needs; does not
+            include a way to plug in specific IT requirements; and is usually too expensive.
+            </p><div class="sect1"><div class="titlepage"><div><h2 class="subtitle">A truly modular ORB</h2></div></div><p>OpenORB has been designed to be a modular ORB. It means that OpenORB
+            can be customized to fit applications' requirements.</p><p>Within the configuration file, the user specifies a complete OpenORB
+            configuration that lists all the required parts. There are two real
+            advantages of such an approach, the ORB only contains the required
+            features, it means that it is lighter and faster.</p><p>For example, it's possible to disable DynAny management.</p></div><div class="sect1"><div class="titlepage"><div><h2 class="subtitle">An Open architecture</h2></div></div><p>An ORB part can be replaced by another one. Thanks to this
+            architecture, it's possible to develop specific parts to fulfill
+            application requirements.</p><p>For example, it's possible to replace the communication protocol by
+            another one.
+            Currently, only the IIOP (GIOP) protocol is available.
+            In the same way, the object adapter can be replaced and
+            several object adapters can be used at the same time.</p></div></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1007A"></a>The OpenORB Kernel</h2></div></div><p>
+                The OpenORB kernel is responsible for starting the ORB and applying the
+                current configuration. That means:
+            </p><div class="itemizedlist"><ul type="disc"><li><p>loading all the ORB parts</p></li><li><p>setting the values for the customizable features</p></li></ul></div><p>The kernel is itself divided into 2 parts:</p><div class="itemizedlist"><ul type="disc"><li><p>
+                the bootstrap system (ORBLoader): this part is the bootstrap
+                class. This class is invoked by the ORB class to initialize the ORB.
+                (This class could be replaced by a user class.
+                The default implementation of this class is OpenORBLoader).
+                </p></li><li><p>
+                the ORB connector: this part is responsible for loading all ORB
+                parts. (This class could also be replaced by a new one.  By default,
+                the OpenORBConnector is used.)
+                </p></li></ul></div><p>The following picture provides an overview of the kernel architecture:</p><img src="html_img/architecture.png"><p>The Kernel API can be used by the other parts OpenORB. It gives access
+            to all the other parts of the ORB (through a repository of loaded
+            parts) and gives access to the configuration file.</p><div class="sect1"><div class="titlepage"><div><h2 class="subtitle">Object adapter connector</h2></div></div><p>This connecter provides a set of APIs to develop object adapters. At
+            this time, OpenORB contains three different object adapters:</p><div class="itemizedlist"><ul type="disc"><li><p>the Portable Object Adapter: a complete implementation of the
+                specification</p></li><li><p>the Basic Object Adapter: a complete implementation of the old
+                specification</p></li><li><p>the Forward Adapter: a adapter used by another to register
+                forwarded objects.</p></li></ul></div><p>
+            Several connector instances can be used at the same time.
+            For example, it is possible to use BOA and POA in the same application.
+            </p></div><div class="sect1"><div class="titlepage"><div><h2 class="subtitle">Communication protocol connector</h2></div></div><p>The communication protocol connector provides a way to define a
+            communication protocol for OpenORB. It includes:</p><div class="itemizedlist"><ul type="disc"><li><p>a marshalling / unmarshalling engine</p></li><li><p>a client side API</p></li><li><p>a server side API</p></li></ul></div><p>The communication protocol could be easily extended or replaced by
+            another protocol. For example, the OpenORB SSL extension is extending
+            the current IIOP implementation.</p><p>It's possible to have several instances of this connector in the same
+            application, in that case several communication protocols could be
+            used at the same time.</p></div><div class="sect1"><div class="titlepage"><div><h2 class="subtitle">Configuration</h2></div></div><p>OpenORB is configured through an XML file. This file enumerates
+            properties that list all features to use and parameters to set.</p><p>The configuration file is composed of:</p><div class="itemizedlist"><ul type="disc"><li><p>properties: name value pairs</p></li><li><p>modules: sets of related properties</p></li><li><p>profiles: complete configurations</p></li></ul></div><p>
+            A default configuration file is directly embedded in the OpenORB jar file.
+            Hence OpenORB can be used without any additional configuration.</p><p>If the user requires specification configuration, he has to extend the
+            default configuration by either defining a new configuration file (
+            this new file could replace the default one ) or extending the
+            existing one.</p></div><div class="sect1"><div class="titlepage"><div><h2 class="subtitle">Deployment</h2></div></div><p>All the OpenORB services will soon embed their own default
+            configuration. In addition, it will be soon possible to replace the
+            default configuration file by its own file ( thanks to the build
+            process ).</p><p>So, an application deployment will be soon very easy to do with
+            OpenORB since all configuration parameters could be directly included
+            in the Jar files.</p></div></div></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="ch_compile"></a>Chapter 2. Compilation</h2></div></div><p>OpenORB is provided with a build script for the Ant
+        build tool (see References). This tool is available in the OpenORB distribution
+        (in the <tt>lib</tt> directory). So, to compile OpenORB, you
+        just have to start the build script corresponding to your
+        Operating System: <tt>build.bat</tt> for Windows or
+        <tt>build.sh</tt> for Unix.</p><p>The build script provides several targets (to see all targets,
+        just start the build script with the <tt>targets</tt> or the
+        <tt>help</tt> option).</p><p>The default way is to simply start the build script (without any
+        option).</p><p>Follow these steps to build OpenORB:</p><div class="itemizedlist"><ul type="disc"><li><p>make sure you have downloaded the <tt>tools</tt> as well as the <tt>OpenORB</tt> package. This package can be found on the OpenORB web site, and provides tools used to build OpenORB.</p></li><li><p>set the JAVA_HOME environment variable (i.e. c:\jdk1.3 or /usr/jdk1.3)</p></li><li><p>start 'build.bat' (for Windows) or 'sh build.sh' (for Unix)</p></li></ul></div><i>After building the jar files, the <tt>dist</tt> directory
+        contains several bundled extension jar files which are required
+        when using OpenORB.</i></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="ch_install"></a>Chapter 3. Installation</h2></div></div><p>The first step is to compile OpenORB in order to generate the
+        OpenORB jar files. OpenORB is composed of two jar files:</p><div class="itemizedlist"><ul type=""><li><p><tt>openorb-X.X.X.jar</tt>: this jar file contains all parts of
+            the ORB</p></li><li><p><tt>openorb_tools-X.X.X.jar</tt>: this jar files contains some tools
+            for OpenORB, mainly the IDL compiler</p></li></ul></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>X.X.X is the OpenORB version number.</div><p>
+        The first jar, <tt>openorb-X.X.X.jar</tt>, known as the OpenORB core,
+        must be installed on each host that runs a CORBA application.
+        It contains the core OpenORB runtime, including all the client and server side code.
+        OpenORB depends on the XML parser xerces, which is found in the <tt>lib</tt>
+        directory.
+        This file must be copied to the same directory in which the OpenORB jar resides.
+        </p><p>The second jar, <tt>openorb_tools-X-X-X.jar</tt>, must be installed on
+        development hosts. It is dependent on the OpenORB core, which must be
+        installed in the same directory as the tools jar file.</p><p>These jar files must be added to the classpath when running an ORB
+        application in Java. For information on how to do this, please
+        see your JDK documentation. Note that OpenORB jar files may be used
+        as installed extensions (see References).</p><p>To run an ORB application using OpenORB it is required to customize
+        your Java platform in order to use OpenORB instead of the default
+        JDK ORB. A file named <tt>orb.properties</tt> must be created in the
+        <tt>lib</tt> subdirectory of the directory specified by the Java
+        system property <tt>java.home</tt>. The location of the <tt>java.home</tt>
+        directory is dependent on your Java runtime.</p><p>The <tt>orb.properties</tt> file contains the following lines:
+            <tt>org.omg.CORBA.ORBClass=org.openorb.CORBA.ORB</tt>
+            <tt>org.omg.CORBA.ORBSingletonClass=org.openorb.CORBA.ORBSingleton</tt>
+        </p><p>The two property values are:
+        <div class="itemizedlist"><ul type=""><li><p><tt>org.omg.CORBA.ORBClass</tt> identifies
+            the class name for the ORB class.</p></li><li><p><tt>org.omg.CORBA.ORBSingletonClass</tt>
+            identifies the class name for the ORB singleton class.</p></li></ul></div>
+        </p><p>The simplest way to create the <tt>orb.properties</tt> file is to run
+        the OpenORB installer, using the following command:
+        <b>java -jar openorb-X.X.X.jar</b></p><p>The <tt>java.home</tt> directory is the root directory of your jdk/jre
+installation, you would find the <b>java</b> executable in the <tt>bin</tt>
+subdirectory. To determine the directory to place orb.properties
+compile and execute the following program.
+<pre class="programlisting">
+public class ShowMe
+{
+  public static void main( String [] args ) {
+    System.out.println("You have to put your 'ORB.properties' in: ");
+    System.out.println( System.getProperty("java.home")
+                      + java.io.File.separator + "lib" );
+  }
+}
+</pre></p><p>At this point, OpenORB is ready to be used. For many users there is no
+        need to further configure the ORB.</p></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="ch_config"></a>Chapter 4. Configuration</h2></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><a href="#N1016D">Overview</a></dt><dt><a href="#N10195">OpenORB Configuration</a></dt><dt><a href="#N1023C">OpenORB Modules</a></dt><dt><a href="#N10277">Importing Dependencies</a></dt><dt><a href="#N102B1">OpenORB Profiles</a></dt><dt><a href="#N102DC">Bootstrapping OpenORB</a></dt><dt><a href="#N1036B">Java Properties</a></dt><dt><a href="#N103BC">The Command Line</a></dt><dt><a href="#N103E8">OpenORB Profiles</a></dt><dt><a href="#N1043D">Portable Interceptors</a></dt></dl></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1016D"></a>Overview</h2></div></div><p>The OpenORB jar files contain a configuration file. This
+             configuration file, named <tt>OpenORB.xml</tt>
+             provides all default features to use OpenORB. If you browse
+             the content of the OpenORB jar file, you will find
+             <tt>OpenORB.xml</tt> in the
+             <tt>org/openorb/config</tt> subdirectory.</p><p>This configuration file imports another configuration file
+             named <tt>default.xml</tt>. This file contains
+             descriptions and reasonable default for all properties used to
+             manage the OpenORB behavior.</p><p>When an OpenORB user develops an application or deploys on a
+             certain site, it may be necessary to customize
+             <tt>OpenORB.xml</tt> in order to specify some property
+             values. After customization, the configuration
+             file can be included in the OpenORB jar file. This allows simplified
+             deployment for the CORBA applications.</p><p>A following chapter explains more in depth how to use and to
+             customize the OpenORB behavior through the configuration files. The
+             <tt>OpenORB.xml</tt> file gives several examples for
+             configuration.</p><p>The <tt>default.xml</tt> file is also available in
+             the <tt>org/openorb/config</tt> subdirectory.
+             This file is the definitive reference on which items can be configured. It
+             describes all available configuration items and sets sensible defaults for
+             them. This file should be used as documentation for the configurable items.</p><p>If you are using OpenORB for the first time, we advise you to stop
+             your reading at this point. Try out OpenORB by starting examples and
+             developing some test applications. Come back to this point to continue
+             your reading and to understand more in details about OpenORB configuration.</p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N10195"></a>OpenORB Configuration</h2></div></div><p>This chapter describes the configuration mechanism of OpenORB, it
+             explains how configuration works, not what is configured.</p><p>OpenORB is configured through a set of XML documents. These documents
+             have their form described in a DTD, which is contained in the OpenORB
+	     jar file in the location <tt>org/openorb/config/OpenORB.dtd</tt>.
+            </p><p>The configuration file loaded first by OpenORB is known as the master
+             configuration file. This master file may reference other configuration
+             files, which may in turn reference other configuration files. This feature
+             allows fast installation of extensions to OpenORB, and the ability to
+             centrally define an OpenORB configuration across an organization. The
+             master configuration file can be stored in a range of locations.
+             The configuration file used is the first one found in the following list:
+             <div class="itemizedlist"><ul type=""><li><p>
+                     The value of the OpenORB property <tt>config</tt> in the <tt>openorb</tt>
+                     module.
+                     This property can be set using the command line or using Java properties.
+                     For details see "Bootstrapping OpenORB" below.</p></li><li><p>
+                     <tt>OpenORB.xml</tt> in the directory located from the Java system property,
+                     <tt>user.dir</tt>.
+                     This is typically the working directory which the application is started in.
+                 </p></li><li><p>The directory located from the Java system property <tt>user.home</tt> is
+                     searched next for a file named <tt>OpenORB.xml</tt> or <tt>.OpenORB.xml</tt>.
+                     The <tt>user.home</tt> directory is the home directory of the current user.
+                     This location is system dependent.</p></li><li><p><tt>OpenORB.xml</tt> in the directory located from the Java
+                     <tt>java.home</tt> system property</p></li><li><p>Finally the subdirectory <tt>config</tt> is searched from the location obtained from
+                     the OpenORB property <tt>openorb.home</tt> for the <tt>OpenORB.xml</tt> file.</p></li></ul></div>
+             </p><p>The last of these locations deserves further explanation.
+             The usual setting of the OpenORB property <tt>openorb.home</tt>
+             is within the OpenORB jar file. As this property is usually left
+             as the default, the file named <tt>org/openorb/config/OpenORB.xml</tt> acts as a default
+             master configuration file for OpenORB. So if you don't copy the <tt>OpenORB.xml</tt> file to the
+             <tt>user.dir</tt>, <tt>user.home</tt> or <tt>java.home</tt> directories, OpenORB will use
+             the embedded configuration file.</p><p>This system is very powerful because OpenORB is able to directly embed its own configuration. If you need to customize
+             OpenORB, you have to edit the <tt>OpenORB.xml</tt> file to apply your changes and place it in one of the locations
+             mentioned above. The <tt>OpenORB.xml</tt> file is available in the
+	     <tt>src/config</tt> directory of the OpenORB source code and in the <tt>config</tt>
+	     directory for the prebuilt OpenORB versions.</p><p>After customization of the OpenORB.xml file, it's possible to replace the embedded OpenORB.xml file with the new one.
+	     It means that your configuration will be directly in the OpenORB jar file.
+	     This is very convenient and useful if you need to deploy an application that uses OpenORB, since all specific requirements
+	     for the OpenORB configuration will be located in the OpenORB jar.
+	     So, you will not waste time configuring OpenORB on each machine where your application is deployed.</p><p>To replace the embedded configuration by the new one, use the following procedure:
+             <div class="itemizedlist"><ul type=""><li><p>If you are using the OpenORB source code, the Ant build
+                     script contains a target named <tt>config</tt> that does this.
+                     Use the <b>build config</b> command in the root directory of the
+                     source distribution. Ant will replace the embedded configuration of
+		     the OpenORB jar (the jar file must be in the <tt>dist</tt> directory of the
+                     OpenORB distribution) by the OpenORB.xml available in
+		     <tt>src/config</tt>.
+                 </p></li><li><p>If you are using the pre-built version of OpenORB, a script named
+                     <tt>setConfig</tt> is available in the <tt>config</tt> directory.
+                     This script will replace the OpenORB configuration file embedded
+                     in the OpenORB jar (this jar file must be in the lib directory of
+                     the OpenORB pre-built distribution) by the <tt>OpenORB.xml</tt> available
+		     in <tt>config</tt>.
+                 </p></li></ul></div>
+             </p><p>The embedded configuration file distributed with OpenORB references the <tt>default.xml</tt>
+             file found in the <tt>config</tt> subdirectory of <tt>openorb.home</tt> for most of its
+             settings, so OpenORB uses the default configuration when it is first installed.</p><p>The OpenORB root element. Setting the doctype for an OpenORB configuration file is
+            optional, however some users may prefer to add it when developing
+            a configuration, as it allows validation of the document. When the
+            doctype is used it can be set as follows:</p><pre class="programlisting">&lt;!DOCTYPE OpenORB
+PUBLIC "-//openorb.sf.net//OpenORB Config//EN"
+"http://openorb.sf.net/config/OpenORB.dtd"&gt;</pre><p>The non-public identifier will never be used by the OpenORB configuration
+            mechanism, so can be set to any URL that the user has installed the
+            DTD for their own validation. The URL shown above will also be valid.</p><p>The OpenORB XML file's root element is named 'OpenORB'. The root
+            element should contain two namespace definitions which are used in the
+            OpenORB configuration file:</p><pre class="programlisting">&lt;OpenORB xmlns="http://openorb.sf.net/config"
+xmlns:xlink="http://www.w3.org/1999/xlink" &gt;</pre><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3>Currently the namespace prefixes must defined as displayed above</div>.
+
+            <p>The root OpenORB element may contain an optional default profile attribute.
+            This declares which profile is used by default if the file is selected
+            as the master configuration file. Profiles are explained in detail below.</p><p>The OpenORB element may also define a base URL for resolving
+            relative URLs used in import statements which are also defined below.</p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1023C"></a>OpenORB Modules</h2></div></div><p>Each individual subsystem of OpenORB, for example the IIOP subsystem or the POA,
+            is controlled by a module defined in a configuration file as an immediate child
+            element of the 'OpenORB' root element. Modules are usually
+	    defined only in configuration files which are contained in a jar file.
+	    All of the modules affecting the OpenORB core are defined in the <tt>default.xml</tt>
+            file.</p><p>Modules have the following responsibilities:</p><div class="itemizedlist"><ul type=""><li><p>Define properties affecting the subsystem</p></li><li><p>Define the subsystem's initializer, a class which is used to set it up</p></li><li><p>Define the subsystem's dependencies</p></li></ul></div><p>A property is a name, value pair used in configuring the orb. In the
+            config file the values of properties are always simple strings, however
+            each property usually has an accepted range of legal values which is
+            documented in the module which defines it. When a module defines a
+            property it also defines a default value for it, which is used in the
+            absence of any overrides. Here is a typical property definition:</p><pre class="programlisting">&lt;module name="one" &gt;
+&lt;property name="name" value="value"/&gt;
+&lt;/module&gt;</pre><p>Each module defines a namespace for its property definitions, so
+            if a property is defined in two differently named modules with the same
+            name, then these are distinct properties. Each defined property
+            has an expanded name, which is found by concatenating its defining
+            module, a '.', and the property name. For example the above module would
+            define a property with expanded name <tt>one.name</tt>. If two modules
+            contained in different files are given the same name then the expanded
+            names of their properties may collide. For this reason it's important to
+            ensure module names are unique. Module and property names are not case
+            sensitive.</p><p>A module may also declare property sets, which are sets of related properties.
+            All the properties in a property set have names which are prefixed with
+            the same value. Here is a typical property set definition, with a few
+            properties defined in it:</p><pre class="programlisting">&lt;propertyset prefix="pfx" /&gt;
+&lt;property name="pfx.a" value="value1"/&gt;
+&lt;property name="pfx.b" value="value2"/&gt;</pre><p>
+            Note that the <tt>propertyset</tt> element is a sibling of the property 
+            definitions, and not a parent, so there is no &lt;/propertyset&gt; tag.
+            Some very commonly used properties are given a special alias which can be used
+            on the command line as a shortcut. These are defined in the module as follows:</p><pre class="programlisting">&lt;propalias name="prop" value="Alias"/&gt;</pre><p>For details of command line setting of properties, see the section below.</p><p>A module may define an initializer, this names a class which is loaded by
+            the orb runtime when the orb is created and is used to initialize the
+            module's subsystem. The initializer class must implement one or both of the
+            portable interceptor ORB initializer interface, <tt>org.omg.PortableInterceptor.ORBInitializer</tt>,
+            and the OpenORB feature initializer interface, <tt>org.openorb.PI.FeatureInitializer</tt>.
+            An example of a module with an initializer is the POA module:</p><pre class="programlisting">&lt;module name="POA" initializer="org.openorb.adapter.poa.POAInitializer" /&gt;</pre><p>Here is a typical module definition for a module which defines some
+            properties and an initializer:</p><pre class="programlisting">&lt;module name="foo" initializer="org.myorg.foo.FooInitializer"&gt;
+&lt;property name="size" value="5"/&gt;
+&lt;property name="length" value="10"/&gt;
+&lt;propertyset prefix="color" /&gt;
+&lt;property name="color.white" value="1"/&gt;
+&lt;/module&gt;</pre><p>Some subsystems require other subsystems be loaded in order that they can
+            be used. This is a dependency. Modules declare their dependencies by
+            using import statements, which are described in the following section.</p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N10277"></a>Importing Dependencies</h2></div></div><p>
+            It is common for a subsystem to require another subsystem be loaded and
+            modified in some way. This is achieved by using import elements. Import
+            elements are defined as children of the module which defines them. They
+            declare the target module for the dependency, and optionally a set of
+            overrides for the module's properties. Here is an example import statement
+            which could be used in a different module defined in the same configuration
+            file as the foo module defined above. It loads the foo module defined and overrides
+            the setting of some of the properties:
+            </p><pre class="programlisting">&lt;import module="foo" &gt;
+&lt;property name="length" value="11"/&gt;
+&lt;property name="color.white" value="0"/&gt;
+&lt;property name="color.black" value="1"/&gt;
+&lt;/import&gt;</pre><p>Each module is only ever visited once during configuration. This allows
+            a module to be imported as a dependency of multiple other modules without
+            the property overrides being reset to their default values:
+            If the above import statement were to be run, and then another import
+            of <tt>foo</tt> occurred in a different location which overrode different
+            properties, then the properties overridden in the above import would
+            remain overridden. However, if the later import overrode some of the
+            same properties as the above import, these properties would be
+            changed.</p><p>
+            Imports may also target modules in external files.
+            Typically this is done with modules which are defined in well known, permanent
+            locations, for example the modules defined in the <tt>default.xml</tt> file.
+            This file is in a well known location: the <tt>config</tt> subdirectory of
+            the <tt>openorb.home</tt> directory.
+            The import attribute used to declare imports from an external file is the xlink:href attribute.
+            </p><p>The following statement imports the module named 'mod' from the config file obtained from the given URL.</p><pre class="programlisting">&lt;import xlink:href="http://www.example.com/orb/cfg.xml#mod" /&gt;</pre><p>The target of an href attribute does not have to be an absolute URL, it
+            may be defined relative to the document's base URL. The base URL for the
+            document will either be a href to the document itself, or whatever is
+            set by the xml:base attribute of the root 'OpenORB'
+            element. For example:</p><pre class="programlisting">&lt;import xlink:href="#mod" /&gt;
+&lt;import xlink:href="../cfg.xml#mod" /&gt;</pre><p>In addition to the URL protocols normally defined by Java, OpenORB defines
+            an extra URL protocol, the resource protocol. The resource protocol attempts to
+            load its target by using the Java getSystemResource function, allowing
+            things to be loaded off the classpath. For example the following URL would
+            import the 'mod' module from the default config file contained in the openorb jar:</p><pre class="programlisting">&lt;import xlink:href="resource:/org/openorb/config/default.xml#iiop"/&gt;</pre><p>An alternative version of the resource protocol uses the getResource
+            function on the Class object named org.openorb.ReleaseInfo to generate
+            the URL for the target. This uses the Class's class loader to load the
+            resource. The following two resource URLs point to the
+            same file as the above URL: (note: these lines have been split
+            to allow them to be typeset, this should not occur in the XML file)</p><pre class="programlisting">&lt;import xlink:href="resource://org.openorb.ReleaseInfo/config/default.xml#mod" /&gt;
+&lt;import xlink:href="resource://org.openorb.ReleaseInfo//org/openorb/config/default.xml#mod" /&gt;</pre><p>The references used in import statements are subject to property expansion,
+            any part of the reference enclosed in ${...} is attempted to be expanded.
+            The expanded names of properties from modules which have been defined
+            previously to the import statement will be used first for this property
+            expansion, and if this fails then the expansion will be attempted from
+            Java system properties. In the following example the ${user.name} part of
+            the reference is expanded using the Java system property, which is
+            equal to the name of the current user:</p><pre class="programlisting">&lt;import xlink:href="http://www.example.org/openorb/${user.name}.xml" /&gt;</pre><p>If the property expansion appears at the beginning of the URL and it expands
+            to a property which can be parsed as a URL, then the property's URL
+            is used as a base URL for resolving the argument. If this fails, but the
+            property can be parsed as a file then the file is converted to a URL and
+            again used as the base URL. For example, in the following import statement
+            ${openorb.home} gets expanded into the URL property setting of
+            openorb.home, which is generally "resource:/org/openorb/", and the
+            remainder of the href is resolved relative to it:</p><pre class="programlisting">&lt;import xlink:href="${openorb.home}config/default.xml#boa" /&gt;</pre><p>The final method of importing properties is from a Java properties file.
+            Property file imports have two forms, the first defines the module that the
+            properties in the file override in the URL's fragment. For example, the
+            following import statement would set the properties defined in <tt>InitRef.properties</tt>
+            in the user's home directory:</p><pre class="programlisting">&lt;import xlink:href="${user.home}InitRef.properties#InitRef" /&gt;</pre><p>The second form of property import does not use fragment identifiers, but assumes
+            that the properties defined in the file use expanded property names. This style of import
+            cannot define property overrides as sub elements, as there is no module to define the
+            properties within. For example:</p><pre class="programlisting">&lt;import xlink:href="${user.home}extra.properties" /&gt;</pre></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N102B1"></a>OpenORB Profiles</h2></div></div><p>Profiles are a useful way of grouping related modules together. Whenever
+            an ORB application is loaded a profile is used to collect the required
+            orb subsystems.</p><p>Profiles are very useful to define several ORB configurations
+            and to select the configuration to use when starting an
+            application. For example, if you download OpenORB services
+            or extensions, a profile is very useful to collect specific OpenORB
+            services configuration parameters. For example, you could define
+            a transactional profile when using applications with
+            transactions, or a database profile for use with the persistent
+            state service.</p><p>Profiles act like modules that contain only import statements;
+            They may override properties defined in modules that they import, but they
+            do not define a namespace for properties, and so do not have 'property',
+            'propertyset', or 'propalias' child elements. Profiles also cannot
+            define initalizers as they don't correspond to an orb subsystem.</p><p>Here is an example profile:</p><pre class="programlisting">&lt;profile name="large"&gt;
+&lt;import module="chips"/&gt;
+&lt;import module="sauce"&gt;
+&lt;property name="flavor" value="tabasco"/&gt;
+&lt;/import&gt;
+&lt;/profile&gt;</pre><p>Profiles may be imported both from other profiles and from modules
+            in a similar way to which modules are imported.
+            However when importing a profile it is not possible to set property overrides since
+            the profile does not define a namespace for properties.
+            For example:
+            </p><pre class="programlisting">&lt;import profile="large"/&gt;</pre><p>
+            Each OpenORB config file specifies a special default profile.
+            To import this profile the import statement does not define a fragment in the URL,
+            for example:
+            </p><pre class="programlisting">&lt;import xlink:href="${openorb.home}config/OpenORB.xml" /&gt;</pre><p>The profile used as the default profile is the first one found by the
+            following algorithm:</p><div class="itemizedlist"><ul type=""><li><p>
+                The 'associations' section of the config file, if present,
+                is searched for a match with the Java <tt>user.name</tt> property.
+              </p></li><li><p>
+                The value of the 'profile' attribute of the root
+                'OpenORB' element in the config file is used if specified.
+              </p></li><li><p>
+                The profile named "default" is used.
+              </p></li></ul></div><p>The associations section is used to associate users with profiles. This
+            section optionally appears as the first child of the OpenORB root element.</p><p>The following example config file would select "joes-profile" if the user
+            was joe, "flintstones" if the user was fred, barney or pebbles, or
+            or "unknown-user" otherwise:</p><pre class="programlisting">&lt;OpenORB profile="unknown-user" xmlns="http://openorb.sf.net/config" xmlns:xlink="http://www.w3.org/1999/xlink" &gt;
+&lt;associations&gt;
+&lt;association user="joe" profile="joes-profile" /&gt;
+&lt;association user="fred barney pebbles" profile="flintstones" /&gt;
+&lt;/associations&gt;</pre></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N102DC"></a>Bootstrapping OpenORB</h2></div></div><p>When OpenORB is first initialized it first sets three special OpenORB
+            properties, <tt>config</tt>, <tt>profile</tt> and <tt>home</tt>
+            from the 'openorb' module. These properties are used when locating the
+            master config file, and the master profile within it. The following
+            locations are searched for the value of these properties, the first
+            location containing a value is used:</p><div class="itemizedlist"><ul type=""><li><p>
+                  The command line arguments passed to the ORB.init function are
+                  examined for a match, for example the <tt>openorb.config</tt>
+                  property is set on the command line using <tt>-ORBopenorb.config=URL</tt>
+              </p></li><li><p>
+                  Command line aliases are defined for all the special properties, the
+                  alias for <tt>openorb.config</tt> is <tt>Config</tt> , using the command
+                  line argument <tt>-ORBConfig=URL</tt> would set this property. The aliases
+                  for <tt>openorb.profile</tt> and <tt>openorb.home</tt> are <tt>Profile</tt>
+                  and <tt>OpenORB</tt>, respectively.
+              </p></li><li><p>
+                  The property set passed to the ORB.init function is searched for
+                  a match. For applications this is set by the application itself,
+                  for applets the properties may be sourced from the applet tag.
+              </p></li><li><p>
+                  The Java System property set. <b>System.getProperty</b> is used
+                  to find each value, if available and readable.
+              </p></li><li><p>
+                  The properties contained in the <tt>orb.properties</tt> file.
+              </p></li><li><p>
+                  The default values are used.
+              </p></li></ul></div><p>The <tt>openorb.home</tt> property should generally not be changed from
+            its default setting. It is normally set to the URL resource:/org/openorb/
+            which is a location within the OpenORB jar files. This directory acts as
+            a base directory for locating openorb resources. Sub directories include
+            the <tt>config</tt> directory, which contains
+            configuration files for the OpenORB core and extensions, and the <tt>idl</tt>
+            directory, which contains all the system IDL includes. Note that this
+            property, as with all other OpenORB location properties, is set as a URL
+            rather than as a file. This allows this property to be set to any location
+            reachable over a network.</p><p>The <tt>openorb.config</tt> property is used to set the location of the
+            master config file. The OpenORB setup program can be used to set this
+            property in the <tt>orb.properties</tt> file. This may be useful when
+            installing OpenORB with a centrally managed configuration. An example
+            command line for setting a new value for openorb config is:</p><b>java -jar openorb-X.X.X.jar -config http://www.example.com/cfg.xml</b><p>If <tt>openorb.config</tt> is not set to any value, the master config file
+            location is determined by searching in the following locations, the
+            first of which to get a match is used:</p><div class="itemizedlist"><ul type=""><li><p><tt>OpenORB.xml</tt> in the directory located from the Java system property,
+                  <tt>user.dir</tt>. This is typically the working directory which the application
+                  is started in.</p></li><li><p>The directory located from the Java system property <tt>user.home</tt> is
+                  searched next for a file named <tt>OpenORB.xml</tt> or <tt>.OpenORB.xml</tt>.
+                  The <tt>user.home</tt> directory is the home directory of the current user.
+                  This location is system dependent.</p></li><li><p><tt>OpenORB.xml</tt> in the directory located from the java <tt>java.home</tt> system property</p></li><li><p>Finally the subdirectory <tt>config</tt> is searched from the location obtained from
+                  the <tt>openorb.home</tt> property for the <tt>OpenORB.xml</tt> file.</p></li></ul></div><p>After finding the master configuration file, the profile to use within it
+            is determined by the setting of the <tt>openorb.profile</tt> property.
+            This property can be set to the name of any of the profiles within the
+            master config file. If this property is not set, the profile is selected
+            as it would be if it were by an import without a fragment, as described above.</p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1036B"></a>Java Properties</h2></div></div><p>The properties set in the configuration file may not be
+            appropriate in all situations. Certain applications may require
+            that certain modules be loaded, and it may be desirable to modify
+            some properties from the command line. It is possible to use
+            command line options to set or override any configuration item
+            which could be set through the configuration file, including
+            adding initializers, setting properties and importing modules and
+            profiles.</p><p>OpenORB properties may be overridden by setting Java properties in one
+            of three locations, with locations later in this list overriding
+            earlier locations:</p><div class="itemizedlist"><ul type=""><li><p>
+                The <tt>orb.properties</tt> file located in the <tt>lib</tt>
+                subdirectory of the Java system directory, <tt>java.home</tt>.
+                This location is useful to set properties which should be used
+                by all orbs running on the current host.
+              </p></li><li><p>
+                The property set obtained by the Java operation
+                <b>System.getProperties()</b>. This location is useful if multiple
+                ORBs are used in an application, or if the application does not
+                pass the command line to the ORB initialization. Properties in this
+                set can be set using the Java interpreter argument <tt>-D</tt>.
+              </p></li><li><p>
+                The property set passed to <b>ORB.init</b>. This location is
+                useful for setting up an ORB statically for a certain application.
+              </p></li></ul></div><p>The property name used in these locations is the expanded name of the
+            property, that is the module name concatenated with a '.' and the
+            property name. Extra module imports may be added by
+            setting properties prefixed with 'ImportModule'.</p><p>It is possible to add extra initializers by setting properties prefixed
+            with <tt>org.omg.PortableInterceptor.ORBInitializerClass</tt>
+            or <tt>org.openorb.PI.FeatureInitializerClass</tt>. All extensions and
+            services created by the openorb project will be distributed with modules,
+            however third party extensions may use the portable interceptor
+            specification.</p><p>To set the property <tt>hostname</tt> in the
+            'iiop' module to the value 'example.com' for all orbs on
+            a particular machine, the following line would be added to its
+            <tt>orb.properties</tt> file:</p><pre class="programlisting">iiop.hostname=example.com</pre><p>To ensure that the BOA is always used in a particular application the
+            orb could be initialized as follows:</p><pre class="programlisting">public static void main(String [] args)
+{
+ java.util.Properties props = new java.util.Properties();
+ props.setProperty("ImportModule.BOA",
+                   "${openorb.home}config/default.xml#boa");
+ org.omg.CORBA.ORB orb = org.omg.CORBA.ORB(args, props);
+
+ // ...
+}
+</pre><p>To use a third party portable interceptor,
+                distributed with the ORB initializer named
+                <tt>org.example.corba.Initializer</tt>,
+                an application which uses OpenORB could be started
+                using the -D java argument to define a system
+                property:</p><b>java -Dorg.omg.PortableInterceptor.ORBInitializerClass.org.example.corba.Initializer app-name</b><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+                Prior to release 1.3.0, initializers were specified on
+                the command line with a non-OMG compliant syntax:
+              </p><tt>-Dorg.omg.PortableInterceptor.ORBInitializerClass.example
+                  =org.example.corba.Initializer</tt><p>
+                Note that this property has both a key and a value,
+                where the standard-compliant method specifies the
+                initializer using only the key (see References).
+              </p><p>
+                In addition, a variety of prefixes were recognized in
+                addition to
+                <tt>
+                  org.omg.PortableInterceptor.ORBInitializerClass
+                </tt>.
+              </p><p>
+                The non-standard prefixes and syntax are deprecated as
+                of 1.3.0, and will no longer be supported as of 1.4.0.
+              </p></div></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N103BC"></a>The Command Line</h2></div></div><p>As well as overriding properties via Java properties, they may also be set
+            in the command line arguments passed to the ORB when it is initialized.
+            Properties set in this way override all other property settings, so
+            setting properties on the command line is useful when the configuration
+            may change between each execution of the application.</p><p>The recommended way to set OpenORB properties on the command line is
+            to use the module name immediately following <tt>-ORB</tt>, followed
+            by an argument setting the property to the correct value. For example
+            to the <tt>port</tt> property in the <tt>iiop</tt> module to the
+            value '5566' the following command line could be used:</p><b>java app-name -ORBiiop port=5566</b><p>The other available ways of specifying the same property are:</p><b>java app-name -ORBiiop.port=5566</b><p>and:</p><b>java app-name -ORBiiop.port 5566</b><p>Some commonly overridden properties have special aliases set to allow
+            easy command line modification. These are specified in the module
+            defining the property as detailed in the module section above. An
+            example property which is aliased is the <tt>port</tt> property
+            in the 'iiop' module. This allows another alternative to the
+            three above examples:</p><b>java app-name -ORBPort=5566</b><p>It is possible to add extra module imports, in this case it is
+            often important to quote the command line argument to avoid the shell
+            expanding it:</p><b>java app-name -ORBImportModule "${openorb.home}config/default.xml#boa"</b><p>Portable interceptor initializers can also be specified on the command
+            line. To use a third party portable interceptor, distributed with the ORB
+            initializer named <tt>org.example.corba.Initializer</tt>, an application
+            which uses OpenORB could be started using:</p><b>java app-name -ORBorg.omg.PortableInterceptor.ORBInitializerClass org.example.corba.Initializer</b></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N103E8"></a>OpenORB Profiles</h2></div></div><p>This document is divided into three parts. The first part describes
+            the OpenORB profile format, then the second part describes how to use
+            such a profile from Java. Then, to finish, the third part enumerates
+            all current sections for a profile.</p><p>Each OpenORB profile is described with XML and stored into the
+            <tt>OpenORB.xml</tt> file.</p><pre class="programlisting">
+&lt;OpenORB version="1.2.2"&gt;
+Here are the OpenORB profiles.
+&lt;/OpenORB&gt;
+</pre><p>Each profile has the following format:</p><pre class="programlisting">
+&lt;profile name="xxxxx"&gt;
+The profile content
+&lt;/profile&gt;
+</pre><p>A profile can extend another profile. To extend a
+            profile, you have to add the attribute 'extends'.</p><pre class="programlisting">
+&lt;profile name="xxxxx" extends="yyyyy"&gt;
+The profile content
+&lt;/profile&gt;
+</pre><p>When a user starts a CORBA application with OpenORB, he has to set the
+            profile name to use with <tt>-ORBProfile</tt></p><b>java app-name -ORBProfile=example</b><p>If a user does not supply a profile name, a default profile is used
+            except if the user is registered in the profile associations list.
+            The profile associations list is also available in the OpenORB XML
+            file. It enumerates users and associates a profile name with each
+            registered user.</p><pre class="programlisting">
+&lt;association&gt;
+The associations...
+&lt;/association&gt;
+</pre><p>To define an association, you have to use the following tag: user</p><pre class="programlisting">
+&lt;association&gt;
+&lt;user name="xxxxx"&gt;yyyyy&lt;/user&gt;
+&lt;/association&gt;
+</pre><p>A module is a set of section ( see the next paragraph ). To define a
+            module, the rule is:</p><pre class="programlisting">
+&lt;module name="xxxxx"&gt;
+The module content...
+&lt;/module&gt;
+</pre><p>To import a module, a profile must contain the following entry:</p><pre class="programlisting">
+&lt;import&gt;xxxx&lt;/import&gt;
+</pre><p>The profile and module contents are a set of sections.
+            Each section can be simple or complex.
+            More precisely, a section contains a simple value (simple section) or a value list
+            (complex section). 
+            A simple section has the following format:</p><pre class="programlisting">
+&lt;xxxx&gt;value&lt;/xxxx&gt;
+</pre><p>For example:</p><pre class="programlisting">
+&lt;color&gt;blue&lt;/color&gt;
+</pre><p>A complex section has the following format:</p><pre class="programlisting">
+&lt;xxxx&gt;
+&lt;yyyy&gt;
+&lt;entry1&gt;value&lt;/entry1&gt;
+....
+&lt;/yyyy&gt;
+&lt;property 1&gt;value&lt;/property 1&gt;
+...
+&lt;/xxxx&gt;
+</pre><p>Some values can be set from the command line. Each section name which
+            starts with "ORB" can be overwritten from the command line. There is a
+            way to distinguish simple section from complex section:</p><div class="itemizedlist"><ul type="disc"><li><p>simple section: <tt>-ORBxxxxx=value</tt></p></li><li><p>complex section: <tt>-ORBxxxxx property=value</tt></p></li></ul></div><p>For example, if the profile contains the following section:</p><pre class="programlisting">
+&lt;ORBInitRef&gt;
+&lt;NameService&gt;corbaloc://1.2@myhost:2001/NameService&lt;/NameService&gt;
+&lt;SecurityService&gt;corbaloc://1.2@myhost:2005/SecurityManager&lt;/SecurityService&gt;
+&lt;/ORBInitRef&gt;
+</pre><p>It is possible to overwrite an entry from the command line:</p><b>java app-name -ORBInitRef NameService=corbaloc://1.2@myhost2:3005/NameService</b><p>You can also begins a new section from the command line:</p><b>java app-name -ORBBoot Security=org.openorb.oss.bootstrap</b><p>And to finish, a simple section:</p><b>java app-name -ORBPort=9999</b><p>
+            This section is used by the IIOP protocol to get parameters that are
+            involved in the protocol behaviour.
+            </p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1043D"></a>Portable Interceptors</h2></div></div><p>To be used, the portable interceptor feature must be activated into the
+            OpenORB XML configuration file. The following entry must be added:</p><pre class="programlisting">
+&lt;org&gt;
+&lt;omg&gt;
+&lt;PortableInterceptor&gt;
+&lt;CodecFactory&gt;true&lt;/CodecFactory&gt;
+&lt;PolicyFactory&gt;true&lt;/PolicyFactory&gt;
+&lt;ClientRequestInterceptor&gt;true&lt;/ClientRequestInterceptor&gt;
+&lt;ServerRequestInterceptor&gt;true&lt;/ServerRequestInterceptor&gt;
+&lt;IORInterceptor&gt;true&lt;IORInterceptor&gt;
+&lt;/PortableInterceptor&gt;
+&lt;/omg&gt;
+&lt;/org&gt;
+</pre><p>It is possible to provide a list of ORBInitializers from the OpenORB
+         XML configuration file:</p><pre class="programlisting">
+&lt;org&gt;
+&lt;omg&gt;
+&lt;PortableInterceptor&gt;
+&lt;ORBInitializerClass&gt;
+&lt;myInitializer&gt;com.acme.factory&lt;/myInitializer&gt;
+&lt;anotherExample&gt;org.free.welldown&lt;/anotherExample&gt;
+&lt;/ORBInitializerClass&gt;
+&lt;/PortableInterceptor&gt;
+&lt;/omg&gt;
+&lt;/org&gt;
+</pre><p>Client request interceptors are managed by the Client Interceptor
+         Manager. This entity is only available if "ClientRequestInterceptor"
+         was set to true. To get it, you have resolve the initial reference
+         "ClientInterceptorManager".</p><pre class="programlisting">
+org.openorb.PI.ClientInterceptorManager =   (
+org.openorb.PI.ClientInterceptorManager )
+orb.resolve_initial_references("ClientInterceptorManager");
+</pre><p>This manager provides the same operation as a client request
+         interceptor. Each of these operation takes 2 parameters:</p><div class="itemizedlist"><ul type="disc"><li><p>the ClientRequestInfo</p></li><li><p>a ClientRequestCallback</p></li></ul></div><p>The ClientRequestCallback is used by the manager to report some
+         changes for the request state. The change must be immediately taken
+         into account, it means that the state change must be applied to the
+         ClientRequestInfo.</p><p>The same method is used for Server request interceptors. A manager is
+         accessible via "ServerInterceptorManager".</p><p>The IOR interceptor manager is accessible via the
+         "IORInterceptorManager" key word. It provides the same operation as
+         the IORInterceptors "establish_components".</p></div></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="N1045B"></a>Chapter 5. Deployment</h2></div></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><a href="#N1045E">The OpenORB IDL Compiler</a></dt><dt><a href="#N1046C">IDL Reflection</a></dt><dt><a href="#N104C1">The OpenORB Naming Service</a></dt><dt><a href="#N10506">The Any Type</a></dt></dl></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1045E"></a>The OpenORB IDL Compiler</h2></div></div><p>OpenORB provides an IDL compiler that can be reused by user
+           applications ( see next section ). This IDL compiler is named
+           <tt>org.openorb.compiler.IdlCompiler</tt></p><p>Execute the compiler without any parameters to get an overview
+           of the valid parameters.</p><p>By default, the IDL compiler generates skeletons for the POA,
+           it generates tie/stub classes, it generates all files into a directory
+           named <tt>generated</tt> and it uses prefix as package names.</p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N1046C"></a>IDL Reflection</h2></div></div><p>The IDL reflection is a powerful and simple mechanism that
+        provides CORBA developers with the ability to reuse the OpenORB
+        IDL compiler. Actually, it means that an IDL description is still
+        compiled by the OpenORB compiler, but there is no code
+        generation. The developers reuse the compilation graph thanks to
+        the reflection API which gives them the ability, for
+        example, to generate some special code artifacts from an IDL
+        description.</p><p>The IDL reflection mechanism is divided into two parts:</p><div class="itemizedlist"><ul type=""><li><p>the first step is to run the IDL parser to build the compilation graph,</p></li><li><p>and the second step is the use of the compilation graph.</p></li></ul></div><p>Now, we are going to describe more precisely the two previous
+        steps.</p><p>The first step is very simple. To run the IDL parser, you need
+        to use the <tt>org.openorb.compiler.idl.parser.idlParser</tt>
+        class. This class provides the following operations:</p><div class="itemizedlist"><ul type=""><li><p>
+            <div class="funcsynopsis"><p><code><code class="funcdef"><b class="fsfunc">compile</b></code></code></p></div>
+            This operation runs the compiler. This
+            operation takes as argument a <tt>PrintWriter</tt> which
+            corresponds to the stream where the compilation message errors
+            are displayed. It returns the number of compilation errors
+            detected into the IDL description.
+            </p></li><li><p>
+            <div class="funcsynopsis"><p><code><code class="funcdef"><b class="fsfunc">content</b></code></code></p></div>
+            Returns the compilation graph content.
+            The content is returned as an enumeration (java.util.Enumeration).
+            </p></li></ul></div><p>This class contains a constructor that takes as arguments an
+        array of strings. This array is the equivalent of the command
+        line arguments for the IDL compiler. You can specify into this
+        array the same parameters like on the command line ( -I, -D,
+        ... ) and the IDL files to compile.</p><p>The following lines show how to use the IDL parser:</p><pre class="programlisting">String [] arguments = new String[ 1 ];
+arguments[ 0 ] = "example.idl";
+org.openorb.compiler.idl.parser.idlParser parser =
+     new org.openorb.compiler.idl.parser.idlParser(arguments);
+int nb_error = parser.compile( System.out );
+if ( nb_error != 0 )
+{
+    System.out.println("There are: " + nb_error +
+                       " compilation errors !");
+    System.exit( 0 );
+}
+java.util.Enumeration content = parser.content( );</pre><p>The reflection API provides a large set of classes to browse the
+        compilation graph. The graph is organized like an IDL
+        description, there are the containers and the contents. Each
+        graph node is a sub type of
+        <tt>org.openorb.compiler.idl.reflect.idlObject</tt>. The
+        following classes are available:</p><p>idlArray, idlAttribute, idlConst, idlEnum, idlException,
+        idlFactory, idlInterface, idlModule, idlNative, idlOperation,
+        idlParameter, idlSequence, idlState, idlString, idlStruct,
+        idlStructMember, idlTypeDef, idlUnion, idlUnionMember, idlValue,
+        idlValueBox, idlWString, idlIdentifier, idlPrimivite and idlType</p><p>Please consult the HTML API documentation to get information
+        about all operations provided by these classes.</p><p>The <tt>idlObject</tt> class provides a lot of useful operations,
+        for example to find specific objects or to find out an object
+        type.</p><p>The following example shows how to browse the compilation graph:</p><pre class="programlisting">java.util.Enumeration content = parser.content();
+while ( content.hasMoreElements() )
+{
+     org.openorb.compiler.idl.reflect.idlObject obj =
+          ( org.openorb.compiler.idl.reflect.idlObject )
+     content.nextElement();
+     switch ( obj.idlType() )
+     {
+     case org.openorb.compiler.idl.reflect.idlType.MODULE:
+         // The current object is a module
+        System.out.println("Module name: " + obj.idlName() );
+        // ...
+        break;
+     // ...
+     }
+}</pre><p>To manipulate IDL generation to Java, a useful class is also
+        available <tt>org.openorb.compiler.idl.util.tools</tt>. This
+        class provides several operations ( consult the HTML API
+        documentation ) as for example:</p><p>
+        <div class="itemizedlist"><ul type=""><li><p>javaName that returns the Java name for a IDL object
+            according to the translation rules (IDL to Java mapping).</p></li><li><p>javaType that translates an IDL object to a Java type (
+            according to the IDL to Java mapping rules ).</p></li></ul></div>
+        </p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N104C1"></a>The OpenORB Naming Service</h2></div></div><p>The core OpenORB distribution provides a simple, transient name
+        service which locally implements the java <tt>SortedMap</tt>
+        interface and can be used directly as a map within applications,
+        as well as as a standalone naming service with all the normal
+        name service features.</p><p>To start a standalone naming service, the
+        <tt>org.openorb.util.MapNamingContext</tt> class is run.</p><p>If the <tt>-default</tt> argument is used, then the name service
+        will register itself as a corbaloc resolvable address, the
+        object reference corbaloc::1.2@localhost/NameService
+        can be used to find a reference to the naming service. If this
+        behavior is not desired use the <tt>-print</tt> option to print
+        an IOR format address to stderr.</p><p>To start the naming service on a specific port number, use the
+        orb argument <tt>-ORBPort</tt>. If the nameservice was started
+        with <tt>-ORBPort=5566</tt> then the corbaloc URL
+        corbaloc::1.2@localhost:5566/NameService could be used
+        to resolve it.</p><p>Another standalone server option is available,
+        <tt>-shutdown</tt>. Using this option allows the
+        <tt>destroy</tt> operation on the root naming context to
+        shutdown the server, otherwise attempting this will result in a
+        NO_PERMISSION standard system exception to be thrown.</p><p>The SortedMap interface on the MapNamingContext allows for
+        simple manipulation of the namespace at the server side. Acquiring the synchronization lock
+        on the MapNamingContext will stop any incoming request being processed, this
+        is useful when map's contents must be manipulating atomically.</p><p>The keys of the map are stored as stringified names, the values must
+        be CORBA object references. The <tt>Map.put</tt> operation will
+        implicitly create any required subcontexts when inserting an
+        object reference. To create a new empty reference, use a
+        stringified name which ends with a '/' and a null value. The
+        contexts created in the <tt>Map.put</tt> operation are known as
+        virtual contexts.</p><p>Virtual contexts have certain usage limitations. Attempting to use the
+        <tt>Map.remove</tt> operation on a virtual context can result in
+        undefined behavior, use the removeContext operation instead. Attempting
+        to use any nameservice operations which would result in virtual context
+        being unbound will result in a CannotProceed exception being thrown.
+        Virtual contexts can be created using the <tt>bind_new_context</tt>
+        nameservice operation.</p><p>Non-virtual contexts can be created by using the <tt>new_context</tt>
+        operation. Any context created by the <tt>new_context</tt>
+        operation has its lifetime constrained by the nonvirtual parent
+        contexts of the context which created it; successfully calling
+        <tt>destroy</tt> on the nonvirtual parent of the creator
+        context will also result in any context created with the
+        <tt>new_context</tt> operation being destroyed. Other than this
+        constraint, no checks are performed to ensure the context is not
+        orphaned.</p></div><div class="section"><div class="titlepage"><div><h2 class="title" style="clear: both"><a name="N10506"></a>The Any Type</h2></div></div><p>Helper classes generated by the OpenORB IDL compiler insert
+        and extract by reference all complex types: structs, unions,
+        and exceptions. This
+        is useful as it avoids excess copying of data and increases
+        performance. Whenever a helper class is used to insert a value
+        into an Any the Any stores a reference to the inserted value.
+        Whenever the extract operation is used on an Any containing
+        a non-reference representation of its contents, the contents
+        will be replaced with a reference to the returned value.</p><p>The helper classes will always have this exact behaviour when used
+        with the OpenORB runtime. If a non-OpenORB ORB is used the extract
+        operation may only extract by value. More effort is made by the
+        helper classes to extract by reference if the -portableref argument
+        is used to the compiler, this will work on any ORB which defines
+        the extract_Streamable operation on its Any class, however the
+        extract operation will be slower.</p><p>To insert a complex type into an Any by value use the following
+        code:</p><pre class="programlisting">any.type(SHelper.type());
+SHelper.write(s, any.create_output_stream());
+</pre><p>To extract a copy of the contained complex type use:</p><pre class="programlisting">if(!any.type().equals(SHelper.type())
+// perform some remedial action
+s = SHelper.read(any.create_input_stream());</pre><p>The above code fragments will not work with valuetypes, these are
+        always stored by reference.</p></div></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="N10517"></a>Chapter 6. Frequently Asked Questions</h2></div></div><div class="qandaset"><h2 class="title">Before starting an application</h2><dl><dt> <a href="#N1051F">
+                    How do I specify a port number for an application?
+                </a></dt></dl><table border="0"><col align="left" width="1%"><tbody><tr class="question"><td valign="top" align="left"><a name="N1051E"></a><a name="N1051F"></a><b></b></td><td valign="top" align="left"><p>
+                    How do I specify a port number for an application?
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    A simple solution is to use the -ORBPort from the command line. Example:
+                    <b>java org.openorb.util.MapNamingContext -ORBPort=2001</b>
+                </p></td></tr></tbody></table></div><div class="qandaset"><h2 class="title">During the bootstrap</h2><dl><dt> <a href="#N1052D">
+                    I receive the following COMM_FAILURE exception on startup:
+
+Exception in thread "main" org.omg.CORBA.COMM_FAILURE:   minor code: 1398079490  completed: No
+at com.sun.corba.se.internal.iiop.IIOPConnection.writeLock(Unknown Source)
+...
+
+                </a></dt><dt> <a href="#N1053D">
+                    I receive the following COMM_FAILURE exception on startup:
+
+Exception in thread "main" org.omg.CORBA.COMM_FAILURE: minor code: 1  completed: No
+at com.sun.CORBA.iiop.ConnectionTable.get(ConnectionTable.java:101)
+at com.sun.CORBA.iiop.GIOPImpl.createRequest(GIOPImpl.java:74)
+...
+
+                </a></dt><dt> <a href="#N1054D">
+                    I receive the following INTERNAL exception on startup:
+
+Exception in thread "main" org.omg.CORBA.INTERNAL:
+org.omg.CORBA.ORBPackage.InvalidName: Object not found: RootPOA minor code: 0  completed: No
+...
+
+                </a></dt></dl><table border="0"><col align="left" width="1%"><tbody><tr class="question"><td valign="top" align="left"><a name="N1052C"></a><a name="N1052D"></a><b></b></td><td valign="top" align="left"><p>
+                    I receive the following COMM_FAILURE exception on startup:
+<pre class="programlisting">
+Exception in thread "main" org.omg.CORBA.COMM_FAILURE:   minor code: 1398079490  completed: No
+at com.sun.corba.se.internal.iiop.IIOPConnection.writeLock(Unknown Source)
+...
+</pre>
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    Check the orb.properties file (see the <a href="#ch_install" title="Chapter 3. Installation">Chapter 3</a> section),
+                    this file is probably missing in your <tt>java.home</tt> directory.
+                </p></td></tr><tr class="question"><td valign="top" align="left"><a name="N1053C"></a><a name="N1053D"></a><b></b></td><td valign="top" align="left"><p>
+                    I receive the following COMM_FAILURE exception on startup:
+<pre class="programlisting">
+Exception in thread "main" org.omg.CORBA.COMM_FAILURE: minor code: 1  completed: No
+at com.sun.CORBA.iiop.ConnectionTable.get(ConnectionTable.java:101)
+at com.sun.CORBA.iiop.GIOPImpl.createRequest(GIOPImpl.java:74)
+...
+</pre>
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    Check the orb.properties file (see the <a href="#ch_install" title="Chapter 3. Installation">Chapter 3</a> section),
+                    this file is probably missing in your <tt>java.home</tt> directory.
+                </p></td></tr><tr class="question"><td valign="top" align="left"><a name="N1054C"></a><a name="N1054D"></a><b></b></td><td valign="top" align="left"><p>
+                    I receive the following INTERNAL exception on startup:
+<pre class="programlisting">
+Exception in thread "main" org.omg.CORBA.INTERNAL:
+org.omg.CORBA.ORBPackage.InvalidName: Object not found: RootPOA minor code: 0  completed: No
+...
+</pre>
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    There are two reasons for this exception:
+                    <div class="itemizedlist"><ul type=""><li><p>The file <tt>OpenORB.xml</tt> was not found.
+                                        Please check this file and its location ( see the 'How to install' section ).
+                        </p></li><li><p>You specified an unknown profile name with the <tt>-ORBProfile</tt> command line option.
+                                        In this case, check your profile name.
+                        </p></li></ul></div>
+                </p></td></tr></tbody></table></div><div class="qandaset"><h2 class="title">While the application is running</h2><dl><dt> <a href="#N1056A">
+                    I get the following error: IncompatibleClassChangeError
+
+Exception in thread "main" java.lang.IncompatibleClassChangeError
+
+                </a></dt><dt> <a href="#N10577">
+                    I can't access the Naming Service
+                </a></dt><dt> <a href="#N1059C">
+                    How can I use corbaloc style addresses for my application?
+                </a></dt></dl><table border="0"><col align="left" width="1%"><tbody><tr class="question"><td valign="top" align="left"><a name="N10569"></a><a name="N1056A"></a><b></b></td><td valign="top" align="left"><p>
+                    I get the following error: IncompatibleClassChangeError
+<pre class="programlisting">
+Exception in thread "main" java.lang.IncompatibleClassChangeError
+</pre>
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    The JVM uses the JDK ORB classes instead of the OpenORB classes. In this
+                    case, you have to start your application with the <tt>Xbootclasspath</tt> java option.
+                </p></td></tr><tr class="question"><td valign="top" align="left"><a name="N10576"></a><a name="N10577"></a><b></b></td><td valign="top" align="left"><p>
+                    I can't access the Naming Service
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    There are several possibilities to solve this problem. First check, the following topics:
+                    <div class="itemizedlist"><ul type=""><li><p>Your Naming Service is running</p></li><li><p>Your <tt>OpenORB.xml</tt> configuration file contains a property named <tt>NameService</tt>, and this property
+                        is imported in your current profile thanks to a module</p></li></ul></div>
+
+                    If all the previous topics are checked, the probable reason is in the corbaloc URL used to specify
+                    the naming service.
+
+                    The corbaloc has to contain the following elements:
+                    <div class="itemizedlist"><ul type=""><li><p>the host name where the naming service is running</p></li><li><p>and the port number where the naming service is listening</p></li></ul></div>
+
+                    If the port number is not specified, it means that you are using the default port number. In this case, the naming service
+                    must be started with the <tt>-default</tt> flag.
+                    If the port number is provided, it must be the same port number that was used to start the naming service with the
+                    <tt>-ORBPort</tt> flag.
+                </p></td></tr><tr class="question"><td valign="top" align="left"><a name="N1059B"></a><a name="N1059C"></a><b></b></td><td valign="top" align="left"><p>
+                    How can I use corbaloc style addresses for my application?
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    Firstly, you're often better off using bindings in the name service to specify initial
+                    references, this allows you to relocate your server without all the clients having
+                    to be notified of the change, and to use transient server references. If you want
+                    to be able to use resolve_initial_references to get your object reference, use a
+                    default initial reference pointing to your name service. By default the DefaultRefs
+                    subcontext of the default naming service is used to store initial references.</p><p>If you must use default initial references, have a look at the way it is done in
+                    the MapNamingContext, you will need the OpenORB sources for this. Note that this
+                    is to be considered an undocumented feature, and is subject to change without
+                    notice.
+                </p></td></tr></tbody></table></div><div class="qandaset"><h2 class="title">Codeset support</h2><dl><dt> <a href="#N105A9">
+                    Why are non us-ascii characters shown as '?????' ?
+                </a></dt><dt> <a href="#N105C0">How can I define encodings for ORB's which do not support encoding translation? (OmniORB2 for example)</a></dt></dl><table border="0"><col align="left" width="1%"><tbody><tr class="question"><td valign="top" align="left"><a name="N105A8"></a><a name="N105A9"></a><b></b></td><td valign="top" align="left"><p>
+                    Why are non us-ascii characters shown as '?????' ?
+                </p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>
+                    For support for the encoding translation feature both ORB's
+                    (client and server ORB's) must use GIOP 1.1 or higher.
+                    If any of your ORB's use GIOP 1.0, refer to the next question.
+                </p><p>
+                    Different JVM can use different represenataion for 
+                    same encoding: ISO-8859-5, ISO8859_5, etc. Representation 
+                    of encoding in JVM and OpenORB may be not equal. 
+                    1. Check your JVM encoding:
+<pre class="programlisting">
+public class CharacterEncodingTest {
+        public static void main(String arg[]) {
+        System.out.println(( new java.io.OutputStreamWriter( System.out ) ).getEncoding());
+
+        };
+};
+</pre>
+                    This program displays your system CodePage. Then try to find the displayed 
+                    encoding in <tt>src/main/org/openorb/iiop/CodeSetDatabaseInit.java</tt>.
+                    If your encoding does not exist in this file, you must to find a synonym 
+                    for your encoding (e.g. ISO-8859-5 for ISO8859_5) and add your encoding
+                    to the OpenORB codeset database. 
+                </p><p>
+                    Before changes:
+<pre class="programlisting">
+...
+CodeSetDatabase.addEntry( "ISO-8859-5", al );
+...
+</pre>
+                    After changes:
+<pre class="programlisting">
+...
+CodeSetDatabase.addEntry( "ISO-8859-5", al );
+CodeSetDatabase.addEntry( "ISO8859_5", al );
+...
+</pre>
+                </p></td></tr><tr class="question"><td valign="top" align="left"><a name="N105BF"></a><a name="N105C0"></a><b></b></td><td valign="top" align="left"><p>How can I define encodings for ORB's which do not support encoding translation? (OmniORB2 for example)</p></td></tr><tr class="answer"><td valign="top" align="left"><b></b></td><td valign="top" align="left"><p>For this purpose you can define your own <tt>CDR(Input/Output)Stream</tt>
+                classes. </p><p>
+                For example, the following classes may be used to set Cp1251 encoding for all GIOP1.0 connections
+<pre class="programlisting">
+public class CDROutputStream1251 extends CDROutputStream
+{
+    public CDROutputStream1251( org.omg.CORBA.ORB orb, org.omg.GIOP.Version version, MarshalBuffer buf )
+    {
+        super(orb, version, buf);
+        setCodesets(0x100204E3,0);
+    }
+}
+</pre>
+<pre class="programlisting">
+public class CDRInputStream1251  extends CDRInputStream
+{
+    public CDRInputStream1251( org.omg.CORBA.ORB orb, boolean bigEndian, org.omg.GIOP.Version version, StorageBuffer buf )
+    {
+        super( orb, bigEndian, version, buf );
+        setCodesets(0x100204E3,0);
+    }
+
+    public CDRInputStream1251( org.omg.CORBA.ORB orb, boolean bigEndian, org.omg.GIOP.Version version, BufferSource source )
+    {
+        super( orb, bigEndian, version, source );
+        setCodesets(0x100204E3,0);
+    }
+}
+</pre>
+                To use this class you need to make these changes in <tt>default.xml</tt>:
+                In the <tt>iiop</tt> module definition, change <tt>CDROutputStreamClass</tt>
+                property value to <tt>org.openorb.iiop.CDROutputStream1251</tt>.
+                Apply the same change to <tt>CDRInputStreamClass</tt>.
+                </p></td></tr></tbody></table></div></div><div class="chapter"><div class="titlepage"><div><h2 class="title"><a name="N105E0"></a>Chapter 7. References</h2></div></div><div class="itemizedlist"><ul type=""><li><p>
+            Ant is the Apache project's Java build tool: http://jakarta.apache.org/ant/index.html
+            </p></li><li><p>
+            The Java extension mechanism is used to add jar files to a Java installation
+            as if they were a core part of the product: http://java.sun.com/docs/books/tutorial/ext/
+            </p></li><li><p>
+            The method of specifying ORBInitializers as keys is described in Sun's Javadoc:
+            http://java.sun.com/j2se/1.4/docs/api/org/omg/PortableInterceptor/ORBInitializer.html
+            </p></li></ul></div></div><div class="appendix"><div class="titlepage"><div><h2 class="title"><a name="N105EF"></a>Appendix A. OpenORB Error Codes</h2></div></div><p>
+        The following list provides the explanation of OpenORB minor error codes for CORBA System exceptions:
+        <div class="itemizedlist"><ul type=""><li><p>1146056705 : Attempt to access incomplete typecode containing recursive</p></li><li><p>1146056706 : Invocation order when using DSI</p></li><li><p>1146056707 : Invocation order when using streaming stubs (Delegate)</p></li><li><p>1146056708 : ORB is not initialized</p></li><li><p>1146056709 : Server invocation order</p></li><li><p>1146056710 : Attempt to extract wrong type from Any</p></li><li><p>1146056711 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056712 : Type mismatch in list streams with fixed type</p></li><li><p>1146056713 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056714 : Attempt to insert value into Any with incorrect typecode</p></li><li><p>1146056715 : Array index out of bounds</p></li><li><p>1146056716 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056717 : No primitive typecode of that kind</p></li><li><p>1146056718 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056719 : Unable to find interface repository</p></li><li><p>1146056720 : Unable to find interface in interface repository</p></li><li><p>1146056721 : Unable interface from repository is the wrong type</p></li><li><p>1146056722 : Sequence length exceeds limit in typecode</p></li><li><p>1146056723 : Attempt to overread input stream</p></li><li><p>1146056724 : Type mismatch for list stream</p></li><li><p>1146056725 : Bounds mismatch for list stream</p></li><li><p>1146056726 : Buffer overread</p></li><li><p>1146056727 : Buffer underread</p></li><li><p>1146056728 : Invalid buffer position or format.</p></li><li><p>1146056729 : Attempt to insert native type into Any</p></li><li><p>1146056730 : Problem with union discriminator</p></li><li><p>1146056731 : Unable to extract valuebox type from Any, missing helper</p></li><li><p>1146056961 : IIOP version does not support primitive</p></li><li><p>1146056962 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056961 : Typecode is not fixed typecode</p></li><li><p>1146056963 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056964 : Null valued strings cannot be transmitted</p></li><li><p>1146056965 : Array index out of bounds</p></li><li><p>1146056966 : Object class cannot be instantiated or is incorrect type</p></li><li><p>1146056967 : Connection to client has been lost before reply can be sent</p></li><li><p>1146056968 : No route to server</p></li><li><p>1146056969 : No connection to server, server is not listening or connection refused</p></li><li><p>1146056970 : Unable to find host in DNS</p></li><li><p>1146056971 : Invalid tag for IIOP profile</p></li><li><p>1146056972 : IIOP profile data is corrupted</p></li><li><p>1146056973 : Component data is corrupted</p></li><li><p>1146056974 : Component data is corrupted</p></li><li><p>1146056975 : Problem with marshalling / unmarshalling char data</p></li><li><p>1146056976 : Problem with marshalling / unmarshalling wchar data</p></li><li><p>1146056977 : Recursive typecode offset does not match Any known typecode</p></li><li><p>1146056978 : Typecode kind unknown</p></li><li><p>1146056979 : Problem with fixed type</p></li><li><p>1146056980 : Problem with valuetype encoding</p></li><li><p>1146056981 : Failed to close encapsulation layer before calling close operation</p></li><li><p>1146056982 : Problem with valuetype encoding</p></li></ul></div>
+        </p><p>
+        The following list provides the OMG error codes for the CORBA System Exceptions.
+        </p><p>
+        UNKNOWN
+        <div class="itemizedlist"><ul type=""><li><p>1 : Unlisted user exception received by client</p></li><li><p>2 : Non-standard System Exception not supported</p></li></ul></div>
+        </p><p>
+        BAD_PARAM
+        <div class="itemizedlist"><ul type=""><li><p>1 : Failure to register, unregister, or lookup value factory</p></li><li><p>2 : RID already defined in IFR</p></li><li><p>3 : Name already used in the context in IFR</p></li><li><p>4 : Target is not a valid container</p></li><li><p>5 : Name clash in inherited context</p></li><li><p>6 : Incorrect type for abstract interface</p></li><li><p>7 : string_to_object conversion failed due to bad scheme name</p></li><li><p>8 : string_to_object conversion failed due to bad address</p></li><li><p>9 : string_to_object conversion failed due to bad schema specific part</p></li><li><p>10 : string_to_object conversion failed due to non-specific reason</p></li><li><p>11 : Attempt to derive abstract interface from non-abstract base interface in the Interface Repository</p></li><li><p>12 : Non-abstract interface in the Interface Repository</p></li><li><p>13 : Attempt to use an incomplete TypeCode as a parameter</p></li><li><p>14 : Invalid object id passed to POA::create_reference_by_id</p></li><li><p>15 : Bad name argument in TypeCode operation</p></li><li><p>16 : Bad RepositoryId argument in TypeCode operation</p></li><li><p>17 : Invalid member name in TypeCode operation</p></li><li><p>18 : Duplicate label value in create_union_tc</p></li><li><p>19 : Incompatible TypeCode of label and discriminator in create_union_tc</p></li><li><p>20 : Supplied discriminator type illegitimate in create_union_tc</p></li><li><p>21 : Any passed to ServerRequest::set_exception does not contain an exception</p></li><li><p>22 : Unlisted user exception passed to ServerRequest::set_exception</p></li><li><p>23 : wchar transmission code set not in service context</p></li><li><p>24 : Service context is not in OMG-defined range</p></li><li><p>25 : Enum value out of range</p></li></ul></div>
+        </p><p>
+        IMP_LIMIT
+        <div class="itemizedlist"><ul type=""><li><p>1 : Unable to use Any profile in IOR</p></li></ul></div>
+        </p><p>
+        INV_OBJREF
+        <div class="itemizedlist"><ul type=""><li><p>1 : wchar Code Set support not specified</p></li></ul></div>
+        </p><p>
+        MARSHAL
+        <div class="itemizedlist"><ul type=""><li><p>1 : Unable to locate value factory</p></li><li><p>2 : ServerRequest::set_result called before ServerRequest::ctx when the operation IDL contains a context clause</p></li><li><p>3 : NVList passed to ServerRequest::arguments does not describe all parameters passed by client</p></li><li><p>4 : Attempt to marshal Local object</p></li></ul></div>
+        </p><p>
+        BAD_TYPECODE
+        <div class="itemizedlist"><ul type=""><li><p>1 : Attempt to marshal incomplete TypeCode</p></li><li><p>2 : Member type code illegitimate in TypeCode operation</p></li></ul></div>
+        </p><p>
+        NO_IMPLEMENT
+        <div class="itemizedlist"><ul type=""><li><p>1 : Missing local value implementation</p></li><li><p>2 : Incompatible value implementation version</p></li><li><p>3 : Unable to use any profile in IOR</p></li><li><p>4 : Attempt to use DII on Local object</p></li></ul></div>
+        </p><p>
+        BAD_INV_ORDER
+        <div class="itemizedlist"><ul type=""><li><p> 1 : Dependency exists in IFR preventing destruction of this object</p></li><li><p> 2 : Attempt to destroy indestructible objects in IFR</p></li><li><p> 3 : Operation would deadlock</p></li><li><p> 4 : ORB has shutdown</p></li><li><p> 5 : Attempt to invoke send or invoke operation of the same Request object more than once</p></li><li><p> 6 : Attempt to set a servant manager after one has already been set</p></li><li><p> 7 : ServerRequest::arguments called more than once or after a call to ServerRequest:: set_exception</p></li><li><p> 8 : ServerRequest::ctx called more than once or before ServerRequest::arguments or after
+                                 ServerRequest::ctx, ServerRequest::set_result or ServerRequest::set_exception</p></li><li><p> 9 : ServerRequest::set_result called more than once or before ServerRequest::arguments or after
+                                 ServerRequest::set_result or ServerRequest::set_exception</p></li><li><p>10 : Attempt to send a DII request after it was sent previously</p></li><li><p>11 : Attempt to poll a DII request or to retrieve its result before the request was sent</p></li><li><p>12 : Attempt to poll a DII request or to retrieve its result after the result was retrieved previously</p></li><li><p>13 : Attempt to poll a synchronous DII request or to retrieve results from a synchronous DII request</p></li></ul></div>
+        </p><p>
+        TRANSIENT
+        <div class="itemizedlist"><ul type=""><li><p>1 : Request discarded due to resource exhaustion in POA</p></li><li><p>2 : No usable profile in IOR</p></li></ul></div>
+        </p><p>
+        OBJ_ADAPTER
+        <div class="itemizedlist"><ul type=""><li><p>1 : System exception in POA::unknown_adapter</p></li><li><p>2 : Servant not found [ServantManager]</p></li><li><p>3 : No default servant available [POA policy]</p></li><li><p>4 : No servant manager available [POA Policy]</p></li><li><p>5 : Violation of POA policy by ServantActivator::incarnate</p></li></ul></div>
+        </p><p>
+        DATA_CONVERSION
+        <div class="itemizedlist"><ul type=""><li><p>1 : Character does not map to negotiated transmission code set</p></li></ul></div>
+        </p><p>
+        OBJECT_NOT_EXIST
+        <div class="itemizedlist"><ul type=""><li><p>1 : Attempt to pass an unactivated (unregistered) value as an object reference</p></li><li><p>2 : POAManager::incarnate failed to create POA</p></li></ul></div>
+        </p></div></div></body></html>

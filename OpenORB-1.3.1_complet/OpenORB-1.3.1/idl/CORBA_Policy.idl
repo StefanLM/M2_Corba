@@ -1,0 +1,99 @@
+// File: CORBA_Policy.idl
+// CORBA 2.3, Chapter 4
+
+#ifndef _CORBA_Policy_IDL_
+#define _CORBA_Policy_IDL_
+
+#include "CORBA_Current.idl"
+#include "CORBA_ORB.idl"
+
+#pragma prefix "omg.org"
+
+module CORBA 
+{
+
+    typedef unsigned long PolicyType;
+
+    // Basic IDL definition
+
+    interface Policy
+    {
+        readonly attribute PolicyType policy_type;
+        
+        Policy copy();
+        
+        void destroy();
+    };
+
+    typedef sequence <Policy> PolicyList;
+    typedef sequence <PolicyType> PolicyTypeSeq;
+
+    typedef short PolicyErrorCode;
+    exception PolicyError 
+    {
+        PolicyErrorCode reason;
+    };
+
+    const PolicyErrorCode BAD_POLICY = 0;
+    const PolicyErrorCode UNSUPPORTED_POLICY = 1;
+    const PolicyErrorCode BAD_POLICY_TYPE = 2;
+    const PolicyErrorCode BAD_POLICY_VALUE = 3;
+    const PolicyErrorCode UNSUPPORTED_POLICY_VALUE = 4;
+
+    typedef sequence<unsigned short> UShortSeq;
+
+    exception InvalidPolicies 
+    {
+        UShortSeq indices;
+    };
+
+    enum SetOverrideType 
+    {
+        SET_OVERRIDE, 
+        ADD_OVERRIDE
+    };
+
+    /**
+     * The PolicyManager operations are used for setting and accessing
+     * Policy overrides at a particular scope. For example, an instance
+     * of the PolicyCurrent is used for specifying Policy overrides that
+     * apply to invocations from that thread.
+     *
+     * @since CORBA 3.0
+     */
+    local interface PolicyManager
+    {
+        /**
+         * Returns a PolicyList containing the overridden Polices for the
+         * requested PolicyTypes. If the specified sequence is empty, all
+         * Policy overrides at this scope will be returned. If none of the
+         * requested PolicyTypes are overridden at the target
+         * PolicyManager, an empty sequence is returned.
+         */
+        PolicyList get_policy_overrides( in PolicyTypeSeq ts );
+
+        /**
+         * Modifies the current set of overrides with the requested list
+         * of Policy overrides. The first parameter policies is a sequence
+         * of references to Policy objects. The second parameter set_add
+         * of type SetOverrideType indicates whether these policies should
+         * be added onto any other overrides that already exist
+         * (ADD_OVERRIDE) in the PolicyManager, or they should be added to
+         * a clean PolicyManager free of any other overrides
+         * (SET_OVERRIDE). Invoking set_policy_overrides with an empty
+         * sequence of policies and a mode of SET_OVERRIDE removes all
+         * overrides from a PolicyManager.
+         */
+        void set_policy_overrides( in PolicyList policies, in SetOverrideType set_add ) 
+            raises ( InvalidPolicies );
+    };
+
+    /**
+     * @since CORBA 3.0
+     */
+    local interface PolicyCurrent : PolicyManager, Current
+    {};
+};
+
+#endif // _CORBA_Policy_IDL_
+

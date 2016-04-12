@@ -1,0 +1,101 @@
+/*
+* Copyright (C) The Community OpenORB Project. All rights reserved.
+*
+* This software is published under the terms of The OpenORB Community Software
+* License version 1.0, a copy of which has been included with this distribution
+* in the LICENSE.txt file.
+*/
+
+// OpenORB_policy.idl
+
+#ifndef _OPENORB_POLICY_IDL_
+#define _OPENORB_POLICY_IDL_
+
+#include <orb.idl>
+#include <interop.idl>
+
+#pragma prefix "openorb.org"
+
+module policy 
+{
+    /**
+     * Policy identifier obtained from the OMG.
+     * equal to (long)("DO"0x7000)
+     */
+    const CORBA::PolicyType OPENORB_VPVID = 0x444f7000;
+
+    /**
+     * This interface is used to merge policies from different domains
+     */
+
+    local interface PolicyReconciler
+    {
+        /**
+         * Merge policies of given type from the given domains.
+         *
+         * @param policy_type Policy type. client_policy and profile_policy must
+         *                    be of this type.
+         * @param client_policy effective client override. (may be null)
+         * @param profile_policy policy specified in profile. (may be null)
+         * @param domain_managers domain managers.
+         *
+         * @return Merged policy, or null for no policy of given type.
+         * @exception org.omg.CORBA.INV_POLICY if merge cannot be performed.
+         */
+        CORBA::Policy reconcile_policies( in CORBA::PolicyType type,
+                                          in CORBA::Policy client_policy,
+                                          in CORBA::Policy ior_policy,
+                                          in CORBA::DomainManagersList domain_managers );
+    };
+
+    // Priority policies for selecting appropriate profile
+    // Client side policy.
+    const CORBA::PolicyType PROFILE_PRIORITY_POLICY_ID = OPENORB_VPVID | 0x201;
+
+    typedef octet ProfilePriority;
+
+    const ProfilePriority DISABLE_PROFILE = 0xFF;
+
+    struct ProfilePriorityEntry
+    {
+        IOP::ProfileId tag;
+        ProfilePriority priority;
+    };
+    typedef sequence<ProfilePriorityEntry> ProfilePriorityEntrySeq;
+
+    struct ProfilePriorityValue
+    {
+        ProfilePriorityEntrySeq profile_priorities;
+        ProfilePriority default_priority;
+    };
+
+    local interface ProfilePriorityPolicy : CORBA::Policy
+    {
+        readonly attribute ProfilePriorityValue value;
+
+        ProfilePriority find_priority( in IOP::ProfileId tag );
+    };
+
+    // local invocation policy. If not present local invokes are allowed
+    // whenever possible.
+    const CORBA::PolicyType FORCE_MARSHAL_POLICY_ID = OPENORB_VPVID | 0x202;
+
+    /**
+     * The local invocation policy is used to determine if local invocation
+     * is allowed.
+     */
+    local interface ForceMarshalPolicy : 
+        CORBA::Policy
+    {
+        /**
+         * If unset or disallowLocal is false then local invocation is
+         * used where possible, otherwise nonlocal invocation (complete object
+         * marshalling / unmarshalling through transport) is used. This should
+         * be set for any POAs which export targets which must always use
+         * call-by-value semantics for complex type invocations.
+         */
+        readonly attribute boolean forceMarshal;
+    };
+};
+
+#endif //_OPENORB_POLICY_IDL_
