@@ -1,10 +1,10 @@
 package ControleAcces;
 
 /**
- * Interface definition : logs
+ * Interface definition : Logs
  * 
  * @author OpenORB Compiler
  */
-public interface logs extends logsOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
+public interface Logs extends LogsOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
 {
 }

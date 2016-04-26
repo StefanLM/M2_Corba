@@ -1,26 +1,26 @@
 package ControleAcces;
 
 /**
- * Interface definition : biometrique
+ * Interface definition : Biometrique
  * 
  * @author OpenORB Compiler
  */
-public abstract class biometriquePOA extends org.omg.PortableServer.Servant
-        implements biometriqueOperations, org.omg.CORBA.portable.InvokeHandler
+public abstract class BiometriquePOA extends org.omg.PortableServer.Servant
+        implements BiometriqueOperations, org.omg.CORBA.portable.InvokeHandler
 {
-    public biometrique _this()
+    public Biometrique _this()
     {
-        return biometriqueHelper.narrow(_this_object());
+        return BiometriqueHelper.narrow(_this_object());
     }
 
-    public biometrique _this(org.omg.CORBA.ORB orb)
+    public Biometrique _this(org.omg.CORBA.ORB orb)
     {
-        return biometriqueHelper.narrow(_this_object(orb));
+        return BiometriqueHelper.narrow(_this_object(orb));
     }
 
     private static String [] _ids_list =
     {
-        "IDL:ControleAcces/biometrique:1.0"
+        "IDL:ControleAcces/Biometrique:1.0"
     };
 
     public String[] _all_interfaces(org.omg.PortableServer.POA poa, byte [] objectId)
@@ -59,20 +59,21 @@ public abstract class biometriquePOA extends org.omg.PortableServer.Servant
 
         try
         {
-            verificationEmpreinte(arg0_in, arg1_in, arg2_in);
+            boolean _arg_result = verificationEmpreinte(arg0_in, arg1_in, arg2_in);
 
             _output = handler.createReply();
+            _output.write_boolean(_arg_result);
 
         }
-        catch (ControleAcces.empreinteInconnue _exception)
+        catch (ControleAcces.EmpreinteInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.empreinteInconnueHelper.write(_output,_exception);
+            ControleAcces.EmpreinteInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -92,15 +93,15 @@ public abstract class biometriquePOA extends org.omg.PortableServer.Servant
             ControleAcces.IdEmpreinteHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.empreinteDejaExistante _exception)
+        catch (ControleAcces.EmpreinteDejaExistante _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.empreinteDejaExistanteHelper.write(_output,_exception);
+            ControleAcces.EmpreinteDejaExistanteHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -120,15 +121,15 @@ public abstract class biometriquePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.empreinteInconnue _exception)
+        catch (ControleAcces.EmpreinteInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.empreinteInconnueHelper.write(_output,_exception);
+            ControleAcces.EmpreinteInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -147,15 +148,15 @@ public abstract class biometriquePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.empreinteInconnue _exception)
+        catch (ControleAcces.EmpreinteInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.empreinteInconnueHelper.write(_output,_exception);
+            ControleAcces.EmpreinteInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -175,15 +176,15 @@ public abstract class biometriquePOA extends org.omg.PortableServer.Servant
             ControleAcces.IdEmpreinteHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.empreinteInconnue _exception)
+        catch (ControleAcces.EmpreinteInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.empreinteInconnueHelper.write(_output,_exception);
+            ControleAcces.EmpreinteInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }

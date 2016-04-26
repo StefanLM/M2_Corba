@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : empreinteInconnue
+ * Helper class for : EmpreinteInconnue
  *  
  * @author OpenORB Compiler
  */ 
-public class empreinteInconnueHelper
+public class EmpreinteInconnueHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class empreinteInconnueHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert empreinteInconnue into an any
+     * Insert EmpreinteInconnue into an any
      * @param a an any
-     * @param t empreinteInconnue value
+     * @param t EmpreinteInconnue value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.empreinteInconnue t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.EmpreinteInconnue t)
     {
-        a.insert_Streamable(new ControleAcces.empreinteInconnueHolder(t));
+        a.insert_Streamable(new ControleAcces.EmpreinteInconnueHolder(t));
     }
 
     /**
-     * Extract empreinteInconnue from an any
+     * Extract EmpreinteInconnue from an any
      * @param a an any
-     * @return the extracted empreinteInconnue value
+     * @return the extracted EmpreinteInconnue value
      */
-    public static ControleAcces.empreinteInconnue extract(org.omg.CORBA.Any a)
+    public static ControleAcces.EmpreinteInconnue extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class empreinteInconnueHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.empreinteInconnueHolder)
-                    return ((ControleAcces.empreinteInconnueHolder)s).value;
+                if(s instanceof ControleAcces.EmpreinteInconnueHolder)
+                    return ((ControleAcces.EmpreinteInconnueHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.empreinteInconnueHolder h = new ControleAcces.empreinteInconnueHolder(read(a.create_input_stream()));
+            ControleAcces.EmpreinteInconnueHolder h = new ControleAcces.EmpreinteInconnueHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class empreinteInconnueHelper
     private static boolean _working = false;
 
     /**
-     * Return the empreinteInconnue TypeCode
+     * Return the EmpreinteInconnue TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class empreinteInconnueHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "empreinte";
                 _members[0].type = ControleAcces.EmpreinteHelper.type();
-                _tc = orb.create_exception_tc(id(),"empreinteInconnue",_members);
+                _tc = orb.create_exception_tc(id(),"EmpreinteInconnue",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class empreinteInconnueHelper
     }
 
     /**
-     * Return the empreinteInconnue IDL ID
+     * Return the EmpreinteInconnue IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class empreinteInconnueHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/empreinteInconnue:1.0";
+    private final static String _id = "IDL:ControleAcces/EmpreinteInconnue:1.0";
 
     /**
-     * Read empreinteInconnue from a marshalled stream
+     * Read EmpreinteInconnue from a marshalled stream
      * @param istream the input stream
-     * @return the readed empreinteInconnue value
+     * @return the readed EmpreinteInconnue value
      */
-    public static ControleAcces.empreinteInconnue read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.EmpreinteInconnue read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.empreinteInconnue new_one = new ControleAcces.empreinteInconnue();
+        ControleAcces.EmpreinteInconnue new_one = new ControleAcces.EmpreinteInconnue();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class empreinteInconnueHelper
     }
 
     /**
-     * Write empreinteInconnue into a marshalled stream
+     * Write EmpreinteInconnue into a marshalled stream
      * @param ostream the output stream
-     * @param value empreinteInconnue value
+     * @param value EmpreinteInconnue value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.empreinteInconnue value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.EmpreinteInconnue value)
     {
         ostream.write_string(id());
         ControleAcces.EmpreinteHelper.write(ostream,value.empreinte);

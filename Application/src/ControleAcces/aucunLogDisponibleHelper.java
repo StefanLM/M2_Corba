@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : aucunLogDisponible
+ * Helper class for : AucunLogDisponible
  *  
  * @author OpenORB Compiler
  */ 
-public class aucunLogDisponibleHelper
+public class AucunLogDisponibleHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class aucunLogDisponibleHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert aucunLogDisponible into an any
+     * Insert AucunLogDisponible into an any
      * @param a an any
-     * @param t aucunLogDisponible value
+     * @param t AucunLogDisponible value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.aucunLogDisponible t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.AucunLogDisponible t)
     {
-        a.insert_Streamable(new ControleAcces.aucunLogDisponibleHolder(t));
+        a.insert_Streamable(new ControleAcces.AucunLogDisponibleHolder(t));
     }
 
     /**
-     * Extract aucunLogDisponible from an any
+     * Extract AucunLogDisponible from an any
      * @param a an any
-     * @return the extracted aucunLogDisponible value
+     * @return the extracted AucunLogDisponible value
      */
-    public static ControleAcces.aucunLogDisponible extract(org.omg.CORBA.Any a)
+    public static ControleAcces.AucunLogDisponible extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class aucunLogDisponibleHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.aucunLogDisponibleHolder)
-                    return ((ControleAcces.aucunLogDisponibleHolder)s).value;
+                if(s instanceof ControleAcces.AucunLogDisponibleHolder)
+                    return ((ControleAcces.AucunLogDisponibleHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.aucunLogDisponibleHolder h = new ControleAcces.aucunLogDisponibleHolder(read(a.create_input_stream()));
+            ControleAcces.AucunLogDisponibleHolder h = new ControleAcces.AucunLogDisponibleHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class aucunLogDisponibleHelper
     private static boolean _working = false;
 
     /**
-     * Return the aucunLogDisponible TypeCode
+     * Return the AucunLogDisponible TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class aucunLogDisponibleHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "raison";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _tc = orb.create_exception_tc(id(),"aucunLogDisponible",_members);
+                _tc = orb.create_exception_tc(id(),"AucunLogDisponible",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class aucunLogDisponibleHelper
     }
 
     /**
-     * Return the aucunLogDisponible IDL ID
+     * Return the AucunLogDisponible IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class aucunLogDisponibleHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/aucunLogDisponible:1.0";
+    private final static String _id = "IDL:ControleAcces/AucunLogDisponible:1.0";
 
     /**
-     * Read aucunLogDisponible from a marshalled stream
+     * Read AucunLogDisponible from a marshalled stream
      * @param istream the input stream
-     * @return the readed aucunLogDisponible value
+     * @return the readed AucunLogDisponible value
      */
-    public static ControleAcces.aucunLogDisponible read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.AucunLogDisponible read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.aucunLogDisponible new_one = new ControleAcces.aucunLogDisponible();
+        ControleAcces.AucunLogDisponible new_one = new ControleAcces.AucunLogDisponible();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class aucunLogDisponibleHelper
     }
 
     /**
-     * Write aucunLogDisponible into a marshalled stream
+     * Write AucunLogDisponible into a marshalled stream
      * @param ostream the output stream
-     * @param value aucunLogDisponible value
+     * @param value AucunLogDisponible value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.aucunLogDisponible value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.AucunLogDisponible value)
     {
         ostream.write_string(id());
         ostream.write_string(value.raison);

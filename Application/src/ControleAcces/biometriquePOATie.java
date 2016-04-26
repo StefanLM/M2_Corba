@@ -1,17 +1,17 @@
 package ControleAcces;
 
 /**
- * Interface definition : biometrique
+ * Interface definition : Biometrique
  * 
  * @author OpenORB Compiler
  */
-public class biometriquePOATie extends biometriquePOA
+public class BiometriquePOATie extends BiometriquePOA
 {
 
     //
     // Private reference to implementation object
     //
-    private biometriqueOperations _tie;
+    private BiometriqueOperations _tie;
 
     //
     // Private reference to POA
@@ -21,7 +21,7 @@ public class biometriquePOATie extends biometriquePOA
     /**
      * Constructor
      */
-    public biometriquePOATie(biometriqueOperations tieObject)
+    public BiometriquePOATie(BiometriqueOperations tieObject)
     {
         _tie = tieObject;
     }
@@ -29,7 +29,7 @@ public class biometriquePOATie extends biometriquePOA
     /**
      * Constructor
      */
-    public biometriquePOATie(biometriqueOperations tieObject, org.omg.PortableServer.POA poa)
+    public BiometriquePOATie(BiometriqueOperations tieObject, org.omg.PortableServer.POA poa)
     {
         _tie = tieObject;
         _poa = poa;
@@ -38,7 +38,7 @@ public class biometriquePOATie extends biometriquePOA
     /**
      * Get the delegate
      */
-    public biometriqueOperations _delegate()
+    public BiometriqueOperations _delegate()
     {
         return _tie;
     }
@@ -46,7 +46,7 @@ public class biometriquePOATie extends biometriquePOA
     /**
      * Set the delegate
      */
-    public void _delegate(biometriqueOperations delegate_)
+    public void _delegate(BiometriqueOperations delegate_)
     {
         _tie = delegate_;
     }
@@ -65,17 +65,17 @@ public class biometriquePOATie extends biometriquePOA
     /**
      * Operation verificationEmpreinte
      */
-    public void verificationEmpreinte(String idEmpreinteCrypte, String empreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+    public boolean verificationEmpreinte(String idEmpreinteCrypte, String empreinte, String apiPublic)
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
-        _tie.verificationEmpreinte( idEmpreinteCrypte,  empreinte,  apiPublic);
+        return _tie.verificationEmpreinte( idEmpreinteCrypte,  empreinte,  apiPublic);
     }
 
     /**
      * Operation ajoutEmpreinte
      */
     public String ajoutEmpreinte(String empreinte, String apiPublic)
-        throws ControleAcces.empreinteDejaExistante, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteDejaExistante, ControleAcces.APIIncorrecte
     {
         return _tie.ajoutEmpreinte( empreinte,  apiPublic);
     }
@@ -84,7 +84,7 @@ public class biometriquePOATie extends biometriquePOA
      * Operation modificationEmpreinte
      */
     public void modificationEmpreinte(String idEmpreinteCrypte, String nouvelleEmpreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         _tie.modificationEmpreinte( idEmpreinteCrypte,  nouvelleEmpreinte,  apiPublic);
     }
@@ -93,7 +93,7 @@ public class biometriquePOATie extends biometriquePOA
      * Operation suppressionEmpreinte
      */
     public void suppressionEmpreinte(String empreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         _tie.suppressionEmpreinte( empreinte,  apiPublic);
     }
@@ -102,7 +102,7 @@ public class biometriquePOATie extends biometriquePOA
      * Operation identificationBiometrique
      */
     public String identificationBiometrique(String empreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         return _tie.identificationBiometrique( empreinte,  apiPublic);
     }

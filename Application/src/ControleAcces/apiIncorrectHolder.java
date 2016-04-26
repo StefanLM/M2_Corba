@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : apiIncorrect
+ * Holder class for : ApiIncorrect
  * 
  * @author OpenORB Compiler
  */
-final public class apiIncorrectHolder
+final public class ApiIncorrectHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal apiIncorrect value
+     * Internal ApiIncorrect value
      */
-    public ControleAcces.apiIncorrect value;
+    public ControleAcces.ApiIncorrect value;
 
     /**
      * Default constructor
      */
-    public apiIncorrectHolder()
+    public ApiIncorrectHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public apiIncorrectHolder(ControleAcces.apiIncorrect initial)
+    public ApiIncorrectHolder(ControleAcces.ApiIncorrect initial)
     {
         value = initial;
     }
 
     /**
-     * Read apiIncorrect from a marshalled stream
+     * Read ApiIncorrect from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = apiIncorrectHelper.read(istream);
+        value = ApiIncorrectHelper.read(istream);
     }
 
     /**
-     * Write apiIncorrect into a marshalled stream
+     * Write ApiIncorrect into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        apiIncorrectHelper.write(ostream,value);
+        ApiIncorrectHelper.write(ostream,value);
     }
 
     /**
-     * Return the apiIncorrect TypeCode
+     * Return the ApiIncorrect TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return apiIncorrectHelper.type();
+        return ApiIncorrectHelper.type();
     }
 
 }

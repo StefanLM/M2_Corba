@@ -1,33 +1,33 @@
 package ControleAcces;
 
 /** 
- * Helper class for : relaiDeZone
+ * Helper class for : RelaiDeZone
  *  
  * @author OpenORB Compiler
  */ 
-public class relaiDeZoneHelper
+public class RelaiDeZoneHelper
 {
     /**
-     * Insert relaiDeZone into an any
+     * Insert RelaiDeZone into an any
      * @param a an any
-     * @param t relaiDeZone value
+     * @param t RelaiDeZone value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.relaiDeZone t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.RelaiDeZone t)
     {
         a.insert_Object(t , type());
     }
 
     /**
-     * Extract relaiDeZone from an any
+     * Extract RelaiDeZone from an any
      * @param a an any
-     * @return the extracted relaiDeZone value
+     * @return the extracted RelaiDeZone value
      */
-    public static ControleAcces.relaiDeZone extract(org.omg.CORBA.Any a)
+    public static ControleAcces.RelaiDeZone extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
         try {
-            return ControleAcces.relaiDeZoneHelper.narrow(a.extract_Object());
+            return ControleAcces.RelaiDeZoneHelper.narrow(a.extract_Object());
         } catch (final org.omg.CORBA.BAD_PARAM e) {
             throw new org.omg.CORBA.MARSHAL(e.getMessage());
         }
@@ -39,20 +39,20 @@ public class relaiDeZoneHelper
     private static org.omg.CORBA.TypeCode _tc = null;
 
     /**
-     * Return the relaiDeZone TypeCode
+     * Return the RelaiDeZone TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
     {
         if (_tc == null) {
             org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-            _tc = orb.create_interface_tc(id(),"relaiDeZone");
+            _tc = orb.create_interface_tc(id(),"RelaiDeZone");
         }
         return _tc;
     }
 
     /**
-     * Return the relaiDeZone IDL ID
+     * Return the RelaiDeZone IDL ID
      * @return an ID
      */
     public static String id()
@@ -60,43 +60,43 @@ public class relaiDeZoneHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/relaiDeZone:1.0";
+    private final static String _id = "IDL:ControleAcces/RelaiDeZone:1.0";
 
     /**
-     * Read relaiDeZone from a marshalled stream
+     * Read RelaiDeZone from a marshalled stream
      * @param istream the input stream
-     * @return the readed relaiDeZone value
+     * @return the readed RelaiDeZone value
      */
-    public static ControleAcces.relaiDeZone read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.RelaiDeZone read(org.omg.CORBA.portable.InputStream istream)
     {
-        return(ControleAcces.relaiDeZone)istream.read_Object(ControleAcces._relaiDeZoneStub.class);
+        return(ControleAcces.RelaiDeZone)istream.read_Object(ControleAcces._RelaiDeZoneStub.class);
     }
 
     /**
-     * Write relaiDeZone into a marshalled stream
+     * Write RelaiDeZone into a marshalled stream
      * @param ostream the output stream
-     * @param value relaiDeZone value
+     * @param value RelaiDeZone value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.relaiDeZone value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.RelaiDeZone value)
     {
         ostream.write_Object((org.omg.CORBA.portable.ObjectImpl)value);
     }
 
     /**
-     * Narrow CORBA::Object to relaiDeZone
+     * Narrow CORBA::Object to RelaiDeZone
      * @param obj the CORBA Object
-     * @return relaiDeZone Object
+     * @return RelaiDeZone Object
      */
-    public static relaiDeZone narrow(org.omg.CORBA.Object obj)
+    public static RelaiDeZone narrow(org.omg.CORBA.Object obj)
     {
         if (obj == null)
             return null;
-        if (obj instanceof relaiDeZone)
-            return (relaiDeZone)obj;
+        if (obj instanceof RelaiDeZone)
+            return (RelaiDeZone)obj;
 
         if (obj._is_a(id()))
         {
-            _relaiDeZoneStub stub = new _relaiDeZoneStub();
+            _RelaiDeZoneStub stub = new _RelaiDeZoneStub();
             stub._set_delegate(((org.omg.CORBA.portable.ObjectImpl)obj)._get_delegate());
             return stub;
         }
@@ -105,18 +105,18 @@ public class relaiDeZoneHelper
     }
 
     /**
-     * Unchecked Narrow CORBA::Object to relaiDeZone
+     * Unchecked Narrow CORBA::Object to RelaiDeZone
      * @param obj the CORBA Object
-     * @return relaiDeZone Object
+     * @return RelaiDeZone Object
      */
-    public static relaiDeZone unchecked_narrow(org.omg.CORBA.Object obj)
+    public static RelaiDeZone unchecked_narrow(org.omg.CORBA.Object obj)
     {
         if (obj == null)
             return null;
-        if (obj instanceof relaiDeZone)
-            return (relaiDeZone)obj;
+        if (obj instanceof RelaiDeZone)
+            return (RelaiDeZone)obj;
 
-        _relaiDeZoneStub stub = new _relaiDeZoneStub();
+        _RelaiDeZoneStub stub = new _RelaiDeZoneStub();
         stub._set_delegate(((org.omg.CORBA.portable.ObjectImpl)obj)._get_delegate());
         return stub;
 

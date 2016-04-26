@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : annuaire
+ * Holder class for : Annuaire
  * 
  * @author OpenORB Compiler
  */
-final public class annuaireHolder
+final public class AnnuaireHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal annuaire value
+     * Internal Annuaire value
      */
-    public ControleAcces.annuaire value;
+    public ControleAcces.Annuaire value;
 
     /**
      * Default constructor
      */
-    public annuaireHolder()
+    public AnnuaireHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public annuaireHolder(ControleAcces.annuaire initial)
+    public AnnuaireHolder(ControleAcces.Annuaire initial)
     {
         value = initial;
     }
 
     /**
-     * Read annuaire from a marshalled stream
+     * Read Annuaire from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = annuaireHelper.read(istream);
+        value = AnnuaireHelper.read(istream);
     }
 
     /**
-     * Write annuaire into a marshalled stream
+     * Write Annuaire into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        annuaireHelper.write(ostream,value);
+        AnnuaireHelper.write(ostream,value);
     }
 
     /**
-     * Return the annuaire TypeCode
+     * Return the Annuaire TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return annuaireHelper.type();
+        return AnnuaireHelper.type();
     }
 
 }

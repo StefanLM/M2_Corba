@@ -1,16 +1,16 @@
 package ControleAcces;
 
 /**
- * Interface definition : logs
+ * Interface definition : Logs
  * 
  * @author OpenORB Compiler
  */
-public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
-        implements logs
+public class _LogsStub extends org.omg.CORBA.portable.ObjectImpl
+        implements Logs
 {
     static final String[] _ids_list =
     {
-        "IDL:ControleAcces/logs:1.0"
+        "IDL:ControleAcces/Logs:1.0"
     };
 
     public String[] _ids()
@@ -18,13 +18,13 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
      return _ids_list;
     }
 
-    private final static Class _opsClass = ControleAcces.logsOperations.class;
+    private final static Class _opsClass = ControleAcces.LogsOperations.class;
 
     /**
      * Operation demandeConsultationLog
      */
     public String demandeConsultationLog(int date, String apiPrive)
-        throws ControleAcces.aucunLogDisponible
+        throws ControleAcces.AucunLogDisponible
     {
         while(true)
         {
@@ -47,9 +47,9 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.aucunLogDisponibleHelper.id()))
+                    if (_exception_id.equals(ControleAcces.AucunLogDisponibleHelper.id()))
                     {
-                        throw ControleAcces.aucunLogDisponibleHelper.read(_exception.getInputStream());
+                        throw ControleAcces.AucunLogDisponibleHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -64,7 +64,7 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("demandeConsultationLog",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.logsOperations _self = (ControleAcces.logsOperations) _so.servant;
+                ControleAcces.LogsOperations _self = (ControleAcces.LogsOperations) _so.servant;
                 try
                 {
                     return _self.demandeConsultationLog( date,  apiPrive);
@@ -80,8 +80,8 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation ecrireLog
      */
-    public void ecrireLog(int idPersonne, String nom, String prenom, String acces, String zone, String descriptionLog)
-        throws ControleAcces.ecritureImpossible, ControleAcces.zoneInconnue, ControleAcces.personneInconnue
+    public void ecrireLog(String typeLog, String descriptionLog)
+        throws ControleAcces.EcritureImpossible
     {
         while(true)
         {
@@ -91,11 +91,7 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("ecrireLog",false);
-                    ControleAcces.IdPersonneHelper.write(_output,idPersonne);
-                    ControleAcces.NomHelper.write(_output,nom);
-                    ControleAcces.PrenomHelper.write(_output,prenom);
-                    ControleAcces.AccesHelper.write(_output,acces);
-                    ControleAcces.NomZoneHelper.write(_output,zone);
+                    ControleAcces.TypeLogHelper.write(_output,typeLog);
                     ControleAcces.DescriptionLogHelper.write(_output,descriptionLog);
                     _input = this._invoke(_output);
                     return;
@@ -107,19 +103,9 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.ecritureImpossibleHelper.id()))
+                    if (_exception_id.equals(ControleAcces.EcritureImpossibleHelper.id()))
                     {
-                        throw ControleAcces.ecritureImpossibleHelper.read(_exception.getInputStream());
-                    }
-
-                    if (_exception_id.equals(ControleAcces.zoneInconnueHelper.id()))
-                    {
-                        throw ControleAcces.zoneInconnueHelper.read(_exception.getInputStream());
-                    }
-
-                    if (_exception_id.equals(ControleAcces.personneInconnueHelper.id()))
-                    {
-                        throw ControleAcces.personneInconnueHelper.read(_exception.getInputStream());
+                        throw ControleAcces.EcritureImpossibleHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -134,10 +120,10 @@ public class _logsStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("ecrireLog",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.logsOperations _self = (ControleAcces.logsOperations) _so.servant;
+                ControleAcces.LogsOperations _self = (ControleAcces.LogsOperations) _so.servant;
                 try
                 {
-                    _self.ecrireLog( idPersonne,  nom,  prenom,  acces,  zone,  descriptionLog);
+                    _self.ecrireLog( typeLog,  descriptionLog);
                     return;
                 }
                 finally

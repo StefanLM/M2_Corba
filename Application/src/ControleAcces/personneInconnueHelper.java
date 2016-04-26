@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : personneInconnue
+ * Helper class for : PersonneInconnue
  *  
  * @author OpenORB Compiler
  */ 
-public class personneInconnueHelper
+public class PersonneInconnueHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class personneInconnueHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert personneInconnue into an any
+     * Insert PersonneInconnue into an any
      * @param a an any
-     * @param t personneInconnue value
+     * @param t PersonneInconnue value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.personneInconnue t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.PersonneInconnue t)
     {
-        a.insert_Streamable(new ControleAcces.personneInconnueHolder(t));
+        a.insert_Streamable(new ControleAcces.PersonneInconnueHolder(t));
     }
 
     /**
-     * Extract personneInconnue from an any
+     * Extract PersonneInconnue from an any
      * @param a an any
-     * @return the extracted personneInconnue value
+     * @return the extracted PersonneInconnue value
      */
-    public static ControleAcces.personneInconnue extract(org.omg.CORBA.Any a)
+    public static ControleAcces.PersonneInconnue extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class personneInconnueHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.personneInconnueHolder)
-                    return ((ControleAcces.personneInconnueHolder)s).value;
+                if(s instanceof ControleAcces.PersonneInconnueHolder)
+                    return ((ControleAcces.PersonneInconnueHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.personneInconnueHolder h = new ControleAcces.personneInconnueHolder(read(a.create_input_stream()));
+            ControleAcces.PersonneInconnueHolder h = new ControleAcces.PersonneInconnueHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class personneInconnueHelper
     private static boolean _working = false;
 
     /**
-     * Return the personneInconnue TypeCode
+     * Return the PersonneInconnue TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class personneInconnueHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "personne";
                 _members[0].type = ControleAcces.PersonneHelper.type();
-                _tc = orb.create_exception_tc(id(),"personneInconnue",_members);
+                _tc = orb.create_exception_tc(id(),"PersonneInconnue",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class personneInconnueHelper
     }
 
     /**
-     * Return the personneInconnue IDL ID
+     * Return the PersonneInconnue IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class personneInconnueHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/personneInconnue:1.0";
+    private final static String _id = "IDL:ControleAcces/PersonneInconnue:1.0";
 
     /**
-     * Read personneInconnue from a marshalled stream
+     * Read PersonneInconnue from a marshalled stream
      * @param istream the input stream
-     * @return the readed personneInconnue value
+     * @return the readed PersonneInconnue value
      */
-    public static ControleAcces.personneInconnue read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.PersonneInconnue read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.personneInconnue new_one = new ControleAcces.personneInconnue();
+        ControleAcces.PersonneInconnue new_one = new ControleAcces.PersonneInconnue();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class personneInconnueHelper
     }
 
     /**
-     * Write personneInconnue into a marshalled stream
+     * Write PersonneInconnue into a marshalled stream
      * @param ostream the output stream
-     * @param value personneInconnue value
+     * @param value PersonneInconnue value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.personneInconnue value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.PersonneInconnue value)
     {
         ostream.write_string(id());
         ControleAcces.PersonneHelper.write(ostream,value.personne);

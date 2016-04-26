@@ -1,26 +1,26 @@
 package ControleAcces;
 
 /**
- * Interface definition : logs
+ * Interface definition : Logs
  * 
  * @author OpenORB Compiler
  */
-public abstract class logsPOA extends org.omg.PortableServer.Servant
-        implements logsOperations, org.omg.CORBA.portable.InvokeHandler
+public abstract class LogsPOA extends org.omg.PortableServer.Servant
+        implements LogsOperations, org.omg.CORBA.portable.InvokeHandler
 {
-    public logs _this()
+    public Logs _this()
     {
-        return logsHelper.narrow(_this_object());
+        return LogsHelper.narrow(_this_object());
     }
 
-    public logs _this(org.omg.CORBA.ORB orb)
+    public Logs _this(org.omg.CORBA.ORB orb)
     {
-        return logsHelper.narrow(_this_object(orb));
+        return LogsHelper.narrow(_this_object(orb));
     }
 
     private static String [] _ids_list =
     {
-        "IDL:ControleAcces/logs:1.0"
+        "IDL:ControleAcces/Logs:1.0"
     };
 
     public String[] _all_interfaces(org.omg.PortableServer.POA poa, byte [] objectId)
@@ -58,10 +58,10 @@ public abstract class logsPOA extends org.omg.PortableServer.Servant
             _output.write_string(_arg_result);
 
         }
-        catch (ControleAcces.aucunLogDisponible _exception)
+        catch (ControleAcces.AucunLogDisponible _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.aucunLogDisponibleHelper.write(_output,_exception);
+            ControleAcces.AucunLogDisponibleHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -70,34 +70,20 @@ public abstract class logsPOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        int arg0_in = ControleAcces.IdPersonneHelper.read(_is);
-        String arg1_in = ControleAcces.NomHelper.read(_is);
-        String arg2_in = ControleAcces.PrenomHelper.read(_is);
-        String arg3_in = ControleAcces.AccesHelper.read(_is);
-        String arg4_in = ControleAcces.NomZoneHelper.read(_is);
-        String arg5_in = ControleAcces.DescriptionLogHelper.read(_is);
+        String arg0_in = ControleAcces.TypeLogHelper.read(_is);
+        String arg1_in = ControleAcces.DescriptionLogHelper.read(_is);
 
         try
         {
-            ecrireLog(arg0_in, arg1_in, arg2_in, arg3_in, arg4_in, arg5_in);
+            ecrireLog(arg0_in, arg1_in);
 
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.ecritureImpossible _exception)
+        catch (ControleAcces.EcritureImpossible _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.ecritureImpossibleHelper.write(_output,_exception);
-        }
-        catch (ControleAcces.zoneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.zoneInconnueHelper.write(_output,_exception);
-        }
-        catch (ControleAcces.personneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.EcritureImpossibleHelper.write(_output,_exception);
         }
         return _output;
     }

@@ -1,10 +1,10 @@
 package ControleAcces;
 
 /**
- * Interface definition : relaiDeZone
+ * Interface definition : RelaiDeZone
  * 
  * @author OpenORB Compiler
  */
-public interface relaiDeZone extends relaiDeZoneOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
+public interface RelaiDeZone extends RelaiDeZoneOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
 {
 }

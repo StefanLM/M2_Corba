@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : relaiDeZone
+ * Holder class for : RelaiDeZone
  * 
  * @author OpenORB Compiler
  */
-final public class relaiDeZoneHolder
+final public class RelaiDeZoneHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal relaiDeZone value
+     * Internal RelaiDeZone value
      */
-    public ControleAcces.relaiDeZone value;
+    public ControleAcces.RelaiDeZone value;
 
     /**
      * Default constructor
      */
-    public relaiDeZoneHolder()
+    public RelaiDeZoneHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public relaiDeZoneHolder(ControleAcces.relaiDeZone initial)
+    public RelaiDeZoneHolder(ControleAcces.RelaiDeZone initial)
     {
         value = initial;
     }
 
     /**
-     * Read relaiDeZone from a marshalled stream
+     * Read RelaiDeZone from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = relaiDeZoneHelper.read(istream);
+        value = RelaiDeZoneHelper.read(istream);
     }
 
     /**
-     * Write relaiDeZone into a marshalled stream
+     * Write RelaiDeZone into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        relaiDeZoneHelper.write(ostream,value);
+        RelaiDeZoneHelper.write(ostream,value);
     }
 
     /**
-     * Return the relaiDeZone TypeCode
+     * Return the RelaiDeZone TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return relaiDeZoneHelper.type();
+        return RelaiDeZoneHelper.type();
     }
 
 }

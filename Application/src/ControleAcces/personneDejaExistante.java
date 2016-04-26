@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : personneDejaExistante
+ * Exception definition : PersonneDejaExistante
  * 
  * @author OpenORB Compiler
  */
-public final class personneDejaExistante extends org.omg.CORBA.UserException
+public final class PersonneDejaExistante extends org.omg.CORBA.UserException
 {
     /**
      * Exception member personne
@@ -15,18 +15,18 @@ public final class personneDejaExistante extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public personneDejaExistante()
+    public PersonneDejaExistante()
     {
-        super(personneDejaExistanteHelper.id());
+        super(PersonneDejaExistanteHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param personne personne exception member
      */
-    public personneDejaExistante(ControleAcces.Personne personne)
+    public PersonneDejaExistante(ControleAcces.Personne personne)
     {
-        super(personneDejaExistanteHelper.id());
+        super(PersonneDejaExistanteHelper.id());
         this.personne = personne;
     }
 
@@ -34,9 +34,9 @@ public final class personneDejaExistante extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param personne personne exception member
      */
-    public personneDejaExistante(String orb_reason, ControleAcces.Personne personne)
+    public PersonneDejaExistante(String orb_reason, ControleAcces.Personne personne)
     {
-        super(personneDejaExistanteHelper.id() +" " +  orb_reason);
+        super(PersonneDejaExistanteHelper.id() +" " +  orb_reason);
         this.personne = personne;
     }
 

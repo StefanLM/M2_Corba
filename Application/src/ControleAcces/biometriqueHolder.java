@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : biometrique
+ * Holder class for : Biometrique
  * 
  * @author OpenORB Compiler
  */
-final public class biometriqueHolder
+final public class BiometriqueHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal biometrique value
+     * Internal Biometrique value
      */
-    public ControleAcces.biometrique value;
+    public ControleAcces.Biometrique value;
 
     /**
      * Default constructor
      */
-    public biometriqueHolder()
+    public BiometriqueHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public biometriqueHolder(ControleAcces.biometrique initial)
+    public BiometriqueHolder(ControleAcces.Biometrique initial)
     {
         value = initial;
     }
 
     /**
-     * Read biometrique from a marshalled stream
+     * Read Biometrique from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = biometriqueHelper.read(istream);
+        value = BiometriqueHelper.read(istream);
     }
 
     /**
-     * Write biometrique into a marshalled stream
+     * Write Biometrique into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        biometriqueHelper.write(ostream,value);
+        BiometriqueHelper.write(ostream,value);
     }
 
     /**
-     * Return the biometrique TypeCode
+     * Return the Biometrique TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return biometriqueHelper.type();
+        return BiometriqueHelper.type();
     }
 
 }

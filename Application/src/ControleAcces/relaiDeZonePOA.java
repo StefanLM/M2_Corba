@@ -1,26 +1,26 @@
 package ControleAcces;
 
 /**
- * Interface definition : relaiDeZone
+ * Interface definition : RelaiDeZone
  * 
  * @author OpenORB Compiler
  */
-public abstract class relaiDeZonePOA extends org.omg.PortableServer.Servant
-        implements relaiDeZoneOperations, org.omg.CORBA.portable.InvokeHandler
+public abstract class RelaiDeZonePOA extends org.omg.PortableServer.Servant
+        implements RelaiDeZoneOperations, org.omg.CORBA.portable.InvokeHandler
 {
-    public relaiDeZone _this()
+    public RelaiDeZone _this()
     {
-        return relaiDeZoneHelper.narrow(_this_object());
+        return RelaiDeZoneHelper.narrow(_this_object());
     }
 
-    public relaiDeZone _this(org.omg.CORBA.ORB orb)
+    public RelaiDeZone _this(org.omg.CORBA.ORB orb)
     {
-        return relaiDeZoneHelper.narrow(_this_object(orb));
+        return RelaiDeZoneHelper.narrow(_this_object(orb));
     }
 
     private static String [] _ids_list =
     {
-        "IDL:ControleAcces/relaiDeZone:1.0"
+        "IDL:ControleAcces/RelaiDeZone:1.0"
     };
 
     public String[] _all_interfaces(org.omg.PortableServer.POA poa, byte [] objectId)
@@ -45,15 +45,15 @@ public abstract class relaiDeZonePOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        int arg0_in = ControleAcces.IdPorteHelper.read(_is);
-        String arg1_in = ControleAcces.PhotoHelper.read(_is);
-        String arg2_in = ControleAcces.EmpreinteHelper.read(_is);
+        String arg0_in = ControleAcces.PhotoHelper.read(_is);
+        String arg1_in = ControleAcces.EmpreinteHelper.read(_is);
 
         try
         {
-            demandeAcces(arg0_in, arg1_in, arg2_in);
+            String _arg_result = demandeAcces(arg0_in, arg1_in);
 
             _output = handler.createReply();
+            _output.write_string(_arg_result);
 
         }
         catch (ControleAcces.PorteInconnue _exception)
@@ -61,10 +61,10 @@ public abstract class relaiDeZonePOA extends org.omg.PortableServer.Servant
             _output = handler.createExceptionReply();
             ControleAcces.PorteInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.accesRefuse _exception)
+        catch (ControleAcces.AccesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.accesRefuseHelper.write(_output,_exception);
+            ControleAcces.AccesRefuseHelper.write(_output,_exception);
         }
         return _output;
     }

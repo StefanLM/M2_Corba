@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : ecritureImpossible
+ * Helper class for : EcritureImpossible
  *  
  * @author OpenORB Compiler
  */ 
-public class ecritureImpossibleHelper
+public class EcritureImpossibleHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class ecritureImpossibleHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert ecritureImpossible into an any
+     * Insert EcritureImpossible into an any
      * @param a an any
-     * @param t ecritureImpossible value
+     * @param t EcritureImpossible value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.ecritureImpossible t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.EcritureImpossible t)
     {
-        a.insert_Streamable(new ControleAcces.ecritureImpossibleHolder(t));
+        a.insert_Streamable(new ControleAcces.EcritureImpossibleHolder(t));
     }
 
     /**
-     * Extract ecritureImpossible from an any
+     * Extract EcritureImpossible from an any
      * @param a an any
-     * @return the extracted ecritureImpossible value
+     * @return the extracted EcritureImpossible value
      */
-    public static ControleAcces.ecritureImpossible extract(org.omg.CORBA.Any a)
+    public static ControleAcces.EcritureImpossible extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class ecritureImpossibleHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.ecritureImpossibleHolder)
-                    return ((ControleAcces.ecritureImpossibleHolder)s).value;
+                if(s instanceof ControleAcces.EcritureImpossibleHolder)
+                    return ((ControleAcces.EcritureImpossibleHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.ecritureImpossibleHolder h = new ControleAcces.ecritureImpossibleHolder(read(a.create_input_stream()));
+            ControleAcces.EcritureImpossibleHolder h = new ControleAcces.EcritureImpossibleHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class ecritureImpossibleHelper
     private static boolean _working = false;
 
     /**
-     * Return the ecritureImpossible TypeCode
+     * Return the EcritureImpossible TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class ecritureImpossibleHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "raison";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _tc = orb.create_exception_tc(id(),"ecritureImpossible",_members);
+                _tc = orb.create_exception_tc(id(),"EcritureImpossible",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class ecritureImpossibleHelper
     }
 
     /**
-     * Return the ecritureImpossible IDL ID
+     * Return the EcritureImpossible IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class ecritureImpossibleHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/ecritureImpossible:1.0";
+    private final static String _id = "IDL:ControleAcces/EcritureImpossible:1.0";
 
     /**
-     * Read ecritureImpossible from a marshalled stream
+     * Read EcritureImpossible from a marshalled stream
      * @param istream the input stream
-     * @return the readed ecritureImpossible value
+     * @return the readed EcritureImpossible value
      */
-    public static ControleAcces.ecritureImpossible read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.EcritureImpossible read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.ecritureImpossible new_one = new ControleAcces.ecritureImpossible();
+        ControleAcces.EcritureImpossible new_one = new ControleAcces.EcritureImpossible();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class ecritureImpossibleHelper
     }
 
     /**
-     * Write ecritureImpossible into a marshalled stream
+     * Write EcritureImpossible into a marshalled stream
      * @param ostream the output stream
-     * @param value ecritureImpossible value
+     * @param value EcritureImpossible value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.ecritureImpossible value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.EcritureImpossible value)
     {
         ostream.write_string(id());
         ostream.write_string(value.raison);

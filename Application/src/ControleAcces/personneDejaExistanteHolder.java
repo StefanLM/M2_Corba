@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : personneDejaExistante
+ * Holder class for : PersonneDejaExistante
  * 
  * @author OpenORB Compiler
  */
-final public class personneDejaExistanteHolder
+final public class PersonneDejaExistanteHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal personneDejaExistante value
+     * Internal PersonneDejaExistante value
      */
-    public ControleAcces.personneDejaExistante value;
+    public ControleAcces.PersonneDejaExistante value;
 
     /**
      * Default constructor
      */
-    public personneDejaExistanteHolder()
+    public PersonneDejaExistanteHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public personneDejaExistanteHolder(ControleAcces.personneDejaExistante initial)
+    public PersonneDejaExistanteHolder(ControleAcces.PersonneDejaExistante initial)
     {
         value = initial;
     }
 
     /**
-     * Read personneDejaExistante from a marshalled stream
+     * Read PersonneDejaExistante from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = personneDejaExistanteHelper.read(istream);
+        value = PersonneDejaExistanteHelper.read(istream);
     }
 
     /**
-     * Write personneDejaExistante into a marshalled stream
+     * Write PersonneDejaExistante into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        personneDejaExistanteHelper.write(ostream,value);
+        PersonneDejaExistanteHelper.write(ostream,value);
     }
 
     /**
-     * Return the personneDejaExistante TypeCode
+     * Return the PersonneDejaExistante TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return personneDejaExistanteHelper.type();
+        return PersonneDejaExistanteHelper.type();
     }
 
 }

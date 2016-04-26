@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : zoneInconnue
+ * Helper class for : ZoneInconnue
  *  
  * @author OpenORB Compiler
  */ 
-public class zoneInconnueHelper
+public class ZoneInconnueHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class zoneInconnueHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert zoneInconnue into an any
+     * Insert ZoneInconnue into an any
      * @param a an any
-     * @param t zoneInconnue value
+     * @param t ZoneInconnue value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.zoneInconnue t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.ZoneInconnue t)
     {
-        a.insert_Streamable(new ControleAcces.zoneInconnueHolder(t));
+        a.insert_Streamable(new ControleAcces.ZoneInconnueHolder(t));
     }
 
     /**
-     * Extract zoneInconnue from an any
+     * Extract ZoneInconnue from an any
      * @param a an any
-     * @return the extracted zoneInconnue value
+     * @return the extracted ZoneInconnue value
      */
-    public static ControleAcces.zoneInconnue extract(org.omg.CORBA.Any a)
+    public static ControleAcces.ZoneInconnue extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class zoneInconnueHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.zoneInconnueHolder)
-                    return ((ControleAcces.zoneInconnueHolder)s).value;
+                if(s instanceof ControleAcces.ZoneInconnueHolder)
+                    return ((ControleAcces.ZoneInconnueHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.zoneInconnueHolder h = new ControleAcces.zoneInconnueHolder(read(a.create_input_stream()));
+            ControleAcces.ZoneInconnueHolder h = new ControleAcces.ZoneInconnueHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class zoneInconnueHelper
     private static boolean _working = false;
 
     /**
-     * Return the zoneInconnue TypeCode
+     * Return the ZoneInconnue TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class zoneInconnueHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "raison";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _tc = orb.create_exception_tc(id(),"zoneInconnue",_members);
+                _tc = orb.create_exception_tc(id(),"ZoneInconnue",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class zoneInconnueHelper
     }
 
     /**
-     * Return the zoneInconnue IDL ID
+     * Return the ZoneInconnue IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class zoneInconnueHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/zoneInconnue:1.0";
+    private final static String _id = "IDL:ControleAcces/ZoneInconnue:1.0";
 
     /**
-     * Read zoneInconnue from a marshalled stream
+     * Read ZoneInconnue from a marshalled stream
      * @param istream the input stream
-     * @return the readed zoneInconnue value
+     * @return the readed ZoneInconnue value
      */
-    public static ControleAcces.zoneInconnue read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.ZoneInconnue read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.zoneInconnue new_one = new ControleAcces.zoneInconnue();
+        ControleAcces.ZoneInconnue new_one = new ControleAcces.ZoneInconnue();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class zoneInconnueHelper
     }
 
     /**
-     * Write zoneInconnue into a marshalled stream
+     * Write ZoneInconnue into a marshalled stream
      * @param ostream the output stream
-     * @param value zoneInconnue value
+     * @param value ZoneInconnue value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.zoneInconnue value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.ZoneInconnue value)
     {
         ostream.write_string(id());
         ostream.write_string(value.raison);

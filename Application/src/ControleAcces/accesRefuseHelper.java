@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : accesRefuse
+ * Helper class for : AccesRefuse
  *  
  * @author OpenORB Compiler
  */ 
-public class accesRefuseHelper
+public class AccesRefuseHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class accesRefuseHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert accesRefuse into an any
+     * Insert AccesRefuse into an any
      * @param a an any
-     * @param t accesRefuse value
+     * @param t AccesRefuse value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.accesRefuse t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.AccesRefuse t)
     {
-        a.insert_Streamable(new ControleAcces.accesRefuseHolder(t));
+        a.insert_Streamable(new ControleAcces.AccesRefuseHolder(t));
     }
 
     /**
-     * Extract accesRefuse from an any
+     * Extract AccesRefuse from an any
      * @param a an any
-     * @return the extracted accesRefuse value
+     * @return the extracted AccesRefuse value
      */
-    public static ControleAcces.accesRefuse extract(org.omg.CORBA.Any a)
+    public static ControleAcces.AccesRefuse extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class accesRefuseHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.accesRefuseHolder)
-                    return ((ControleAcces.accesRefuseHolder)s).value;
+                if(s instanceof ControleAcces.AccesRefuseHolder)
+                    return ((ControleAcces.AccesRefuseHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.accesRefuseHolder h = new ControleAcces.accesRefuseHolder(read(a.create_input_stream()));
+            ControleAcces.AccesRefuseHolder h = new ControleAcces.AccesRefuseHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class accesRefuseHelper
     private static boolean _working = false;
 
     /**
-     * Return the accesRefuse TypeCode
+     * Return the AccesRefuse TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class accesRefuseHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "raison";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _tc = orb.create_exception_tc(id(),"accesRefuse",_members);
+                _tc = orb.create_exception_tc(id(),"AccesRefuse",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class accesRefuseHelper
     }
 
     /**
-     * Return the accesRefuse IDL ID
+     * Return the AccesRefuse IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class accesRefuseHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/accesRefuse:1.0";
+    private final static String _id = "IDL:ControleAcces/AccesRefuse:1.0";
 
     /**
-     * Read accesRefuse from a marshalled stream
+     * Read AccesRefuse from a marshalled stream
      * @param istream the input stream
-     * @return the readed accesRefuse value
+     * @return the readed AccesRefuse value
      */
-    public static ControleAcces.accesRefuse read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.AccesRefuse read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.accesRefuse new_one = new ControleAcces.accesRefuse();
+        ControleAcces.AccesRefuse new_one = new ControleAcces.AccesRefuse();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class accesRefuseHelper
     }
 
     /**
-     * Write accesRefuse into a marshalled stream
+     * Write AccesRefuse into a marshalled stream
      * @param ostream the output stream
-     * @param value accesRefuse value
+     * @param value AccesRefuse value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.accesRefuse value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.AccesRefuse value)
     {
         ostream.write_string(id());
         ostream.write_string(value.raison);

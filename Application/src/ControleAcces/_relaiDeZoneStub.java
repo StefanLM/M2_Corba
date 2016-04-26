@@ -1,16 +1,16 @@
 package ControleAcces;
 
 /**
- * Interface definition : relaiDeZone
+ * Interface definition : RelaiDeZone
  * 
  * @author OpenORB Compiler
  */
-public class _relaiDeZoneStub extends org.omg.CORBA.portable.ObjectImpl
-        implements relaiDeZone
+public class _RelaiDeZoneStub extends org.omg.CORBA.portable.ObjectImpl
+        implements RelaiDeZone
 {
     static final String[] _ids_list =
     {
-        "IDL:ControleAcces/relaiDeZone:1.0"
+        "IDL:ControleAcces/RelaiDeZone:1.0"
     };
 
     public String[] _ids()
@@ -18,13 +18,13 @@ public class _relaiDeZoneStub extends org.omg.CORBA.portable.ObjectImpl
      return _ids_list;
     }
 
-    private final static Class _opsClass = ControleAcces.relaiDeZoneOperations.class;
+    private final static Class _opsClass = ControleAcces.RelaiDeZoneOperations.class;
 
     /**
      * Operation demandeAcces
      */
-    public void demandeAcces(int idPorte, String photo, String empreinte)
-        throws ControleAcces.PorteInconnue, ControleAcces.accesRefuse
+    public String demandeAcces(String photo, String empreinte)
+        throws ControleAcces.PorteInconnue, ControleAcces.AccesRefuse
     {
         while(true)
         {
@@ -34,11 +34,11 @@ public class _relaiDeZoneStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("demandeAcces",true);
-                    ControleAcces.IdPorteHelper.write(_output,idPorte);
                     ControleAcces.PhotoHelper.write(_output,photo);
                     ControleAcces.EmpreinteHelper.write(_output,empreinte);
                     _input = this._invoke(_output);
-                    return;
+                    String _arg_ret = _input.read_string();
+                    return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
                 {
@@ -52,9 +52,9 @@ public class _relaiDeZoneStub extends org.omg.CORBA.portable.ObjectImpl
                         throw ControleAcces.PorteInconnueHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(ControleAcces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(ControleAcces.AccesRefuseHelper.id()))
                     {
-                        throw ControleAcces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw ControleAcces.AccesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -69,11 +69,10 @@ public class _relaiDeZoneStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("demandeAcces",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.relaiDeZoneOperations _self = (ControleAcces.relaiDeZoneOperations) _so.servant;
+                ControleAcces.RelaiDeZoneOperations _self = (ControleAcces.RelaiDeZoneOperations) _so.servant;
                 try
                 {
-                    _self.demandeAcces( idPorte,  photo,  empreinte);
-                    return;
+                    return _self.demandeAcces( photo,  empreinte);
                 }
                 finally
                 {

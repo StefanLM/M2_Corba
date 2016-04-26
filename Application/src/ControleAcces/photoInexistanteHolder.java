@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : photoInexistante
+ * Holder class for : PhotoInexistante
  * 
  * @author OpenORB Compiler
  */
-final public class photoInexistanteHolder
+final public class PhotoInexistanteHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal photoInexistante value
+     * Internal PhotoInexistante value
      */
-    public ControleAcces.photoInexistante value;
+    public ControleAcces.PhotoInexistante value;
 
     /**
      * Default constructor
      */
-    public photoInexistanteHolder()
+    public PhotoInexistanteHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public photoInexistanteHolder(ControleAcces.photoInexistante initial)
+    public PhotoInexistanteHolder(ControleAcces.PhotoInexistante initial)
     {
         value = initial;
     }
 
     /**
-     * Read photoInexistante from a marshalled stream
+     * Read PhotoInexistante from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = photoInexistanteHelper.read(istream);
+        value = PhotoInexistanteHelper.read(istream);
     }
 
     /**
-     * Write photoInexistante into a marshalled stream
+     * Write PhotoInexistante into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        photoInexistanteHelper.write(ostream,value);
+        PhotoInexistanteHelper.write(ostream,value);
     }
 
     /**
-     * Return the photoInexistante TypeCode
+     * Return the PhotoInexistante TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return photoInexistanteHelper.type();
+        return PhotoInexistanteHelper.type();
     }
 
 }

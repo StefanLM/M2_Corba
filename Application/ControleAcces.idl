@@ -16,7 +16,7 @@ module ControleAcces {
 	typedef string IdEmpreinte;
 	typedef string Empreinte;
 	typedef long Date;
-	typedef string Acces;
+	typedef string TypeAcces;
 	typedef boolean Permanent;
 	typedef long IdPorte;
 	typedef string NomZone;
@@ -25,15 +25,15 @@ module ControleAcces {
 	typedef string DescriptionLog;
 	typedef string APIPrive;
     typedef string APIPublic;
-	
-	typedef sequence<IdEmpreinte> sequenceIdEmpreinte; 
+
+	typedef sequence <IdEmpreinte> SequenceIdEmpreinte;
 
 	/*
 	 * Définition des structures
 	 * Mettre le minimum de paramètre, uniquement ce qu'on va utiliser
 	 */
 
-	struct Personne{
+	struct Personne {
 		IdPersonne idPersonne;
 		Nom nom;
 		Prenom prenom;
@@ -47,7 +47,7 @@ module ControleAcces {
 		IdEmpreinte idEmpreinteCrypte;
 	};
 
-	struct Log{
+	struct Log {
 		IdLog idLog;
 		TypeLog typeLog;
 		Date dateLog;
@@ -58,59 +58,60 @@ module ControleAcces {
 	/*
 	 * Définition des exceptions
 	 */
-	exception accesRefuse {string raison;};
-	exception zoneInconnue{string raison;};
-	exception PorteInconnue{string raison;};
-	exception personneInconnue{Personne personne;};
-	exception personneDejaExistante{Personne personne;};
-	exception photoInexistante{Photo idPhoto;};
-	exception empreinteDejaExistante {Empreinte empreinte;};
-	exception empreinteInconnue {Empreinte empreinte;};
-	exception aucunLogDisponible {string raison;};
-	exception ecritureImpossible {string raison;};
-	exception apiIncorrect {string raison;};
+	exception AccesRefuse { string raison; };
+	exception ZoneInconnue { string raison; };
+	exception PorteInconnue { string raison; };
+	exception PersonneInconnue { Personne personne; };
+	exception PersonneDejaExistante { Personne personne; };
+	exception PhotoInexistante { Photo idPhoto; };
+	exception EmpreinteDejaExistante { Empreinte empreinte; };
+	exception EmpreinteInconnue { Empreinte empreinte; };
+	exception AucunLogDisponible { string raison; };
+	exception EcritureImpossible { string raison; };
+	exception APIIncorrecte { string raison; };
 
-
-    interface relaiDeZone {
-       void demandeAcces(in IdPorte idPorte, in Photo photo, in Empreinte empreinte) raises(PorteInconnue,accesRefuse);
+    interface RelaiDeZone {
+        string demandeAcces(in Photo photo, in Empreinte empreinte) raises (PorteInconnue, AccesRefuse);
     };
 
-    interface annuaire {
+    interface Annuaire {
     	/*
     	La porte est déjà identifier auprès d'une liste blanche. Elle possède cependant la clé API en dur lui permettant de faire les requetes
     	*/
 
-      IdEmpreinte verificationPhoto(in Photo photo, in APIPublic apiPublic) raises(photoInexistante,apiIncorrect);
-      Personne verificationPersonne(in Nom nom, in Prenom prenom, in Photo photo, in APIPublic apiPublic) raises(photoInexistante,personneInconnue,apiIncorrect);
-      APIPrive authentification(in Login login, in Password password, in APIPublic apiPublic) raises(personneInconnue,apiIncorrect);
+        IdEmpreinte verificationPhoto(in Photo photo, in APIPublic apiPublic) raises (PhotoInexistante, APIIncorrecte);
+        Personne verificationPersonne(in Nom nom, in Prenom prenom, in Photo photo, in APIPublic apiPublic) raises (PhotoInexistante, PersonneInconnue, APIIncorrecte);
+        APIPrive authentification(in Login login, in Password password, in APIPublic apiPublic) raises (PersonneInconnue, APIIncorrecte);
 
-       void ajoutAutorisation(in Personne personne, in NomZone zone, in APIPrive apiPrive) raises(personneInconnue,apiIncorrect);
-       void modificationAutorisation(in Personne personne, in NomZone nouvelleZone, in APIPrive apiPrive) raises(personneInconnue,apiIncorrect);
-       void supprimerAutorisation(in Personne personne, in NomZone zone, in APIPrive apiPrive) raises(personneInconnue,apiIncorrect);
+        void ajoutPersonne(in Nom nom, in Prenom prenom, in Login login, in Password password, in Photo photo, in APIPrive apiPrive) raises (PersonneDejaExistante, APIIncorrecte);
+        void ajoutPhotoPersonne(in Personne personne, in Photo photo, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
+        void modificationEmpreintePersonne(in Personne personne, in IdEmpreinte idEmpreinteCrypte, in APIPublic apiPublic) raises (PersonneInconnue, APIIncorrecte);
+        void modificationPersonne(in Personne personne, in Nom nomNew, in Prenom prenomNew, in Photo photoNew, in Login loginNew, in Password passwordNew, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
+        void supprimerPersonne(in Personne personne, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
 
-       void ajoutPersonne(in Nom nom, in Prenom prenom, in Login login, in Password password, in Photo photo, in APIPrive apiPrive) raises(personneDejaExistante,apiIncorrect);
-       void ajoutPhotoPersonne(in Personne personne, in Photo photo, in APIPrive apiPrive) raises (personneInconnue,apiIncorrect);
-       void modificationEmpreintePersonne(in Personne personne, in IdEmpreinte idEmpreinteCrypte, in APIPublic apiPublic) raises(personneInconnue,apiIncorrect);
-       void modificationPersonne(in Personne personne, in Nom nomNew, in Prenom prenomNew, in Photo photoNew, in Login loginNew, in Password passwordNew, in APIPrive apiPrive) raises(personneInconnue,apiIncorrect);
-       void supprimerPersonne(in Personne personne, in APIPrive apiPrive) raises(personneInconnue,apiIncorrect);
+        Personne consultationPersonne(in Nom nom, in Prenom prenom, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
+        Personne consultationPersonneBiometrique(in IdEmpreinte idEmpreinteCrypte, in APIPublic apiPublic) raises (PersonneInconnue, APIIncorrecte);
 
-       Personne consultationPersonne(in Nom nom, in Prenom prenom, in APIPrive apiPrive) raises(personneInconnue,apiIncorrect);
-       Personne consultationPersonneBiometrique(in IdEmpreinte idEmpreinteCrypte, in APIPublic apiPublic) raises(personneInconnue,apiIncorrect);
-
-       sequenceIdEmpreinte demandeSuppressionEmpreinte(in APIPublic apiPublic);
+        SequenceIdEmpreinte demandeSuppressionEmpreinte(in APIPublic apiPublic);
 
     };
 
-    interface biometrique {
-       void verificationEmpreinte(in IdEmpreinte idEmpreinteCrypte, in Empreinte empreinte, in APIPublic apiPublic) raises (empreinteInconnue, apiIncorrect);
-       IdEmpreinte ajoutEmpreinte(in Empreinte empreinte, in APIPublic apiPublic) raises (empreinteDejaExistante,apiIncorrect);
-       void modificationEmpreinte(in IdEmpreinte idEmpreinteCrypte, in Empreinte nouvelleEmpreinte, in APIPublic apiPublic) raises (empreinteInconnue, apiIncorrect);
-       void suppressionEmpreinte(in Empreinte empreinte, in APIPublic apiPublic) raises (empreinteInconnue,apiIncorrect);
-       IdEmpreinte identificationBiometrique(in Empreinte empreinte, in APIPublic apiPublic) raises(empreinteInconnue,apiIncorrect);
+    interface Autorisation {
+        void ajoutAutorisation(in Personne personne, in NomZone zone, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
+        void modificationAutorisation(in Personne personne, in NomZone nouvelleZone, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
+        void supprimerAutorisation(in Personne personne, in NomZone zone, in APIPrive apiPrive) raises (PersonneInconnue, APIIncorrecte);
     };
 
-    interface logs {
-       string demandeConsultationLog(in Date date, in APIPrive apiPrive) raises (aucunLogDisponible);
-       oneway void ecrireLog(in IdPersonne idPersonne, in Nom nom, in Prenom prenom, in Acces acces, in NomZone zone, in DescriptionLog descriptionLog) raises (ecritureImpossible,zoneInconnue,personneInconnue);
+    interface Biometrique {
+       boolean verificationEmpreinte(in IdEmpreinte idEmpreinteCrypte, in Empreinte empreinte, in APIPublic apiPublic) raises (EmpreinteInconnue, APIIncorrecte);
+       IdEmpreinte ajoutEmpreinte(in Empreinte empreinte, in APIPublic apiPublic) raises (EmpreinteDejaExistante, APIIncorrecte);
+       void modificationEmpreinte(in IdEmpreinte idEmpreinteCrypte, in Empreinte nouvelleEmpreinte, in APIPublic apiPublic) raises (EmpreinteInconnue, APIIncorrecte);
+       void suppressionEmpreinte(in Empreinte empreinte, in APIPublic apiPublic) raises (EmpreinteInconnue, APIIncorrecte);
+       IdEmpreinte identificationBiometrique(in Empreinte empreinte, in APIPublic apiPublic) raises (EmpreinteInconnue, APIIncorrecte);
+    };
+
+    interface Logs {
+       string demandeConsultationLog(in Date date, in APIPrive apiPrive) raises (AucunLogDisponible);
+       oneway void ecrireLog(in TypeLog typeLog, in DescriptionLog descriptionLog) raises (EcritureImpossible);
     };
 };

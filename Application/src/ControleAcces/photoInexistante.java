@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : photoInexistante
+ * Exception definition : PhotoInexistante
  * 
  * @author OpenORB Compiler
  */
-public final class photoInexistante extends org.omg.CORBA.UserException
+public final class PhotoInexistante extends org.omg.CORBA.UserException
 {
     /**
      * Exception member idPhoto
@@ -15,18 +15,18 @@ public final class photoInexistante extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public photoInexistante()
+    public PhotoInexistante()
     {
-        super(photoInexistanteHelper.id());
+        super(PhotoInexistanteHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param idPhoto idPhoto exception member
      */
-    public photoInexistante(String idPhoto)
+    public PhotoInexistante(String idPhoto)
     {
-        super(photoInexistanteHelper.id());
+        super(PhotoInexistanteHelper.id());
         this.idPhoto = idPhoto;
     }
 
@@ -34,9 +34,9 @@ public final class photoInexistante extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param idPhoto idPhoto exception member
      */
-    public photoInexistante(String orb_reason, String idPhoto)
+    public PhotoInexistante(String orb_reason, String idPhoto)
     {
-        super(photoInexistanteHelper.id() +" " +  orb_reason);
+        super(PhotoInexistanteHelper.id() +" " +  orb_reason);
         this.idPhoto = idPhoto;
     }
 

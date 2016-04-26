@@ -1,16 +1,16 @@
 package ControleAcces;
 
 /**
- * Interface definition : biometrique
+ * Interface definition : Biometrique
  * 
  * @author OpenORB Compiler
  */
-public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
-        implements biometrique
+public class _BiometriqueStub extends org.omg.CORBA.portable.ObjectImpl
+        implements Biometrique
 {
     static final String[] _ids_list =
     {
-        "IDL:ControleAcces/biometrique:1.0"
+        "IDL:ControleAcces/Biometrique:1.0"
     };
 
     public String[] _ids()
@@ -18,13 +18,13 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
      return _ids_list;
     }
 
-    private final static Class _opsClass = ControleAcces.biometriqueOperations.class;
+    private final static Class _opsClass = ControleAcces.BiometriqueOperations.class;
 
     /**
      * Operation verificationEmpreinte
      */
-    public void verificationEmpreinte(String idEmpreinteCrypte, String empreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+    public boolean verificationEmpreinte(String idEmpreinteCrypte, String empreinte, String apiPublic)
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         while(true)
         {
@@ -38,7 +38,8 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                     ControleAcces.EmpreinteHelper.write(_output,empreinte);
                     ControleAcces.APIPublicHelper.write(_output,apiPublic);
                     _input = this._invoke(_output);
-                    return;
+                    boolean _arg_ret = _input.read_boolean();
+                    return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
                 {
@@ -47,14 +48,14 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.empreinteInconnueHelper.id()))
+                    if (_exception_id.equals(ControleAcces.EmpreinteInconnueHelper.id()))
                     {
-                        throw ControleAcces.empreinteInconnueHelper.read(_exception.getInputStream());
+                        throw ControleAcces.EmpreinteInconnueHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(ControleAcces.apiIncorrectHelper.id()))
+                    if (_exception_id.equals(ControleAcces.APIIncorrecteHelper.id()))
                     {
-                        throw ControleAcces.apiIncorrectHelper.read(_exception.getInputStream());
+                        throw ControleAcces.APIIncorrecteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -69,11 +70,10 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("verificationEmpreinte",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.biometriqueOperations _self = (ControleAcces.biometriqueOperations) _so.servant;
+                ControleAcces.BiometriqueOperations _self = (ControleAcces.BiometriqueOperations) _so.servant;
                 try
                 {
-                    _self.verificationEmpreinte( idEmpreinteCrypte,  empreinte,  apiPublic);
-                    return;
+                    return _self.verificationEmpreinte( idEmpreinteCrypte,  empreinte,  apiPublic);
                 }
                 finally
                 {
@@ -87,7 +87,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation ajoutEmpreinte
      */
     public String ajoutEmpreinte(String empreinte, String apiPublic)
-        throws ControleAcces.empreinteDejaExistante, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteDejaExistante, ControleAcces.APIIncorrecte
     {
         while(true)
         {
@@ -110,14 +110,14 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.empreinteDejaExistanteHelper.id()))
+                    if (_exception_id.equals(ControleAcces.EmpreinteDejaExistanteHelper.id()))
                     {
-                        throw ControleAcces.empreinteDejaExistanteHelper.read(_exception.getInputStream());
+                        throw ControleAcces.EmpreinteDejaExistanteHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(ControleAcces.apiIncorrectHelper.id()))
+                    if (_exception_id.equals(ControleAcces.APIIncorrecteHelper.id()))
                     {
-                        throw ControleAcces.apiIncorrectHelper.read(_exception.getInputStream());
+                        throw ControleAcces.APIIncorrecteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -132,7 +132,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("ajoutEmpreinte",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.biometriqueOperations _self = (ControleAcces.biometriqueOperations) _so.servant;
+                ControleAcces.BiometriqueOperations _self = (ControleAcces.BiometriqueOperations) _so.servant;
                 try
                 {
                     return _self.ajoutEmpreinte( empreinte,  apiPublic);
@@ -149,7 +149,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation modificationEmpreinte
      */
     public void modificationEmpreinte(String idEmpreinteCrypte, String nouvelleEmpreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         while(true)
         {
@@ -172,14 +172,14 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.empreinteInconnueHelper.id()))
+                    if (_exception_id.equals(ControleAcces.EmpreinteInconnueHelper.id()))
                     {
-                        throw ControleAcces.empreinteInconnueHelper.read(_exception.getInputStream());
+                        throw ControleAcces.EmpreinteInconnueHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(ControleAcces.apiIncorrectHelper.id()))
+                    if (_exception_id.equals(ControleAcces.APIIncorrecteHelper.id()))
                     {
-                        throw ControleAcces.apiIncorrectHelper.read(_exception.getInputStream());
+                        throw ControleAcces.APIIncorrecteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -194,7 +194,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("modificationEmpreinte",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.biometriqueOperations _self = (ControleAcces.biometriqueOperations) _so.servant;
+                ControleAcces.BiometriqueOperations _self = (ControleAcces.BiometriqueOperations) _so.servant;
                 try
                 {
                     _self.modificationEmpreinte( idEmpreinteCrypte,  nouvelleEmpreinte,  apiPublic);
@@ -212,7 +212,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation suppressionEmpreinte
      */
     public void suppressionEmpreinte(String empreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         while(true)
         {
@@ -234,14 +234,14 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.empreinteInconnueHelper.id()))
+                    if (_exception_id.equals(ControleAcces.EmpreinteInconnueHelper.id()))
                     {
-                        throw ControleAcces.empreinteInconnueHelper.read(_exception.getInputStream());
+                        throw ControleAcces.EmpreinteInconnueHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(ControleAcces.apiIncorrectHelper.id()))
+                    if (_exception_id.equals(ControleAcces.APIIncorrecteHelper.id()))
                     {
-                        throw ControleAcces.apiIncorrectHelper.read(_exception.getInputStream());
+                        throw ControleAcces.APIIncorrecteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -256,7 +256,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("suppressionEmpreinte",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.biometriqueOperations _self = (ControleAcces.biometriqueOperations) _so.servant;
+                ControleAcces.BiometriqueOperations _self = (ControleAcces.BiometriqueOperations) _so.servant;
                 try
                 {
                     _self.suppressionEmpreinte( empreinte,  apiPublic);
@@ -274,7 +274,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation identificationBiometrique
      */
     public String identificationBiometrique(String empreinte, String apiPublic)
-        throws ControleAcces.empreinteInconnue, ControleAcces.apiIncorrect
+        throws ControleAcces.EmpreinteInconnue, ControleAcces.APIIncorrecte
     {
         while(true)
         {
@@ -297,14 +297,14 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(ControleAcces.empreinteInconnueHelper.id()))
+                    if (_exception_id.equals(ControleAcces.EmpreinteInconnueHelper.id()))
                     {
-                        throw ControleAcces.empreinteInconnueHelper.read(_exception.getInputStream());
+                        throw ControleAcces.EmpreinteInconnueHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(ControleAcces.apiIncorrectHelper.id()))
+                    if (_exception_id.equals(ControleAcces.APIIncorrecteHelper.id()))
                     {
-                        throw ControleAcces.apiIncorrectHelper.read(_exception.getInputStream());
+                        throw ControleAcces.APIIncorrecteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -319,7 +319,7 @@ public class _biometriqueStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("identificationBiometrique",_opsClass);
                 if (_so == null)
                    continue;
-                ControleAcces.biometriqueOperations _self = (ControleAcces.biometriqueOperations) _so.servant;
+                ControleAcces.BiometriqueOperations _self = (ControleAcces.BiometriqueOperations) _so.servant;
                 try
                 {
                     return _self.identificationBiometrique( empreinte,  apiPublic);

@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : apiIncorrect
+ * Helper class for : ApiIncorrect
  *  
  * @author OpenORB Compiler
  */ 
-public class apiIncorrectHelper
+public class ApiIncorrectHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class apiIncorrectHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert apiIncorrect into an any
+     * Insert ApiIncorrect into an any
      * @param a an any
-     * @param t apiIncorrect value
+     * @param t ApiIncorrect value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.apiIncorrect t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.ApiIncorrect t)
     {
-        a.insert_Streamable(new ControleAcces.apiIncorrectHolder(t));
+        a.insert_Streamable(new ControleAcces.ApiIncorrectHolder(t));
     }
 
     /**
-     * Extract apiIncorrect from an any
+     * Extract ApiIncorrect from an any
      * @param a an any
-     * @return the extracted apiIncorrect value
+     * @return the extracted ApiIncorrect value
      */
-    public static ControleAcces.apiIncorrect extract(org.omg.CORBA.Any a)
+    public static ControleAcces.ApiIncorrect extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class apiIncorrectHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.apiIncorrectHolder)
-                    return ((ControleAcces.apiIncorrectHolder)s).value;
+                if(s instanceof ControleAcces.ApiIncorrectHolder)
+                    return ((ControleAcces.ApiIncorrectHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.apiIncorrectHolder h = new ControleAcces.apiIncorrectHolder(read(a.create_input_stream()));
+            ControleAcces.ApiIncorrectHolder h = new ControleAcces.ApiIncorrectHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class apiIncorrectHelper
     private static boolean _working = false;
 
     /**
-     * Return the apiIncorrect TypeCode
+     * Return the ApiIncorrect TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class apiIncorrectHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "raison";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _tc = orb.create_exception_tc(id(),"apiIncorrect",_members);
+                _tc = orb.create_exception_tc(id(),"ApiIncorrect",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class apiIncorrectHelper
     }
 
     /**
-     * Return the apiIncorrect IDL ID
+     * Return the ApiIncorrect IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class apiIncorrectHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/apiIncorrect:1.0";
+    private final static String _id = "IDL:ControleAcces/ApiIncorrect:1.0";
 
     /**
-     * Read apiIncorrect from a marshalled stream
+     * Read ApiIncorrect from a marshalled stream
      * @param istream the input stream
-     * @return the readed apiIncorrect value
+     * @return the readed ApiIncorrect value
      */
-    public static ControleAcces.apiIncorrect read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.ApiIncorrect read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.apiIncorrect new_one = new ControleAcces.apiIncorrect();
+        ControleAcces.ApiIncorrect new_one = new ControleAcces.ApiIncorrect();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class apiIncorrectHelper
     }
 
     /**
-     * Write apiIncorrect into a marshalled stream
+     * Write ApiIncorrect into a marshalled stream
      * @param ostream the output stream
-     * @param value apiIncorrect value
+     * @param value ApiIncorrect value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.apiIncorrect value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.ApiIncorrect value)
     {
         ostream.write_string(id());
         ostream.write_string(value.raison);

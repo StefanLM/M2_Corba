@@ -1,22 +1,22 @@
 package ControleAcces;
 
 /**
- * Interface definition : logs
+ * Interface definition : Logs
  * 
  * @author OpenORB Compiler
  */
-public interface logsOperations
+public interface LogsOperations
 {
     /**
      * Operation demandeConsultationLog
      */
     public String demandeConsultationLog(int date, String apiPrive)
-        throws ControleAcces.aucunLogDisponible;
+        throws ControleAcces.AucunLogDisponible;
 
     /**
      * Operation ecrireLog
      */
-    public void ecrireLog(int idPersonne, String nom, String prenom, String acces, String zone, String descriptionLog)
-        throws ControleAcces.ecritureImpossible, ControleAcces.zoneInconnue, ControleAcces.personneInconnue;
+    public void ecrireLog(String typeLog, String descriptionLog)
+        throws ControleAcces.EcritureImpossible;
 
 }

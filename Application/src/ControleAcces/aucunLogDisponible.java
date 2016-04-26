@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : aucunLogDisponible
+ * Exception definition : AucunLogDisponible
  * 
  * @author OpenORB Compiler
  */
-public final class aucunLogDisponible extends org.omg.CORBA.UserException
+public final class AucunLogDisponible extends org.omg.CORBA.UserException
 {
     /**
      * Exception member raison
@@ -15,18 +15,18 @@ public final class aucunLogDisponible extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public aucunLogDisponible()
+    public AucunLogDisponible()
     {
-        super(aucunLogDisponibleHelper.id());
+        super(AucunLogDisponibleHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param raison raison exception member
      */
-    public aucunLogDisponible(String raison)
+    public AucunLogDisponible(String raison)
     {
-        super(aucunLogDisponibleHelper.id());
+        super(AucunLogDisponibleHelper.id());
         this.raison = raison;
     }
 
@@ -34,9 +34,9 @@ public final class aucunLogDisponible extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param raison raison exception member
      */
-    public aucunLogDisponible(String orb_reason, String raison)
+    public AucunLogDisponible(String orb_reason, String raison)
     {
-        super(aucunLogDisponibleHelper.id() +" " +  orb_reason);
+        super(AucunLogDisponibleHelper.id() +" " +  orb_reason);
         this.raison = raison;
     }
 

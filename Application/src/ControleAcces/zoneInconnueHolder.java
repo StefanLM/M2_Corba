@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : zoneInconnue
+ * Holder class for : ZoneInconnue
  * 
  * @author OpenORB Compiler
  */
-final public class zoneInconnueHolder
+final public class ZoneInconnueHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal zoneInconnue value
+     * Internal ZoneInconnue value
      */
-    public ControleAcces.zoneInconnue value;
+    public ControleAcces.ZoneInconnue value;
 
     /**
      * Default constructor
      */
-    public zoneInconnueHolder()
+    public ZoneInconnueHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public zoneInconnueHolder(ControleAcces.zoneInconnue initial)
+    public ZoneInconnueHolder(ControleAcces.ZoneInconnue initial)
     {
         value = initial;
     }
 
     /**
-     * Read zoneInconnue from a marshalled stream
+     * Read ZoneInconnue from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = zoneInconnueHelper.read(istream);
+        value = ZoneInconnueHelper.read(istream);
     }
 
     /**
-     * Write zoneInconnue into a marshalled stream
+     * Write ZoneInconnue into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        zoneInconnueHelper.write(ostream,value);
+        ZoneInconnueHelper.write(ostream,value);
     }
 
     /**
-     * Return the zoneInconnue TypeCode
+     * Return the ZoneInconnue TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return zoneInconnueHelper.type();
+        return ZoneInconnueHelper.type();
     }
 
 }

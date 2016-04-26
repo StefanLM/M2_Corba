@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : empreinteDejaExistante
+ * Exception definition : EmpreinteDejaExistante
  * 
  * @author OpenORB Compiler
  */
-public final class empreinteDejaExistante extends org.omg.CORBA.UserException
+public final class EmpreinteDejaExistante extends org.omg.CORBA.UserException
 {
     /**
      * Exception member empreinte
@@ -15,18 +15,18 @@ public final class empreinteDejaExistante extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public empreinteDejaExistante()
+    public EmpreinteDejaExistante()
     {
-        super(empreinteDejaExistanteHelper.id());
+        super(EmpreinteDejaExistanteHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param empreinte empreinte exception member
      */
-    public empreinteDejaExistante(String empreinte)
+    public EmpreinteDejaExistante(String empreinte)
     {
-        super(empreinteDejaExistanteHelper.id());
+        super(EmpreinteDejaExistanteHelper.id());
         this.empreinte = empreinte;
     }
 
@@ -34,9 +34,9 @@ public final class empreinteDejaExistante extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param empreinte empreinte exception member
      */
-    public empreinteDejaExistante(String orb_reason, String empreinte)
+    public EmpreinteDejaExistante(String orb_reason, String empreinte)
     {
-        super(empreinteDejaExistanteHelper.id() +" " +  orb_reason);
+        super(EmpreinteDejaExistanteHelper.id() +" " +  orb_reason);
         this.empreinte = empreinte;
     }
 

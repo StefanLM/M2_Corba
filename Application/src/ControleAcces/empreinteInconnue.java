@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : empreinteInconnue
+ * Exception definition : EmpreinteInconnue
  * 
  * @author OpenORB Compiler
  */
-public final class empreinteInconnue extends org.omg.CORBA.UserException
+public final class EmpreinteInconnue extends org.omg.CORBA.UserException
 {
     /**
      * Exception member empreinte
@@ -15,18 +15,18 @@ public final class empreinteInconnue extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public empreinteInconnue()
+    public EmpreinteInconnue()
     {
-        super(empreinteInconnueHelper.id());
+        super(EmpreinteInconnueHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param empreinte empreinte exception member
      */
-    public empreinteInconnue(String empreinte)
+    public EmpreinteInconnue(String empreinte)
     {
-        super(empreinteInconnueHelper.id());
+        super(EmpreinteInconnueHelper.id());
         this.empreinte = empreinte;
     }
 
@@ -34,9 +34,9 @@ public final class empreinteInconnue extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param empreinte empreinte exception member
      */
-    public empreinteInconnue(String orb_reason, String empreinte)
+    public EmpreinteInconnue(String orb_reason, String empreinte)
     {
-        super(empreinteInconnueHelper.id() +" " +  orb_reason);
+        super(EmpreinteInconnueHelper.id() +" " +  orb_reason);
         this.empreinte = empreinte;
     }
 

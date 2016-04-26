@@ -1,10 +1,10 @@
 package ControleAcces;
 
 /**
- * Interface definition : annuaire
+ * Interface definition : Annuaire
  * 
  * @author OpenORB Compiler
  */
-public interface annuaire extends annuaireOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
+public interface Annuaire extends AnnuaireOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
 {
 }

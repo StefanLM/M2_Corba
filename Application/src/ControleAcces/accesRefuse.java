@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : accesRefuse
+ * Exception definition : AccesRefuse
  * 
  * @author OpenORB Compiler
  */
-public final class accesRefuse extends org.omg.CORBA.UserException
+public final class AccesRefuse extends org.omg.CORBA.UserException
 {
     /**
      * Exception member raison
@@ -15,18 +15,18 @@ public final class accesRefuse extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public accesRefuse()
+    public AccesRefuse()
     {
-        super(accesRefuseHelper.id());
+        super(AccesRefuseHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param raison raison exception member
      */
-    public accesRefuse(String raison)
+    public AccesRefuse(String raison)
     {
-        super(accesRefuseHelper.id());
+        super(AccesRefuseHelper.id());
         this.raison = raison;
     }
 
@@ -34,9 +34,9 @@ public final class accesRefuse extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param raison raison exception member
      */
-    public accesRefuse(String orb_reason, String raison)
+    public AccesRefuse(String orb_reason, String raison)
     {
-        super(accesRefuseHelper.id() +" " +  orb_reason);
+        super(AccesRefuseHelper.id() +" " +  orb_reason);
         this.raison = raison;
     }
 

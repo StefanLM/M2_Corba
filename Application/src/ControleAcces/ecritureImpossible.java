@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : ecritureImpossible
+ * Exception definition : EcritureImpossible
  * 
  * @author OpenORB Compiler
  */
-public final class ecritureImpossible extends org.omg.CORBA.UserException
+public final class EcritureImpossible extends org.omg.CORBA.UserException
 {
     /**
      * Exception member raison
@@ -15,18 +15,18 @@ public final class ecritureImpossible extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public ecritureImpossible()
+    public EcritureImpossible()
     {
-        super(ecritureImpossibleHelper.id());
+        super(EcritureImpossibleHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param raison raison exception member
      */
-    public ecritureImpossible(String raison)
+    public EcritureImpossible(String raison)
     {
-        super(ecritureImpossibleHelper.id());
+        super(EcritureImpossibleHelper.id());
         this.raison = raison;
     }
 
@@ -34,9 +34,9 @@ public final class ecritureImpossible extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param raison raison exception member
      */
-    public ecritureImpossible(String orb_reason, String raison)
+    public EcritureImpossible(String orb_reason, String raison)
     {
-        super(ecritureImpossibleHelper.id() +" " +  orb_reason);
+        super(EcritureImpossibleHelper.id() +" " +  orb_reason);
         this.raison = raison;
     }
 

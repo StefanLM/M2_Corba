@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : personneInconnue
+ * Holder class for : PersonneInconnue
  * 
  * @author OpenORB Compiler
  */
-final public class personneInconnueHolder
+final public class PersonneInconnueHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal personneInconnue value
+     * Internal PersonneInconnue value
      */
-    public ControleAcces.personneInconnue value;
+    public ControleAcces.PersonneInconnue value;
 
     /**
      * Default constructor
      */
-    public personneInconnueHolder()
+    public PersonneInconnueHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public personneInconnueHolder(ControleAcces.personneInconnue initial)
+    public PersonneInconnueHolder(ControleAcces.PersonneInconnue initial)
     {
         value = initial;
     }
 
     /**
-     * Read personneInconnue from a marshalled stream
+     * Read PersonneInconnue from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = personneInconnueHelper.read(istream);
+        value = PersonneInconnueHelper.read(istream);
     }
 
     /**
-     * Write personneInconnue into a marshalled stream
+     * Write PersonneInconnue into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        personneInconnueHelper.write(ostream,value);
+        PersonneInconnueHelper.write(ostream,value);
     }
 
     /**
-     * Return the personneInconnue TypeCode
+     * Return the PersonneInconnue TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return personneInconnueHelper.type();
+        return PersonneInconnueHelper.type();
     }
 
 }

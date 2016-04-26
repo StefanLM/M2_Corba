@@ -1,17 +1,17 @@
 package ControleAcces;
 
 /**
- * Interface definition : relaiDeZone
+ * Interface definition : RelaiDeZone
  * 
  * @author OpenORB Compiler
  */
-public class relaiDeZonePOATie extends relaiDeZonePOA
+public class RelaiDeZonePOATie extends RelaiDeZonePOA
 {
 
     //
     // Private reference to implementation object
     //
-    private relaiDeZoneOperations _tie;
+    private RelaiDeZoneOperations _tie;
 
     //
     // Private reference to POA
@@ -21,7 +21,7 @@ public class relaiDeZonePOATie extends relaiDeZonePOA
     /**
      * Constructor
      */
-    public relaiDeZonePOATie(relaiDeZoneOperations tieObject)
+    public RelaiDeZonePOATie(RelaiDeZoneOperations tieObject)
     {
         _tie = tieObject;
     }
@@ -29,7 +29,7 @@ public class relaiDeZonePOATie extends relaiDeZonePOA
     /**
      * Constructor
      */
-    public relaiDeZonePOATie(relaiDeZoneOperations tieObject, org.omg.PortableServer.POA poa)
+    public RelaiDeZonePOATie(RelaiDeZoneOperations tieObject, org.omg.PortableServer.POA poa)
     {
         _tie = tieObject;
         _poa = poa;
@@ -38,7 +38,7 @@ public class relaiDeZonePOATie extends relaiDeZonePOA
     /**
      * Get the delegate
      */
-    public relaiDeZoneOperations _delegate()
+    public RelaiDeZoneOperations _delegate()
     {
         return _tie;
     }
@@ -46,7 +46,7 @@ public class relaiDeZonePOATie extends relaiDeZonePOA
     /**
      * Set the delegate
      */
-    public void _delegate(relaiDeZoneOperations delegate_)
+    public void _delegate(RelaiDeZoneOperations delegate_)
     {
         _tie = delegate_;
     }
@@ -65,10 +65,10 @@ public class relaiDeZonePOATie extends relaiDeZonePOA
     /**
      * Operation demandeAcces
      */
-    public void demandeAcces(int idPorte, String photo, String empreinte)
-        throws ControleAcces.PorteInconnue, ControleAcces.accesRefuse
+    public String demandeAcces(String photo, String empreinte)
+        throws ControleAcces.PorteInconnue, ControleAcces.AccesRefuse
     {
-        _tie.demandeAcces( idPorte,  photo,  empreinte);
+        return _tie.demandeAcces( photo,  empreinte);
     }
 
 }

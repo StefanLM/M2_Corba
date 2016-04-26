@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : logs
+ * Holder class for : Logs
  * 
  * @author OpenORB Compiler
  */
-final public class logsHolder
+final public class LogsHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal logs value
+     * Internal Logs value
      */
-    public ControleAcces.logs value;
+    public ControleAcces.Logs value;
 
     /**
      * Default constructor
      */
-    public logsHolder()
+    public LogsHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public logsHolder(ControleAcces.logs initial)
+    public LogsHolder(ControleAcces.Logs initial)
     {
         value = initial;
     }
 
     /**
-     * Read logs from a marshalled stream
+     * Read Logs from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = logsHelper.read(istream);
+        value = LogsHelper.read(istream);
     }
 
     /**
-     * Write logs into a marshalled stream
+     * Write Logs into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        logsHelper.write(ostream,value);
+        LogsHelper.write(ostream,value);
     }
 
     /**
-     * Return the logs TypeCode
+     * Return the Logs TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return logsHelper.type();
+        return LogsHelper.type();
     }
 
 }

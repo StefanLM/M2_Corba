@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : zoneInconnue
+ * Exception definition : ZoneInconnue
  * 
  * @author OpenORB Compiler
  */
-public final class zoneInconnue extends org.omg.CORBA.UserException
+public final class ZoneInconnue extends org.omg.CORBA.UserException
 {
     /**
      * Exception member raison
@@ -15,18 +15,18 @@ public final class zoneInconnue extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public zoneInconnue()
+    public ZoneInconnue()
     {
-        super(zoneInconnueHelper.id());
+        super(ZoneInconnueHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param raison raison exception member
      */
-    public zoneInconnue(String raison)
+    public ZoneInconnue(String raison)
     {
-        super(zoneInconnueHelper.id());
+        super(ZoneInconnueHelper.id());
         this.raison = raison;
     }
 
@@ -34,9 +34,9 @@ public final class zoneInconnue extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param raison raison exception member
      */
-    public zoneInconnue(String orb_reason, String raison)
+    public ZoneInconnue(String orb_reason, String raison)
     {
-        super(zoneInconnueHelper.id() +" " +  orb_reason);
+        super(ZoneInconnueHelper.id() +" " +  orb_reason);
         this.raison = raison;
     }
 

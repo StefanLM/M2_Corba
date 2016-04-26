@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : accesRefuse
+ * Holder class for : AccesRefuse
  * 
  * @author OpenORB Compiler
  */
-final public class accesRefuseHolder
+final public class AccesRefuseHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal accesRefuse value
+     * Internal AccesRefuse value
      */
-    public ControleAcces.accesRefuse value;
+    public ControleAcces.AccesRefuse value;
 
     /**
      * Default constructor
      */
-    public accesRefuseHolder()
+    public AccesRefuseHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public accesRefuseHolder(ControleAcces.accesRefuse initial)
+    public AccesRefuseHolder(ControleAcces.AccesRefuse initial)
     {
         value = initial;
     }
 
     /**
-     * Read accesRefuse from a marshalled stream
+     * Read AccesRefuse from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = accesRefuseHelper.read(istream);
+        value = AccesRefuseHelper.read(istream);
     }
 
     /**
-     * Write accesRefuse into a marshalled stream
+     * Write AccesRefuse into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        accesRefuseHelper.write(ostream,value);
+        AccesRefuseHelper.write(ostream,value);
     }
 
     /**
-     * Return the accesRefuse TypeCode
+     * Return the AccesRefuse TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return accesRefuseHelper.type();
+        return AccesRefuseHelper.type();
     }
 
 }

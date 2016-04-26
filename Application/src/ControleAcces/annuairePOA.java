@@ -1,26 +1,26 @@
 package ControleAcces;
 
 /**
- * Interface definition : annuaire
+ * Interface definition : Annuaire
  * 
  * @author OpenORB Compiler
  */
-public abstract class annuairePOA extends org.omg.PortableServer.Servant
-        implements annuaireOperations, org.omg.CORBA.portable.InvokeHandler
+public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
+        implements AnnuaireOperations, org.omg.CORBA.portable.InvokeHandler
 {
-    public annuaire _this()
+    public Annuaire _this()
     {
-        return annuaireHelper.narrow(_this_object());
+        return AnnuaireHelper.narrow(_this_object());
     }
 
-    public annuaire _this(org.omg.CORBA.ORB orb)
+    public Annuaire _this(org.omg.CORBA.ORB orb)
     {
-        return annuaireHelper.narrow(_this_object(orb));
+        return AnnuaireHelper.narrow(_this_object(orb));
     }
 
     private static String [] _ids_list =
     {
-        "IDL:ControleAcces/annuaire:1.0"
+        "IDL:ControleAcces/Annuaire:1.0"
     };
 
     public String[] _all_interfaces(org.omg.PortableServer.POA poa, byte [] objectId)
@@ -31,8 +31,6 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final java.util.Map operationMap = new java.util.HashMap();
 
     static {
-            operationMap.put("ajoutAutorisation",
-                    new Operation_ajoutAutorisation());
             operationMap.put("ajoutPersonne",
                     new Operation_ajoutPersonne());
             operationMap.put("ajoutPhotoPersonne",
@@ -45,14 +43,10 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
                     new Operation_consultationPersonneBiometrique());
             operationMap.put("demandeSuppressionEmpreinte",
                     new Operation_demandeSuppressionEmpreinte());
-            operationMap.put("modificationAutorisation",
-                    new Operation_modificationAutorisation());
             operationMap.put("modificationEmpreintePersonne",
                     new Operation_modificationEmpreintePersonne());
             operationMap.put("modificationPersonne",
                     new Operation_modificationPersonne());
-            operationMap.put("supprimerAutorisation",
-                    new Operation_supprimerAutorisation());
             operationMap.put("supprimerPersonne",
                     new Operation_supprimerPersonne());
             operationMap.put("verificationPersonne",
@@ -91,15 +85,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             ControleAcces.IdEmpreinteHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.photoInexistante _exception)
+        catch (ControleAcces.PhotoInexistante _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.photoInexistanteHelper.write(_output,_exception);
+            ControleAcces.PhotoInexistanteHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -121,20 +115,20 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             ControleAcces.PersonneHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.photoInexistante _exception)
+        catch (ControleAcces.PhotoInexistante _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.photoInexistanteHelper.write(_output,_exception);
+            ControleAcces.PhotoInexistanteHelper.write(_output,_exception);
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -155,99 +149,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             ControleAcces.APIPriveHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
-        }
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_ajoutAutorisation(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        ControleAcces.Personne arg0_in = ControleAcces.PersonneHelper.read(_is);
-        String arg1_in = ControleAcces.NomZoneHelper.read(_is);
-        String arg2_in = ControleAcces.APIPriveHelper.read(_is);
-
-        try
-        {
-            ajoutAutorisation(arg0_in, arg1_in, arg2_in);
-
-            _output = handler.createReply();
-
-        }
-        catch (ControleAcces.personneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
-        }
-        catch (ControleAcces.apiIncorrect _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
-        }
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_modificationAutorisation(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        ControleAcces.Personne arg0_in = ControleAcces.PersonneHelper.read(_is);
-        String arg1_in = ControleAcces.NomZoneHelper.read(_is);
-        String arg2_in = ControleAcces.APIPriveHelper.read(_is);
-
-        try
-        {
-            modificationAutorisation(arg0_in, arg1_in, arg2_in);
-
-            _output = handler.createReply();
-
-        }
-        catch (ControleAcces.personneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
-        }
-        catch (ControleAcces.apiIncorrect _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
-        }
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_supprimerAutorisation(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        ControleAcces.Personne arg0_in = ControleAcces.PersonneHelper.read(_is);
-        String arg1_in = ControleAcces.NomZoneHelper.read(_is);
-        String arg2_in = ControleAcces.APIPriveHelper.read(_is);
-
-        try
-        {
-            supprimerAutorisation(arg0_in, arg1_in, arg2_in);
-
-            _output = handler.createReply();
-
-        }
-        catch (ControleAcces.personneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
-        }
-        catch (ControleAcces.apiIncorrect _exception)
-        {
-            _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -270,15 +180,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.personneDejaExistante _exception)
+        catch (ControleAcces.PersonneDejaExistante _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneDejaExistanteHelper.write(_output,_exception);
+            ControleAcces.PersonneDejaExistanteHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -298,15 +208,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -326,15 +236,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -358,15 +268,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -385,15 +295,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -414,15 +324,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             ControleAcces.PersonneHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -442,15 +352,15 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
             ControleAcces.PersonneHelper.write(_output,_arg_result);
 
         }
-        catch (ControleAcces.personneInconnue _exception)
+        catch (ControleAcces.PersonneInconnue _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.personneInconnueHelper.write(_output,_exception);
+            ControleAcces.PersonneInconnueHelper.write(_output,_exception);
         }
-        catch (ControleAcces.apiIncorrect _exception)
+        catch (ControleAcces.APIIncorrecte _exception)
         {
             _output = handler.createExceptionReply();
-            ControleAcces.apiIncorrectHelper.write(_output,_exception);
+            ControleAcces.APIIncorrecteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -464,7 +374,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
         String[] _arg_result = demandeSuppressionEmpreinte(arg0_in);
 
         _output = handler.createReply();
-        ControleAcces.sequenceIdEmpreinteHelper.write(_output,_arg_result);
+        ControleAcces.SequenceIdEmpreinteHelper.write(_output,_arg_result);
 
         return _output;
     }
@@ -472,7 +382,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     // operation classes
     private abstract static class AbstractOperation {
         protected abstract org.omg.CORBA.portable.OutputStream invoke(
-                annuairePOA target,
+                AnnuairePOA target,
                 org.omg.CORBA.portable.InputStream _is,
                 org.omg.CORBA.portable.ResponseHandler handler);
     }
@@ -480,7 +390,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_verificationPhoto extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_verificationPhoto(_is, handler);
@@ -490,7 +400,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_verificationPersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_verificationPersonne(_is, handler);
@@ -500,47 +410,17 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_authentification extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_authentification(_is, handler);
         }
     }
 
-    private static final class Operation_ajoutAutorisation extends AbstractOperation
-    {
-        protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
-                final org.omg.CORBA.portable.InputStream _is,
-                final org.omg.CORBA.portable.ResponseHandler handler) {
-            return target._invoke_ajoutAutorisation(_is, handler);
-        }
-    }
-
-    private static final class Operation_modificationAutorisation extends AbstractOperation
-    {
-        protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
-                final org.omg.CORBA.portable.InputStream _is,
-                final org.omg.CORBA.portable.ResponseHandler handler) {
-            return target._invoke_modificationAutorisation(_is, handler);
-        }
-    }
-
-    private static final class Operation_supprimerAutorisation extends AbstractOperation
-    {
-        protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
-                final org.omg.CORBA.portable.InputStream _is,
-                final org.omg.CORBA.portable.ResponseHandler handler) {
-            return target._invoke_supprimerAutorisation(_is, handler);
-        }
-    }
-
     private static final class Operation_ajoutPersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_ajoutPersonne(_is, handler);
@@ -550,7 +430,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_ajoutPhotoPersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_ajoutPhotoPersonne(_is, handler);
@@ -560,7 +440,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_modificationEmpreintePersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_modificationEmpreintePersonne(_is, handler);
@@ -570,7 +450,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_modificationPersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_modificationPersonne(_is, handler);
@@ -580,7 +460,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_supprimerPersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_supprimerPersonne(_is, handler);
@@ -590,7 +470,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_consultationPersonne extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_consultationPersonne(_is, handler);
@@ -600,7 +480,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_consultationPersonneBiometrique extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_consultationPersonneBiometrique(_is, handler);
@@ -610,7 +490,7 @@ public abstract class annuairePOA extends org.omg.PortableServer.Servant
     private static final class Operation_demandeSuppressionEmpreinte extends AbstractOperation
     {
         protected org.omg.CORBA.portable.OutputStream invoke(
-                final annuairePOA target,
+                final AnnuairePOA target,
                 final org.omg.CORBA.portable.InputStream _is,
                 final org.omg.CORBA.portable.ResponseHandler handler) {
             return target._invoke_demandeSuppressionEmpreinte(_is, handler);

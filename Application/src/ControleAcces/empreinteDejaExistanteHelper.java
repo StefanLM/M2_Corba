@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /** 
- * Helper class for : empreinteDejaExistante
+ * Helper class for : EmpreinteDejaExistante
  *  
  * @author OpenORB Compiler
  */ 
-public class empreinteDejaExistanteHelper
+public class EmpreinteDejaExistanteHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class empreinteDejaExistanteHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert empreinteDejaExistante into an any
+     * Insert EmpreinteDejaExistante into an any
      * @param a an any
-     * @param t empreinteDejaExistante value
+     * @param t EmpreinteDejaExistante value
      */
-    public static void insert(org.omg.CORBA.Any a, ControleAcces.empreinteDejaExistante t)
+    public static void insert(org.omg.CORBA.Any a, ControleAcces.EmpreinteDejaExistante t)
     {
-        a.insert_Streamable(new ControleAcces.empreinteDejaExistanteHolder(t));
+        a.insert_Streamable(new ControleAcces.EmpreinteDejaExistanteHolder(t));
     }
 
     /**
-     * Extract empreinteDejaExistante from an any
+     * Extract EmpreinteDejaExistante from an any
      * @param a an any
-     * @return the extracted empreinteDejaExistante value
+     * @return the extracted EmpreinteDejaExistante value
      */
-    public static ControleAcces.empreinteDejaExistante extract(org.omg.CORBA.Any a)
+    public static ControleAcces.EmpreinteDejaExistante extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class empreinteDejaExistanteHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof ControleAcces.empreinteDejaExistanteHolder)
-                    return ((ControleAcces.empreinteDejaExistanteHolder)s).value;
+                if(s instanceof ControleAcces.EmpreinteDejaExistanteHolder)
+                    return ((ControleAcces.EmpreinteDejaExistanteHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            ControleAcces.empreinteDejaExistanteHolder h = new ControleAcces.empreinteDejaExistanteHolder(read(a.create_input_stream()));
+            ControleAcces.EmpreinteDejaExistanteHolder h = new ControleAcces.EmpreinteDejaExistanteHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class empreinteDejaExistanteHelper
     private static boolean _working = false;
 
     /**
-     * Return the empreinteDejaExistante TypeCode
+     * Return the EmpreinteDejaExistante TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -78,7 +78,7 @@ public class empreinteDejaExistanteHelper
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "empreinte";
                 _members[0].type = ControleAcces.EmpreinteHelper.type();
-                _tc = orb.create_exception_tc(id(),"empreinteDejaExistante",_members);
+                _tc = orb.create_exception_tc(id(),"EmpreinteDejaExistante",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class empreinteDejaExistanteHelper
     }
 
     /**
-     * Return the empreinteDejaExistante IDL ID
+     * Return the EmpreinteDejaExistante IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,16 +94,16 @@ public class empreinteDejaExistanteHelper
         return _id;
     }
 
-    private final static String _id = "IDL:ControleAcces/empreinteDejaExistante:1.0";
+    private final static String _id = "IDL:ControleAcces/EmpreinteDejaExistante:1.0";
 
     /**
-     * Read empreinteDejaExistante from a marshalled stream
+     * Read EmpreinteDejaExistante from a marshalled stream
      * @param istream the input stream
-     * @return the readed empreinteDejaExistante value
+     * @return the readed EmpreinteDejaExistante value
      */
-    public static ControleAcces.empreinteDejaExistante read(org.omg.CORBA.portable.InputStream istream)
+    public static ControleAcces.EmpreinteDejaExistante read(org.omg.CORBA.portable.InputStream istream)
     {
-        ControleAcces.empreinteDejaExistante new_one = new ControleAcces.empreinteDejaExistante();
+        ControleAcces.EmpreinteDejaExistante new_one = new ControleAcces.EmpreinteDejaExistante();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
@@ -113,11 +113,11 @@ public class empreinteDejaExistanteHelper
     }
 
     /**
-     * Write empreinteDejaExistante into a marshalled stream
+     * Write EmpreinteDejaExistante into a marshalled stream
      * @param ostream the output stream
-     * @param value empreinteDejaExistante value
+     * @param value EmpreinteDejaExistante value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.empreinteDejaExistante value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, ControleAcces.EmpreinteDejaExistante value)
     {
         ostream.write_string(id());
         ControleAcces.EmpreinteHelper.write(ostream,value.empreinte);

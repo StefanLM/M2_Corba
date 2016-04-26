@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : empreinteDejaExistante
+ * Holder class for : EmpreinteDejaExistante
  * 
  * @author OpenORB Compiler
  */
-final public class empreinteDejaExistanteHolder
+final public class EmpreinteDejaExistanteHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal empreinteDejaExistante value
+     * Internal EmpreinteDejaExistante value
      */
-    public ControleAcces.empreinteDejaExistante value;
+    public ControleAcces.EmpreinteDejaExistante value;
 
     /**
      * Default constructor
      */
-    public empreinteDejaExistanteHolder()
+    public EmpreinteDejaExistanteHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public empreinteDejaExistanteHolder(ControleAcces.empreinteDejaExistante initial)
+    public EmpreinteDejaExistanteHolder(ControleAcces.EmpreinteDejaExistante initial)
     {
         value = initial;
     }
 
     /**
-     * Read empreinteDejaExistante from a marshalled stream
+     * Read EmpreinteDejaExistante from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = empreinteDejaExistanteHelper.read(istream);
+        value = EmpreinteDejaExistanteHelper.read(istream);
     }
 
     /**
-     * Write empreinteDejaExistante into a marshalled stream
+     * Write EmpreinteDejaExistante into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        empreinteDejaExistanteHelper.write(ostream,value);
+        EmpreinteDejaExistanteHelper.write(ostream,value);
     }
 
     /**
-     * Return the empreinteDejaExistante TypeCode
+     * Return the EmpreinteDejaExistante TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return empreinteDejaExistanteHelper.type();
+        return EmpreinteDejaExistanteHelper.type();
     }
 
 }

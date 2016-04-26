@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : personneInconnue
+ * Exception definition : PersonneInconnue
  * 
  * @author OpenORB Compiler
  */
-public final class personneInconnue extends org.omg.CORBA.UserException
+public final class PersonneInconnue extends org.omg.CORBA.UserException
 {
     /**
      * Exception member personne
@@ -15,18 +15,18 @@ public final class personneInconnue extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public personneInconnue()
+    public PersonneInconnue()
     {
-        super(personneInconnueHelper.id());
+        super(PersonneInconnueHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param personne personne exception member
      */
-    public personneInconnue(ControleAcces.Personne personne)
+    public PersonneInconnue(ControleAcces.Personne personne)
     {
-        super(personneInconnueHelper.id());
+        super(PersonneInconnueHelper.id());
         this.personne = personne;
     }
 
@@ -34,9 +34,9 @@ public final class personneInconnue extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param personne personne exception member
      */
-    public personneInconnue(String orb_reason, ControleAcces.Personne personne)
+    public PersonneInconnue(String orb_reason, ControleAcces.Personne personne)
     {
-        super(personneInconnueHelper.id() +" " +  orb_reason);
+        super(PersonneInconnueHelper.id() +" " +  orb_reason);
         this.personne = personne;
     }
 

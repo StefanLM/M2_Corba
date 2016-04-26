@@ -1,10 +1,10 @@
 package ControleAcces;
 
 /**
- * Interface definition : biometrique
+ * Interface definition : Biometrique
  * 
  * @author OpenORB Compiler
  */
-public interface biometrique extends biometriqueOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
+public interface Biometrique extends BiometriqueOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
 {
 }

@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : sequenceIdEmpreinte
+ * Holder class for : SequenceIdEmpreinte
  * 
  * @author OpenORB Compiler
  */
-final public class sequenceIdEmpreinteHolder
+final public class SequenceIdEmpreinteHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal sequenceIdEmpreinte value
+     * Internal SequenceIdEmpreinte value
      */
     public String[] value;
 
     /**
      * Default constructor
      */
-    public sequenceIdEmpreinteHolder()
+    public SequenceIdEmpreinteHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public sequenceIdEmpreinteHolder(String[] initial)
+    public SequenceIdEmpreinteHolder(String[] initial)
     {
         value = initial;
     }
 
     /**
-     * Read sequenceIdEmpreinte from a marshalled stream
+     * Read SequenceIdEmpreinte from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = sequenceIdEmpreinteHelper.read(istream);
+        value = SequenceIdEmpreinteHelper.read(istream);
     }
 
     /**
-     * Write sequenceIdEmpreinte into a marshalled stream
+     * Write SequenceIdEmpreinte into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        sequenceIdEmpreinteHelper.write(ostream,value);
+        SequenceIdEmpreinteHelper.write(ostream,value);
     }
 
     /**
-     * Return the sequenceIdEmpreinte TypeCode
+     * Return the SequenceIdEmpreinte TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return sequenceIdEmpreinteHelper.type();
+        return SequenceIdEmpreinteHelper.type();
     }
 
 }

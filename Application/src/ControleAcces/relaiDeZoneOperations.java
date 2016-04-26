@@ -1,16 +1,16 @@
 package ControleAcces;
 
 /**
- * Interface definition : relaiDeZone
+ * Interface definition : RelaiDeZone
  * 
  * @author OpenORB Compiler
  */
-public interface relaiDeZoneOperations
+public interface RelaiDeZoneOperations
 {
     /**
      * Operation demandeAcces
      */
-    public void demandeAcces(int idPorte, String photo, String empreinte)
-        throws ControleAcces.PorteInconnue, ControleAcces.accesRefuse;
+    public String demandeAcces(String photo, String empreinte)
+        throws ControleAcces.PorteInconnue, ControleAcces.AccesRefuse;
 
 }

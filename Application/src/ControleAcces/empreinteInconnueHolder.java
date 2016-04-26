@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : empreinteInconnue
+ * Holder class for : EmpreinteInconnue
  * 
  * @author OpenORB Compiler
  */
-final public class empreinteInconnueHolder
+final public class EmpreinteInconnueHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal empreinteInconnue value
+     * Internal EmpreinteInconnue value
      */
-    public ControleAcces.empreinteInconnue value;
+    public ControleAcces.EmpreinteInconnue value;
 
     /**
      * Default constructor
      */
-    public empreinteInconnueHolder()
+    public EmpreinteInconnueHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public empreinteInconnueHolder(ControleAcces.empreinteInconnue initial)
+    public EmpreinteInconnueHolder(ControleAcces.EmpreinteInconnue initial)
     {
         value = initial;
     }
 
     /**
-     * Read empreinteInconnue from a marshalled stream
+     * Read EmpreinteInconnue from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = empreinteInconnueHelper.read(istream);
+        value = EmpreinteInconnueHelper.read(istream);
     }
 
     /**
-     * Write empreinteInconnue into a marshalled stream
+     * Write EmpreinteInconnue into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        empreinteInconnueHelper.write(ostream,value);
+        EmpreinteInconnueHelper.write(ostream,value);
     }
 
     /**
-     * Return the empreinteInconnue TypeCode
+     * Return the EmpreinteInconnue TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return empreinteInconnueHelper.type();
+        return EmpreinteInconnueHelper.type();
     }
 
 }

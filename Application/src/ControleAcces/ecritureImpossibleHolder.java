@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : ecritureImpossible
+ * Holder class for : EcritureImpossible
  * 
  * @author OpenORB Compiler
  */
-final public class ecritureImpossibleHolder
+final public class EcritureImpossibleHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal ecritureImpossible value
+     * Internal EcritureImpossible value
      */
-    public ControleAcces.ecritureImpossible value;
+    public ControleAcces.EcritureImpossible value;
 
     /**
      * Default constructor
      */
-    public ecritureImpossibleHolder()
+    public EcritureImpossibleHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public ecritureImpossibleHolder(ControleAcces.ecritureImpossible initial)
+    public EcritureImpossibleHolder(ControleAcces.EcritureImpossible initial)
     {
         value = initial;
     }
 
     /**
-     * Read ecritureImpossible from a marshalled stream
+     * Read EcritureImpossible from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = ecritureImpossibleHelper.read(istream);
+        value = EcritureImpossibleHelper.read(istream);
     }
 
     /**
-     * Write ecritureImpossible into a marshalled stream
+     * Write EcritureImpossible into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        ecritureImpossibleHelper.write(ostream,value);
+        EcritureImpossibleHelper.write(ostream,value);
     }
 
     /**
-     * Return the ecritureImpossible TypeCode
+     * Return the EcritureImpossible TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return ecritureImpossibleHelper.type();
+        return EcritureImpossibleHelper.type();
     }
 
 }

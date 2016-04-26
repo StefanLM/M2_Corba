@@ -1,58 +1,58 @@
 package ControleAcces;
 
 /**
- * Holder class for : aucunLogDisponible
+ * Holder class for : AucunLogDisponible
  * 
  * @author OpenORB Compiler
  */
-final public class aucunLogDisponibleHolder
+final public class AucunLogDisponibleHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal aucunLogDisponible value
+     * Internal AucunLogDisponible value
      */
-    public ControleAcces.aucunLogDisponible value;
+    public ControleAcces.AucunLogDisponible value;
 
     /**
      * Default constructor
      */
-    public aucunLogDisponibleHolder()
+    public AucunLogDisponibleHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public aucunLogDisponibleHolder(ControleAcces.aucunLogDisponible initial)
+    public AucunLogDisponibleHolder(ControleAcces.AucunLogDisponible initial)
     {
         value = initial;
     }
 
     /**
-     * Read aucunLogDisponible from a marshalled stream
+     * Read AucunLogDisponible from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = aucunLogDisponibleHelper.read(istream);
+        value = AucunLogDisponibleHelper.read(istream);
     }
 
     /**
-     * Write aucunLogDisponible into a marshalled stream
+     * Write AucunLogDisponible into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        aucunLogDisponibleHelper.write(ostream,value);
+        AucunLogDisponibleHelper.write(ostream,value);
     }
 
     /**
-     * Return the aucunLogDisponible TypeCode
+     * Return the AucunLogDisponible TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return aucunLogDisponibleHelper.type();
+        return AucunLogDisponibleHelper.type();
     }
 
 }

@@ -1,11 +1,11 @@
 package ControleAcces;
 
 /**
- * Exception definition : apiIncorrect
+ * Exception definition : ApiIncorrect
  * 
  * @author OpenORB Compiler
  */
-public final class apiIncorrect extends org.omg.CORBA.UserException
+public final class ApiIncorrect extends org.omg.CORBA.UserException
 {
     /**
      * Exception member raison
@@ -15,18 +15,18 @@ public final class apiIncorrect extends org.omg.CORBA.UserException
     /**
      * Default constructor
      */
-    public apiIncorrect()
+    public ApiIncorrect()
     {
-        super(apiIncorrectHelper.id());
+        super(ApiIncorrectHelper.id());
     }
 
     /**
      * Constructor with fields initialization
      * @param raison raison exception member
      */
-    public apiIncorrect(String raison)
+    public ApiIncorrect(String raison)
     {
-        super(apiIncorrectHelper.id());
+        super(ApiIncorrectHelper.id());
         this.raison = raison;
     }
 
@@ -34,9 +34,9 @@ public final class apiIncorrect extends org.omg.CORBA.UserException
      * Full constructor with fields initialization
      * @param raison raison exception member
      */
-    public apiIncorrect(String orb_reason, String raison)
+    public ApiIncorrect(String orb_reason, String raison)
     {
-        super(apiIncorrectHelper.id() +" " +  orb_reason);
+        super(ApiIncorrectHelper.id() +" " +  orb_reason);
         this.raison = raison;
     }
 
